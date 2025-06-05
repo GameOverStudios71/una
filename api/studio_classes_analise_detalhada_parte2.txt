@@ -1,0 +1,105 @@
+Análise Detalhada das Classes do Subdiretório 'studio\classes' - Parte 2
+
+Esta documentação contém a continuação da análise aprofundada do código-fonte das classes localizadas no subdiretório 'studio\classes' do sistema UNA. O objetivo é confirmar as funcionalidades reais de cada classe e refinar as rotas RESTful propostas anteriormente no arquivo 'studio_funcionalidades.txt'. Esta é a segunda parte da análise, seguindo a Parte 1.
+
+# Design e Templates
+
+## BxDolStudioDesign
+- **Descrição Confirmada**: Classe principal para gerenciar designs e temas visuais no UNA Studio, permitindo personalização de cores, fontes e estilos.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/design/list - Listar todos os designs ou temas disponíveis.
+  - POST /studio/design/create - Criar um novo design ou tema.
+  - PUT /studio/design/{id}/update - Atualizar configurações de design.
+  - DELETE /studio/design/{id}/delete - Excluir um design ou tema.
+
+## BxDolStudioDesigner
+- **Descrição Confirmada**: Ferramenta de design que permite ajustes detalhados em elementos visuais e layouts.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/designer/tools - Listar ferramentas de design disponíveis.
+  - POST /studio/designer/apply - Aplicar alterações de design a um elemento ou página.
+
+## BxDolStudioDesignServices
+- **Descrição Confirmada**: Oferece serviços relacionados a design, como exportação e importação de temas.
+- **Rotas RESTful Refinadas**:
+  - POST /studio/design/export - Exportar um design ou tema para arquivo.
+  - POST /studio/design/import - Importar um design ou tema de um arquivo.
+
+# Formulários
+
+## BxDolStudioForms
+- **Descrição Confirmada**: Gerencia a criação e personalização de formulários no UNA Studio, incluindo campos e validações.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/forms/list - Listar todos os formulários criados.
+  - POST /studio/forms/create - Criar um novo formulário.
+  - PUT /studio/forms/{id}/update - Atualizar estrutura ou campos de um formulário.
+  - DELETE /studio/forms/{id}/delete - Excluir um formulário.
+
+## BxDolStudioFormsFields
+- **Descrição Confirmada**: Controla campos individuais dentro dos formulários, permitindo personalização de tipos e propriedades.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/forms/fields/list/{formId} - Listar campos de um formulário específico.
+  - POST /studio/forms/fields/add/{formId} - Adicionar um novo campo a um formulário.
+
+## BxDolStudioFormsPreLists
+- **Descrição Confirmada**: Gerencia listas predefinidas para uso em campos de formulários, como opções de seleção.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/forms/prelists/list - Listar listas predefinidas disponíveis.
+  - POST /studio/forms/prelists/create - Criar uma nova lista predefinida.
+
+# Navegação e Menus
+
+## BxDolStudioNavigation
+- **Descrição Confirmada**: Classe para gerenciar sistemas de navegação e menus no UNA Studio.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/navigation/list - Listar todos os menus ou sistemas de navegação.
+  - POST /studio/navigation/create - Criar um novo menu de navegação.
+  - PUT /studio/navigation/{id}/update - Atualizar itens ou estrutura de um menu.
+  - DELETE /studio/navigation/{id}/delete - Excluir um menu de navegação.
+
+## BxDolStudioNavigationItems
+- **Descrição Confirmada**: Gerencia itens individuais dentro de menus de navegação.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/navigation/items/list/{menuId} - Listar itens de um menu específico.
+  - POST /studio/navigation/items/add/{menuId} - Adicionar um novo item a um menu.
+
+## BxDolStudioNavigationSets
+- **Descrição Confirmada**: Organiza menus em conjuntos ou categorias para diferentes contextos.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/navigation/sets/list - Listar conjuntos de navegação.
+  - POST /studio/navigation/sets/create - Criar um novo conjunto de navegação.
+
+# Permissões e Papéis
+
+## BxDolStudioPermissions
+- **Descrição Confirmada**: Controla permissões de acesso a diferentes funcionalidades no UNA Studio.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/permissions/list - Listar todas as permissões definidas.
+  - POST /studio/permissions/create - Criar uma nova regra de permissão.
+  - PUT /studio/permissions/{id}/update - Atualizar uma permissão existente.
+
+## BxDolStudioRoles
+- **Descrição Confirmada**: Gerencia papéis de usuário no UNA Studio, associando permissões a grupos.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/roles/list - Listar todos os papéis de usuário.
+  - POST /studio/roles/create - Criar um novo papel.
+  - PUT /studio/roles/{id}/update - Atualizar permissões associadas a um papel.
+  - DELETE /studio/roles/{id}/delete - Excluir um papel de usuário.
+
+# Idiomas e Traduções
+
+## BxDolStudioLanguages
+- **Descrição Confirmada**: Gerencia idiomas e traduções para interfaces no UNA Studio.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/languages/list - Listar idiomas disponíveis.
+  - POST /studio/languages/add - Adicionar suporte a um novo idioma.
+  - PUT /studio/languages/{id}/update - Atualizar traduções para um idioma.
+
+## BxDolStudioPolyglot
+- **Descrição Confirmada**: Ferramenta para tradução multilíngue e gerenciamento de textos no sistema.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/polyglot/texts - Listar textos para tradução.
+  - POST /studio/polyglot/translate - Adicionar ou atualizar traduções de textos.
+
+# Observações
+
+Esta é a segunda parte da análise baseada na inspeção do código-fonte. Mais detalhes e refinamentos serão adicionados nas próximas partes desta documentação. Caso haja necessidade de revisar classes específicas ou explorar áreas adicionais, isso será abordado conforme orientação do usuário.

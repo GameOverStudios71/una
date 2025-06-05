@@ -1,0 +1,99 @@
+Mapeamento das Classes no Subdiretório INC\Classes para API RESTful - Parte 5
+
+Descrição Geral:
+Esta documentação é a continuação da análise das classes PHP localizadas no subdiretório 'classes' dentro de 'inc' (c:\Users\zerocool\una\inc\classes). O objetivo é mapear as funcionalidades principais dessas classes e propor rotas RESTful correspondentes, quando aplicável. Esta quinta parte cobre áreas de funcionalidade adicionais das 194 classes identificadas, seguindo a documentação iniciada em 'inc_classes_funcionalidades.txt', 'inc_classes_funcionalidades_parte2.txt', 'inc_classes_funcionalidades_parte3.txt' e 'inc_classes_funcionalidades_parte4.txt'.
+
+Análise das Classes no Subdiretório INC\Classes - Parte 5:
+
+### 13. Classes de Gerenciamento de Notificações
+13.1. BxDolNtfs.php:
+    - Descrição: Classe principal para gerenciamento de notificações.
+    - Funcionalidade Principal: Envio, listagem e marcação de notificações como lidas.
+    - Rotas RESTful Propostas:
+      - GET /api/inc/notifications: Lista notificações do usuário.
+      - POST /api/inc/notifications/mark-read: Marca notificações como lidas.
+      - POST /api/inc/notifications/send: Envia uma nova notificação (admin ou sistema).
+
+13.2. BxDolNtfsQuery.php:
+    - Descrição: Classe de suporte para consultas relacionadas a notificações.
+    - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de notificações.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+13.3. BxDolCronNtfs.php:
+    - Descrição: Classe para tarefas cron relacionadas a notificações.
+    - Funcionalidade Principal: Processamento de notificações em segundo plano via cron.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+### 14. Classes de Gerenciamento de Módulos e Extensões
+14.1. BxDolModule.php:
+    - Descrição: Classe base para módulos do sistema.
+    - Funcionalidade Principal: Gerenciamento de módulos, incluindo instalação e configuração.
+    - Rotas RESTful Propostas:
+      - GET /api/inc/modules: Lista módulos instalados.
+      - GET /api/inc/modules/{moduleId}: Obtém detalhes de um módulo específico.
+
+14.2. BxDolModuleQuery.php:
+    - Descrição: Classe de suporte para consultas relacionadas a módulos.
+    - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de módulos.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+14.3. BxDolModuleConfig.php:
+    - Descrição: Classe para configuração de módulos.
+    - Funcionalidade Principal: Suporte a configurações específicas de módulos.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+14.4. BxDolMarket.php:
+    - Descrição: Classe para integração com o mercado de módulos ou extensões.
+    - Funcionalidade Principal: Listagem e instalação de módulos ou extensões do mercado.
+    - Rotas RESTful Propostas:
+      - GET /api/inc/market: Lista módulos ou extensões disponíveis no mercado.
+      - POST /api/inc/market/install/{moduleId}: Instala um módulo ou extensão do mercado.
+
+14.5. BxDolMarketQuery.php:
+    - Descrição: Classe de suporte para consultas relacionadas ao mercado.
+    - Funcionalidade Principal: Realiza queries no banco de dados ou chamadas externas para recuperação de dados do mercado.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+14.6. BxDolCronMarket.php:
+    - Descrição: Classe para tarefas cron relacionadas ao mercado.
+    - Funcionalidade Principal: Atualização de dados do mercado em segundo plano via cron.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+### 15. Classes de Gerenciamento de Alertas e Eventos
+15.1. BxDolAlerts.php:
+    - Descrição: Classe principal para gerenciamento de alertas.
+    - Funcionalidade Principal: Criação, envio e processamento de alertas no sistema.
+    - Rotas RESTful Propostas:
+      - GET /api/inc/alerts: Lista alertas ativos ou recentes.
+      - POST /api/inc/alerts/trigger: Dispara um novo alerta (admin ou sistema).
+
+15.2. BxDolAlertsQuery.php:
+    - Descrição: Classe de suporte para consultas relacionadas a alertas.
+    - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de alertas.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+15.3. BxDolCronAlerts.php:
+    - Descrição: Classe para tarefas cron relacionadas a alertas.
+    - Funcionalidade Principal: Processamento de alertas em segundo plano via cron.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+### 16. Classes de Gerenciamento de Configurações e Administração
+16.1. BxDolConfig.php:
+    - Descrição: Classe para gerenciamento de configurações globais.
+    - Funcionalidade Principal: Armazenamento e recuperação de configurações do sistema.
+    - Rotas RESTful Propostas:
+      - GET /api/inc/config: Obtém configurações globais do sistema (admin).
+      - PUT /api/inc/config: Atualiza configurações globais do sistema (admin).
+
+16.2. BxDolAdmin.php:
+    - Descrição: Classe para funcionalidades administrativas.
+    - Funcionalidade Principal: Suporte a operações administrativas no sistema.
+    - Rotas RESTful Propostas:
+      - GET /api/inc/admin/dashboard: Obtém dados do painel administrativo.
+
+16.3. BxDolAdminQuery.php:
+    - Descrição: Classe de suporte para consultas relacionadas a administração.
+    - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados administrativos.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+Nota: Esta é a quinta parte da análise completa das 194 classes no subdiretório 'inc\classes'. As próximas partes continuarão a documentação, cobrindo as áreas de funcionalidade restantes, como idiomas, integração externa, entre outros. As rotas RESTful propostas são baseadas em suposições sobre as funcionalidades das classes, considerando seus nomes e possíveis propósitos. Uma análise mais profunda do código pode refinar essas rotas e adicionar mais detalhes às funcionalidades.

@@ -1,0 +1,225 @@
+Mapeamento das Classes no Subdiretório INC\Classes para API RESTful
+
+Descrição Geral:
+Esta documentação cobre as classes PHP localizadas no subdiretório 'classes' dentro de 'inc' (c:\Users\zerocool\una\inc\classes). Essas classes parecem ser componentes fundamentais do sistema UNA, cobrindo uma ampla gama de funcionalidades essenciais. O objetivo é mapear as funcionalidades principais dessas classes e propor rotas RESTful correspondentes, quando aplicável. Devido ao grande número de classes (194), esta documentação será dividida em áreas de funcionalidade, cobrindo todas as classes identificadas, e será atualizada em partes.
+
+Análise das Classes no Subdiretório INC\Classes:
+
+### 1. Classes de Gerenciamento de Contas e Perfis
+1.1. BxDolAccount.php:
+   - Descrição: Classe principal para gerenciamento de contas de usuários.
+   - Funcionalidade Principal: Criação, edição, exclusão e autenticação de contas.
+   - Rotas RESTful Propostas:
+     - POST /api/inc/account/create: Cria uma nova conta.
+     - GET /api/inc/account/{id}: Obtém informações de uma conta específica.
+     - PUT /api/inc/account/{id}: Atualiza informações de uma conta.
+     - DELETE /api/inc/account/{id}: Exclui uma conta.
+
+1.2. BxDolAccountQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a contas.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de contas.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+1.3. BxDolProfile.php:
+   - Descrição: Classe para gerenciamento de perfis de usuários.
+   - Funcionalidade Principal: Manipulação de dados de perfis, incluindo informações públicas e privadas.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/profile/{id}: Obtém informações de um perfil específico.
+     - PUT /api/inc/profile/{id}: Atualiza informações de um perfil.
+
+1.4. BxDolProfileQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a perfis.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de perfis.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+1.5. BxDolProfileAnonymous.php:
+   - Descrição: Classe para gerenciamento de perfis anônimos.
+   - Funcionalidade Principal: Suporte a perfis sem identificação para ações específicas.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+1.6. BxDolProfileForms.php:
+   - Descrição: Classe para formulários relacionados a perfis.
+   - Funcionalidade Principal: Gerenciamento de formulários para criação ou edição de perfis.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+1.7. BxDolProfileUndefined.php:
+   - Descrição: Classe para tratamento de perfis indefinidos.
+   - Funcionalidade Principal: Gerenciamento de situações onde um perfil não está definido ou acessível.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+### 2. Classes de Gerenciamento de Conexões e Relacionamentos
+2.1. BxDolConnection.php:
+   - Descrição: Classe para gerenciamento de conexões ou amizades entre usuários.
+   - Funcionalidade Principal: Adição, remoção e listagem de conexões entre perfis.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/connection/{userId}: Lista conexões de um usuário.
+     - POST /api/inc/connection/add: Adiciona uma nova conexão.
+     - DELETE /api/inc/connection/remove/{connectionId}: Remove uma conexão.
+
+2.2. BxDolConnectionQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a conexões.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de conexões.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+2.3. BxDolRelation.php:
+   - Descrição: Classe para gerenciamento de relações entre entidades.
+   - Funcionalidade Principal: Define e gerencia relações complexas entre usuários ou conteúdos.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/relation/{entityId}: Lista relações de uma entidade.
+     - POST /api/inc/relation/add: Adiciona uma nova relação.
+
+2.4. BxDolRelationQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a relações.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de relações.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+2.5. BxDolGridConnectionIn.php:
+   - Descrição: Classe para exibição de grid de conexões recebidas.
+   - Funcionalidade Principal: Renderização de dados de conexões recebidas em formato de grid.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/grid/connection/in/{userId}: Obtém conexões recebidas de um usuário.
+
+2.6. BxDolGridConnectionOut.php:
+   - Descrição: Classe para exibição de grid de conexões enviadas.
+   - Funcionalidade Principal: Renderização de dados de conexões enviadas em formato de grid.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/grid/connection/out/{userId}: Obtém conexões enviadas por um usuário.
+
+2.7. BxDolGridConnections.php:
+   - Descrição: Classe para exibição de grid de conexões gerais.
+   - Funcionalidade Principal: Renderização de dados de conexões em formato de grid.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/grid/connections/{userId}: Obtém todas as conexões de um usuário.
+
+2.8. BxDolGridConnectionsRequests.php:
+   - Descrição: Classe para exibição de grid de solicitações de conexão.
+   - Funcionalidade Principal: Renderização de solicitações de conexão em formato de grid.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/grid/connection/requests/{userId}: Obtém solicitações de conexão de um usuário.
+
+2.9. BxDolGridRelatedMe.php:
+   - Descrição: Classe para exibição de grid de entidades relacionadas ao usuário.
+   - Funcionalidade Principal: Renderização de entidades relacionadas em formato de grid.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/grid/related/me/{userId}: Obtém entidades relacionadas ao usuário.
+
+2.10. BxDolGridRelations.php:
+    - Descrição: Classe para exibição de grid de relações.
+    - Funcionalidade Principal: Renderização de relações em formato de grid.
+    - Rotas RESTful Propostas:
+      - GET /api/inc/grid/relations/{entityId}: Obtém relações de uma entidade.
+
+2.11. BxDolGridSubscribedMe.php:
+    - Descrição: Classe para exibição de grid de assinaturas do usuário.
+    - Funcionalidade Principal: Renderização de assinaturas do usuário em formato de grid.
+    - Rotas RESTful Propostas:
+      - GET /api/inc/grid/subscribed/me/{userId}: Obtém assinaturas do usuário.
+
+2.12. BxDolGridSubscriptions.php:
+    - Descrição: Classe para exibição de grid de assinaturas.
+    - Funcionalidade Principal: Renderização de assinaturas em formato de grid.
+    - Rotas RESTful Propostas:
+      - GET /api/inc/grid/subscriptions/{entityId}: Obtém assinaturas de uma entidade.
+
+### 3. Classes de Gerenciamento de Conteúdo e Comentários
+3.1. BxDolCmts.php:
+   - Descrição: Classe principal para gerenciamento de comentários.
+   - Funcionalidade Principal: Adição, edição, exclusão e listagem de comentários em conteúdos.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/comments/{itemId}: Lista comentários de um item.
+     - POST /api/inc/comments/add: Adiciona um novo comentário.
+     - PUT /api/inc/comments/{commentId}: Edita um comentário existente.
+     - DELETE /api/inc/comments/{commentId}: Exclui um comentário.
+
+3.2. BxDolCmtsQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a comentários.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de comentários.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+3.3. BxDolCmtsGridAdministration.php:
+   - Descrição: Classe para exibição de grid de administração de comentários.
+   - Funcionalidade Principal: Renderização de comentários para administração em formato de grid.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/grid/comments/admin: Obtém comentários para administração.
+
+3.4. BxDolCmtsNotes.php:
+   - Descrição: Classe para gerenciamento de notas ou comentários internos.
+   - Funcionalidade Principal: Suporte a notas ou comentários não públicos.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+3.5. BxDolCmtsReviews.php:
+   - Descrição: Classe para gerenciamento de avaliações ou reviews como comentários.
+   - Funcionalidade Principal: Suporte a comentários estruturados como avaliações.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/comments/reviews/{itemId}: Lista avaliações de um item.
+     - POST /api/inc/comments/reviews/add: Adiciona uma nova avaliação.
+
+3.6. BxDolCmtsReviewsQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a avaliações.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de avaliações.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+3.7. BxDolCmtsScore.php:
+   - Descrição: Classe para pontuação de comentários.
+   - Funcionalidade Principal: Gerenciamento de pontuações ou avaliações de comentários.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+3.8. BxDolCmtsVoteLikes.php:
+   - Descrição: Classe para curtidas em comentários.
+   - Funcionalidade Principal: Registra curtidas em comentários específicos.
+   - Rotas RESTful Propostas:
+     - POST /api/inc/comments/like/{commentId}: Registra uma curtida em um comentário.
+
+3.9. BxDolCmtsVoteReactions.php:
+   - Descrição: Classe para reações em comentários.
+   - Funcionalidade Principal: Registra reações em comentários específicos.
+   - Rotas RESTful Propostas:
+     - POST /api/inc/comments/reaction/{commentId}: Registra uma reação em um comentário.
+
+3.10. BxDolContentInfo.php:
+    - Descrição: Classe para informações sobre conteúdos.
+    - Funcionalidade Principal: Fornece metadados e informações sobre conteúdos no sistema.
+    - Rotas RESTful Propostas:
+      - GET /api/inc/content/info/{contentId}: Obtém informações sobre um conteúdo específico.
+
+3.11. BxDolContentInfoCmts.php:
+    - Descrição: Classe para informações sobre conteúdos relacionados a comentários.
+    - Funcionalidade Principal: Suporte a metadados de conteúdos que possuem comentários.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+3.12. BxDolCategories.php:
+    - Descrição: Classe para gerenciamento de categorias.
+    - Funcionalidade Principal: Criação, edição e listagem de categorias para organização de conteúdos.
+    - Rotas RESTful Propostas:
+      - GET /api/inc/categories: Lista todas as categorias.
+      - GET /api/inc/categories/{categoryId}: Obtém detalhes de uma categoria específica.
+      - POST /api/inc/categories/add: Adiciona uma nova categoria.
+
+3.13. BxDolCategoriesQuery.php:
+    - Descrição: Classe de suporte para consultas relacionadas a categorias.
+    - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de categorias.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+3.14. BxDolCategory.php:
+    - Descrição: Classe para gerenciamento de uma categoria específica.
+    - Funcionalidade Principal: Manipulação de dados de uma única categoria.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+3.15. BxDolCategoryQuery.php:
+    - Descrição: Classe de suporte para consultas relacionadas a uma categoria específica.
+    - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de uma categoria.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+3.16. BxDolMetatags.php:
+    - Descrição: Classe para gerenciamento de metatags.
+    - Funcionalidade Principal: Adição e recuperação de metatags para SEO ou organização de conteúdos.
+    - Rotas RESTful Propostas:
+      - GET /api/inc/metatags/{contentId}: Obtém metatags de um conteúdo.
+      - POST /api/inc/metatags/add: Adiciona metatags a um conteúdo.
+
+3.17. BxDolMetatagsQuery.php:
+    - Descrição: Classe de suporte para consultas relacionadas a metatags.
+    - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de metatags.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+Nota: Esta é a primeira parte da análise completa das 194 classes no subdiretório 'inc\classes'. As próximas partes continuarão a documentação, cobrindo as áreas de funcionalidade restantes, como armazenamento, votação, formulários, templates, banco de dados, IA, pagamentos, buscas, privacidade, entre outros. As rotas RESTful propostas são baseadas em suposições sobre as funcionalidades das classes, considerando seus nomes e possíveis propósitos. Uma análise mais profunda do código pode refinar essas rotas e adicionar mais detalhes às funcionalidades.

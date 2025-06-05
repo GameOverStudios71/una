@@ -1,0 +1,106 @@
+Mapeamento das Classes no Subdiretório INC\Classes para API RESTful - Parte 3
+
+Descrição Geral:
+Esta documentação é a continuação da análise das classes PHP localizadas no subdiretório 'classes' dentro de 'inc' (c:\Users\zerocool\una\inc\classes). O objetivo é mapear as funcionalidades principais dessas classes e propor rotas RESTful correspondentes, quando aplicável. Esta terceira parte cobre áreas de funcionalidade adicionais das 194 classes identificadas, seguindo a documentação iniciada em 'inc_classes_funcionalidades.txt' e 'inc_classes_funcionalidades_parte2.txt'.
+
+Análise das Classes no Subdiretório INC\Classes - Parte 3:
+
+### 6. Classes de Gerenciamento de Formulários e Grids
+6.1. BxDolForm.php:
+   - Descrição: Classe principal para criação e gerenciamento de formulários.
+   - Funcionalidade Principal: Renderização, validação e processamento de formulários.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/form/{formName}: Obtém a estrutura de um formulário específico.
+     - POST /api/inc/form/submit: Envia dados de um formulário para processamento.
+
+6.2. BxDolFormQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a formulários.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de formulários.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+6.3. BxDolFormNested.php:
+   - Descrição: Classe para formulários aninhados.
+   - Funcionalidade Principal: Suporte a formulários com estruturas aninhadas.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+6.4. BxDolFormNestedGhost.php:
+   - Descrição: Classe para formulários aninhados fantasma.
+   - Funcionalidade Principal: Suporte a formulários aninhados temporários ou virtuais.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+6.5. BxDolGrid.php:
+   - Descrição: Classe principal para exibição de grids ou tabelas de dados.
+   - Funcionalidade Principal: Renderização de dados em formato de grid com opções de filtragem e ordenação.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/grid/{gridName}: Obtém dados de um grid específico.
+
+6.6. BxDolGridQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a grids.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de grids.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+6.7. BxDolGridQueues.php:
+   - Descrição: Classe para exibição de grid de filas ou tarefas.
+   - Funcionalidade Principal: Renderização de filas ou tarefas em formato de grid.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/grid/queues: Obtém dados de filas ou tarefas.
+
+### 7. Classes de Gerenciamento de Templates e Renderização
+7.1. BxDolTemplate.php:
+   - Descrição: Classe principal para gerenciamento de templates.
+   - Funcionalidade Principal: Renderização de páginas e elementos visuais com base em templates.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/template/{templateName}: Obtém informações sobre um template específico.
+
+7.2. BxDolModuleTemplate.php:
+   - Descrição: Classe para templates de módulos.
+   - Funcionalidade Principal: Suporte a renderização de templates específicos de módulos.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+7.3. BxDolDesigns.php:
+   - Descrição: Classe para gerenciamento de designs ou temas.
+   - Funcionalidade Principal: Listagem e aplicação de designs ou temas visuais.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/designs: Lista designs ou temas disponíveis.
+     - GET /api/inc/designs/{designId}: Obtém detalhes de um design ou tema.
+
+7.4. BxDolCover.php:
+   - Descrição: Classe para gerenciamento de capas ou imagens de capa.
+   - Funcionalidade Principal: Renderização e manipulação de imagens de capa para perfis ou conteúdos.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/cover/{entityId}: Obtém a capa de uma entidade.
+     - POST /api/inc/cover/upload/{entityId}: Faz upload de uma nova capa para uma entidade.
+
+7.5. BxDolPlayer.php:
+   - Descrição: Classe para reprodução de mídia.
+   - Funcionalidade Principal: Renderização de players para áudio ou vídeo.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/player/{mediaId}: Obtém o player para uma mídia específica.
+
+7.6. BxDolPlayerQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a players.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de players.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+### 8. Classes de Gerenciamento de Banco de Dados e Consultas
+8.1. BxDolDb.php:
+   - Descrição: Classe principal para interação com o banco de dados.
+   - Funcionalidade Principal: Conexão, consultas e manipulação de dados no banco.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+8.2. BxDolFactoryObjectQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a objetos de fábrica.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de objetos.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+8.3. BxDolModuleDb.php:
+   - Descrição: Classe de suporte para banco de dados de módulos.
+   - Funcionalidade Principal: Suporte a operações de banco de dados específicas de módulos.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+8.4. BxDolObjectQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a objetos genéricos.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de objetos.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+Nota: Esta é a terceira parte da análise completa das 194 classes no subdiretório 'inc\classes'. As próximas partes continuarão a documentação, cobrindo as áreas de funcionalidade restantes, como inteligência artificial, pagamentos, buscas, privacidade, entre outros. As rotas RESTful propostas são baseadas em suposições sobre as funcionalidades das classes, considerando seus nomes e possíveis propósitos. Uma análise mais profunda do código pode refinar essas rotas e adicionar mais detalhes às funcionalidades.

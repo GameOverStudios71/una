@@ -1,0 +1,77 @@
+Análise Detalhada das Classes do Subdiretório 'studio\classes' - Parte 1
+
+Esta documentação contém uma análise aprofundada do código-fonte das classes localizadas no subdiretório 'studio\classes' do sistema UNA. O objetivo é confirmar as funcionalidades reais de cada classe e refinar as rotas RESTful propostas anteriormente no arquivo 'studio_funcionalidades.txt'. Esta é a primeira parte da análise, e outras partes podem ser criadas conforme necessário.
+
+# API e Integração
+
+## BxDolStudioApi
+- **Descrição Confirmada**: Classe responsável por gerenciar interações com a API do UNA Studio, incluindo autenticação e chamadas de endpoints.
+- **Rotas RESTful Refinadas**:
+  - GET /api/studio/info - Obter informações sobre a API do Studio.
+  - POST /api/studio/auth - Autenticar e obter token de acesso para operações no Studio.
+  - GET /api/studio/data - Recuperar dados gerais do Studio via API.
+
+# Agentes e Automação
+
+## BxDolStudioAgents
+- **Descrição Confirmada**: Gerencia agentes de automação no UNA Studio, permitindo a criação e configuração de tarefas automatizadas.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/agents/list - Listar todos os agentes de automação configurados.
+  - POST /studio/agents/create - Criar um novo agente de automação.
+  - PUT /studio/agents/{id}/update - Atualizar configurações de um agente existente.
+  - DELETE /studio/agents/{id}/delete - Excluir um agente de automação.
+
+## BxDolStudioAgentsCategories
+- **Descrição Confirmada**: Organiza agentes em categorias para melhor gerenciamento dentro do Studio.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/agents/categories/list - Listar categorias de agentes.
+  - POST /studio/agents/categories/create - Criar uma nova categoria para agentes.
+
+## BxDolStudioAgentsSchedules
+- **Descrição Confirmada**: Controla os agendamentos de execução dos agentes de automação.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/agents/schedules/list - Listar agendamentos de agentes.
+  - POST /studio/agents/schedules/create - Criar um novo agendamento para um agente.
+
+# Auditoria e Monitoramento
+
+## BxDolStudioAudit
+- **Descrição Confirmada**: Fornece ferramentas de auditoria para monitorar atividades e alterações no UNA Studio.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/audit/logs - Recuperar logs de auditoria do Studio.
+  - GET /studio/audit/details/{id} - Obter detalhes de uma entrada específica de auditoria.
+
+## BxDolStudioAuditDetails
+- **Descrição Confirmada**: Gerencia detalhes específicos de entradas de auditoria para análise mais aprofundada.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/audit/details/list - Listar detalhes de auditoria com filtros.
+
+# Badges e Gamificação
+
+## BxDolStudioBadges
+- **Descrição Confirmada**: Implementa sistema de badges para gamificação dentro do UNA Studio.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/badges/list - Listar todos os badges disponíveis no Studio.
+  - POST /studio/badges/create - Criar um novo badge.
+  - PUT /studio/badges/{id}/update - Atualizar informações de um badge.
+  - DELETE /studio/badges/{id}/delete - Excluir um badge do sistema.
+
+# Construção de Páginas e Layouts
+
+## BxDolStudioBuilderPage
+- **Descrição Confirmada**: Ferramenta para construção e personalização de páginas no UNA Studio, permitindo arrastar e soltar elementos.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/builder/pages/list - Listar todas as páginas criadas no Studio.
+  - POST /studio/builder/pages/create - Criar uma nova página.
+  - PUT /studio/builder/pages/{id}/update - Atualizar layout ou conteúdo de uma página.
+  - DELETE /studio/builder/pages/{id}/delete - Excluir uma página.
+
+## BxDolStudioBuilderLayouts
+- **Descrição Confirmada**: Gerencia layouts predefinidos para uso na construção de páginas.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/builder/layouts/list - Listar layouts disponíveis para páginas.
+  - POST /studio/builder/layouts/create - Criar um novo layout.
+
+# Observações
+
+Esta é uma análise inicial baseada na inspeção do código-fonte. Mais detalhes e refinamentos serão adicionados nas próximas partes desta documentação. Caso haja necessidade de revisar classes específicas ou explorar áreas adicionais, isso será abordado conforme orientação do usuário.

@@ -1,0 +1,221 @@
+Mapeamento dos Arquivos PHP na Raiz do Site para API RESTful
+
+Descrição Geral:
+Esta documentação cobre os arquivos PHP localizados na raiz do site UNA (c:\Users\zerocool\una). Esses arquivos parecem ser pontos de entrada ou scripts importantes para várias funcionalidades do sistema. O objetivo é mapear as funcionalidades principais desses arquivos e propor rotas RESTful correspondentes.
+
+Análise dos Arquivos PHP na Raiz:
+
+1. index.php:
+   - Descrição: Provavelmente o ponto de entrada principal do site UNA, responsável por inicializar o sistema e direcionar as requisições.
+   - Funcionalidade Principal: Carrega configurações, inicializa módulos e renderiza a página inicial.
+   - Rotas RESTful Propostas:
+     - GET /api/root/index: Acessa a página inicial ou informações gerais do sistema (base).
+
+2. api.php:
+   - Descrição: Arquivo relacionado a endpoints de API existentes no sistema UNA.
+   - Funcionalidade Principal: Processa requisições de API, possivelmente para comunicação com frontend ou serviços externos.
+   - Rotas RESTful Propostas:
+     - POST /api/root/api: Endpoint genérico para chamadas de API (base).
+
+3. member.php:
+   - Descrição: Arquivo relacionado ao gerenciamento de membros ou usuários.
+   - Funcionalidade Principal: Provavelmente gerencia login, logout, perfil de usuário e outras funcionalidades relacionadas a membros.
+   - Rotas RESTful Propostas:
+     - GET /api/root/member/{id}: Obtém informações de um membro específico.
+     - POST /api/root/member/login: Realiza login de um membro.
+     - POST /api/root/member/logout: Realiza logout de um membro.
+
+4. storage.php:
+   - Descrição: Arquivo relacionado ao gerenciamento de armazenamento de arquivos.
+   - Funcionalidade Principal: Gerencia upload, download e acesso a arquivos armazenados.
+   - Rotas RESTful Propostas:
+     - POST /api/root/storage/upload: Faz upload de arquivos.
+     - GET /api/root/storage/{id}: Obtém um arquivo específico.
+
+5. storage_uploader.php:
+   - Descrição: Arquivo específico para upload de arquivos.
+   - Funcionalidade Principal: Processa uploads de arquivos de forma independente.
+   - Rotas RESTful Propostas:
+     - POST /api/root/storage/uploader: Processa upload de arquivos.
+
+6. page.php:
+   - Descrição: Arquivo relacionado à renderização de páginas específicas.
+   - Funcionalidade Principal: Carrega e exibe páginas dinâmicas com base em parâmetros.
+   - Rotas RESTful Propostas:
+     - GET /api/root/page/{name}: Obtém o conteúdo de uma página específica.
+
+7. view.php:
+   - Descrição: Arquivo relacionado à visualização de conteúdos ou elementos específicos.
+   - Funcionalidade Principal: Exibe detalhes de itens ou conteúdos.
+   - Rotas RESTful Propostas:
+     - GET /api/root/view/{id}: Exibe detalhes de um item ou conteúdo específico.
+
+8. cart.php:
+   - Descrição: Arquivo relacionado ao carrinho de compras.
+   - Funcionalidade Principal: Gerencia itens no carrinho de compras de um usuário.
+   - Rotas RESTful Propostas:
+     - GET /api/root/cart/{userId}: Obtém itens no carrinho de um usuário.
+     - POST /api/root/cart/add: Adiciona itens ao carrinho.
+     - DELETE /api/root/cart/remove/{itemId}: Remove itens do carrinho.
+
+9. chart.php:
+   - Descrição: Arquivo relacionado à geração de gráficos ou estatísticas.
+   - Funcionalidade Principal: Gera dados para gráficos ou relatórios.
+   - Rotas RESTful Propostas:
+     - GET /api/root/chart/{type}: Obtém dados para um tipo específico de gráfico.
+
+10. cmts.php:
+    - Descrição: Arquivo relacionado ao gerenciamento de comentários.
+    - Funcionalidade Principal: Processa adição, edição ou exclusão de comentários.
+    - Rotas RESTful Propostas:
+      - GET /api/root/comments/{itemId}: Obtém comentários de um item específico.
+      - POST /api/root/comments/add: Adiciona um novo comentário.
+
+11. conn.php:
+    - Descrição: Arquivo relacionado a conexões ou amizades entre usuários.
+    - Funcionalidade Principal: Gerencia conexões ou solicitações de amizade.
+    - Rotas RESTful Propostas:
+      - GET /api/root/connections/{userId}: Obtém conexões de um usuário.
+      - POST /api/root/connections/request: Envia uma solicitação de conexão.
+
+12. em.php:
+    - Descrição: Arquivo relacionado ao envio de e-mails ou mensagens.
+    - Funcionalidade Principal: Processa envio de e-mails ou mensagens internas.
+    - Rotas RESTful Propostas:
+      - POST /api/root/email/send: Envia um e-mail ou mensagem.
+
+13. favorite.php:
+    - Descrição: Arquivo relacionado à marcação de itens como favoritos.
+    - Funcionalidade Principal: Permite que usuários marquem conteúdos como favoritos.
+    - Rotas RESTful Propostas:
+      - POST /api/root/favorite/add/{itemId}: Marca um item como favorito.
+      - DELETE /api/root/favorite/remove/{itemId}: Remove um item dos favoritos.
+
+14. feature.php:
+    - Descrição: Arquivo relacionado à marcação de itens como destaque.
+    - Funcionalidade Principal: Permite destacar ou promover conteúdos.
+    - Rotas RESTful Propostas:
+      - POST /api/root/feature/add/{itemId}: Marca um item como destaque.
+      - DELETE /api/root/feature/remove/{itemId}: Remove o destaque de um item.
+
+15. form.php:
+    - Descrição: Arquivo relacionado à renderização ou processamento de formulários.
+    - Funcionalidade Principal: Exibe ou processa formulários dinâmicos.
+    - Rotas RESTful Propostas:
+      - GET /api/root/form/{name}: Obtém um formulário específico.
+      - POST /api/root/form/submit: Processa o envio de um formulário.
+
+16. grid.php:
+    - Descrição: Arquivo relacionado à exibição de grids ou tabelas de dados.
+    - Funcionalidade Principal: Renderiza grids de dados para visualização.
+    - Rotas RESTful Propostas:
+      - GET /api/root/grid/{name}: Obtém dados de um grid específico.
+
+17. invoices.php:
+    - Descrição: Arquivo relacionado ao gerenciamento de faturas.
+    - Funcionalidade Principal: Exibe ou processa faturas de usuários.
+    - Rotas RESTful Propostas:
+      - GET /api/root/invoices/{userId}: Obtém faturas de um usuário.
+
+18. label.php:
+    - Descrição: Arquivo relacionado ao gerenciamento de etiquetas ou tags.
+    - Funcionalidade Principal: Permite adicionar ou gerenciar etiquetas em conteúdos.
+    - Rotas RESTful Propostas:
+      - GET /api/root/labels/{itemId}: Obtém etiquetas de um item.
+      - POST /api/root/labels/add: Adiciona uma etiqueta a um item.
+
+19. logout.php:
+    - Descrição: Arquivo relacionado ao processo de logout de usuários.
+    - Funcionalidade Principal: Encerra a sessão de um usuário.
+    - Rotas RESTful Propostas:
+      - POST /api/root/logout: Realiza logout de um usuário.
+
+20. menu.php:
+    - Descrição: Arquivo relacionado à renderização de menus.
+    - Funcionalidade Principal: Gera menus de navegação ou contexto.
+    - Rotas RESTful Propostas:
+      - GET /api/root/menu/{name}: Obtém um menu específico.
+
+21. oembed.php:
+    - Descrição: Arquivo relacionado ao suporte a oEmbed para incorporação de conteúdos.
+    - Funcionalidade Principal: Fornece dados no formato oEmbed para URLs específicas.
+    - Rotas RESTful Propostas:
+      - GET /api/root/oembed/{url}: Obtém dados oEmbed para uma URL específica.
+
+22. orders.php:
+    - Descrição: Arquivo relacionado ao gerenciamento de pedidos.
+    - Funcionalidade Principal: Exibe ou processa pedidos de usuários.
+    - Rotas RESTful Propostas:
+      - GET /api/root/orders/{userId}: Obtém pedidos de um usuário.
+
+23. privacy.php:
+    - Descrição: Arquivo relacionado ao gerenciamento de configurações de privacidade.
+    - Funcionalidade Principal: Permite que usuários configurem opções de privacidade.
+    - Rotas RESTful Propostas:
+      - GET /api/root/privacy/{userId}: Obtém configurações de privacidade de um usuário.
+      - PUT /api/root/privacy/{userId}: Atualiza configurações de privacidade de um usuário.
+
+24. r.php:
+    - Descrição: Arquivo possivelmente relacionado a redirecionamentos ou rotas.
+    - Funcionalidade Principal: Redireciona ou processa URLs curtas.
+    - Rotas RESTful Propostas:
+      - GET /api/root/r/{code}: Processa um redirecionamento ou rota específica.
+
+25. recommendation.php:
+    - Descrição: Arquivo relacionado a recomendações de conteúdo ou usuários.
+    - Funcionalidade Principal: Gera recomendações com base em algoritmos ou preferências.
+    - Rotas RESTful Propostas:
+      - GET /api/root/recommendation/{userId}: Obtém recomendações para um usuário.
+
+26. report.php:
+    - Descrição: Arquivo relacionado à denúncia de conteúdos ou usuários.
+    - Funcionalidade Principal: Permite que usuários denunciem conteúdos impróprios.
+    - Rotas RESTful Propostas:
+      - POST /api/root/report/{itemId}: Envia uma denúncia para um item ou usuário.
+
+27. score.php:
+    - Descrição: Arquivo relacionado à pontuação ou avaliação de conteúdos.
+    - Funcionalidade Principal: Registra pontuações ou avaliações de usuários.
+    - Rotas RESTful Propostas:
+      - POST /api/root/score/{itemId}: Registra uma pontuação para um item.
+
+28. searchExtended.php:
+    - Descrição: Arquivo relacionado a buscas avançadas.
+    - Funcionalidade Principal: Processa buscas detalhadas com filtros.
+    - Rotas RESTful Propostas:
+      - GET /api/root/search/extended: Realiza uma busca avançada com parâmetros.
+
+29. searchKeyword.php:
+    - Descrição: Arquivo relacionado a buscas por palavras-chave.
+    - Funcionalidade Principal: Processa buscas simples por palavras-chave.
+    - Rotas RESTful Propostas:
+      - GET /api/root/search/keyword: Realiza uma busca por palavra-chave.
+
+30. searchKeywordContent.php:
+    - Descrição: Arquivo relacionado a buscas por conteúdo específico de palavras-chave.
+    - Funcionalidade Principal: Busca conteúdos associados a palavras-chave.
+    - Rotas RESTful Propostas:
+      - GET /api/root/search/keyword/content: Busca conteúdos por palavra-chave.
+
+31. splash.php:
+    - Descrição: Arquivo relacionado à página de splash ou introdução.
+    - Funcionalidade Principal: Exibe uma página de boas-vindas ou introdução.
+    - Rotas RESTful Propostas:
+      - GET /api/root/splash: Obtém o conteúdo da página de splash.
+
+32. subscriptions.php:
+    - Descrição: Arquivo relacionado ao gerenciamento de assinaturas.
+    - Funcionalidade Principal: Gerencia assinaturas ou planos de usuários.
+    - Rotas RESTful Propostas:
+      - GET /api/root/subscriptions/{userId}: Obtém assinaturas de um usuário.
+
+33. vote.php:
+    - Descrição: Arquivo relacionado à votação em conteúdos ou enquetes.
+    - Funcionalidade Principal: Registra votos de usuários em itens ou enquetes.
+    - Rotas RESTful Propostas:
+      - POST /api/root/vote/{itemId}: Registra um voto em um item ou enquete.
+
+34-41. Outros Arquivos:
+    - Há outros arquivos como agents.php, embed.php, get_rss_feed.php, gzip_loader.php, image_transcoder.php, live_updates.php, manifest.json.php, sw.js.php, que parecem ser utilitários ou relacionados a funcionalidades específicas do sistema. Esses arquivos podem ser analisados em maior detalhe conforme necessário.
+
+Nota: As rotas RESTful propostas são baseadas em suposições sobre as funcionalidades dos arquivos, considerando seus nomes e possíveis propósitos. Uma análise mais profunda do código pode refinar essas rotas e adicionar mais detalhes às funcionalidades.

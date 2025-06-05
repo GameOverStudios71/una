@@ -1,0 +1,41 @@
+Mapeamento dos Arquivos PHP no Diretório INC para API RESTful
+
+Descrição Geral:
+Esta documentação cobre os arquivos PHP localizados na raiz do diretório 'inc' (c:\Users\zerocool\una\inc). Esses arquivos parecem ser de inclusão ou utilitários importantes para o funcionamento do sistema UNA. O objetivo é mapear as funcionalidades principais desses arquivos e propor rotas RESTful correspondentes, quando aplicável.
+
+Análise dos Arquivos PHP no Diretório INC:
+
+1. design.inc.php:
+   - Descrição: Arquivo de inclusão relacionado ao design ou temas do sistema UNA.
+   - Funcionalidade Principal: Provavelmente contém funções ou configurações para renderização de design, temas ou estilos visuais do site.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/design/themes: Obtém uma lista de temas disponíveis.
+     - GET /api/inc/design/theme/{id}: Obtém detalhes de um tema específico.
+
+2. params.inc.php:
+   - Descrição: Arquivo de inclusão que pode conter parâmetros ou configurações globais do sistema.
+   - Funcionalidade Principal: Define configurações ou parâmetros que afetam o comportamento do sistema.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/params: Obtém configurações globais ou parâmetros do sistema (acesso restrito).
+
+3. profiles.inc.php:
+   - Descrição: Arquivo de inclusão relacionado ao gerenciamento de perfis de usuários.
+   - Funcionalidade Principal: Contém funções utilitárias para manipulação de dados de perfis, como criação, edição ou recuperação de informações.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/profiles/{id}: Obtém informações de um perfil específico.
+     - POST /api/inc/profiles/create: Cria um novo perfil (base).
+     - PUT /api/inc/profiles/update/{id}: Atualiza informações de um perfil existente.
+
+4. utils.inc.php:
+   - Descrição: Arquivo de inclusão contendo funções utilitárias gerais.
+   - Funcionalidade Principal: Fornece uma ampla gama de funções de suporte para diversas operações no sistema, como manipulação de strings, datas, arrays, etc.
+   - Rotas RESTful Propostas:
+     - Nenhuma rota específica proposta, pois este arquivo parece ser um conjunto de utilitários de suporte sem endpoints diretos.
+
+5. version.inc.php:
+   - Descrição: Arquivo de inclusão que provavelmente contém informações sobre a versão do sistema UNA.
+   - Funcionalidade Principal: Define constantes ou variáveis relacionadas à versão atual do sistema.
+   - Rotas RESTful Propostas:
+     - GET /api/inc/version: Obtém informações sobre a versão atual do sistema.
+
+Nota: As rotas RESTful propostas são baseadas em suposições sobre as funcionalidades dos arquivos, considerando seus nomes e possíveis propósitos. Uma análise mais profunda do código pode refinar essas rotas e adicionar mais detalhes às funcionalidades. Arquivos como 'utils.inc.php' podem não ter rotas diretas, pois servem como suporte para outras funcionalidades.

@@ -1,0 +1,89 @@
+Análise Detalhada das Classes do Subdiretório 'studio\classes' - Parte 3
+
+Esta documentação contém a continuação da análise aprofundada do código-fonte das classes localizadas no subdiretório 'studio\classes' do sistema UNA. O objetivo é confirmar as funcionalidades reais de cada classe e refinar as rotas RESTful propostas anteriormente no arquivo 'studio_funcionalidades.txt'. Esta é a terceira parte da análise, seguindo as Partes 1 e 2.
+
+# Módulos e Instalação
+
+## BxDolStudioModule
+- **Descrição Confirmada**: Classe principal para gerenciamento de módulos no UNA Studio, permitindo instalação, ativação e desativação.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/modules/list - Listar todos os módulos disponíveis no Studio.
+  - POST /studio/modules/install - Instalar um novo módulo.
+  - PUT /studio/modules/{id}/enable - Ativar um módulo existente.
+  - PUT /studio/modules/{id}/disable - Desativar um módulo existente.
+  - DELETE /studio/modules/{id}/uninstall - Desinstalar um módulo.
+
+## BxDolStudioModules
+- **Descrição Confirmada**: Gerencia a coleção de módulos e suas interações no sistema.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/modules/status - Verificar status de todos os módulos instalados.
+  - POST /studio/modules/bulk-action - Realizar ações em massa em vários módulos (ativar/desativar).
+
+# Loja e Compras
+
+## BxDolStudioStore
+- **Descrição Confirmada**: Interface para a loja do UNA Studio, onde usuários podem adquirir módulos, temas e outros recursos.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/store/products - Listar produtos disponíveis na loja.
+  - GET /studio/store/product/{id} - Obter detalhes de um produto específico.
+  - POST /studio/store/purchase - Iniciar processo de compra de um produto.
+  - GET /studio/store/purchases - Listar compras realizadas pelo usuário.
+
+## BxDolStudioCart
+- **Descrição Confirmada**: Gerencia o carrinho de compras dentro da loja do Studio.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/store/cart - Visualizar itens no carrinho de compras.
+  - POST /studio/store/cart/add/{productId} - Adicionar um produto ao carrinho.
+  - DELETE /studio/store/cart/remove/{productId} - Remover um produto do carrinho.
+  - POST /studio/store/cart/checkout - Finalizar compra dos itens no carrinho.
+
+# Configurações e Opções
+
+## BxDolStudioSettings
+- **Descrição Confirmada**: Gerencia configurações globais e específicas do UNA Studio.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/settings/list - Listar todas as configurações do Studio.
+  - PUT /studio/settings/update - Atualizar uma ou mais configurações.
+  - GET /studio/settings/category/{category} - Listar configurações de uma categoria específica.
+
+## BxDolStudioOptions
+- **Descrição Confirmada**: Controla opções configuráveis para diferentes funcionalidades no Studio.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/options/list - Listar opções configuráveis no Studio.
+  - PUT /studio/options/{id}/update - Atualizar valor de uma opção específica.
+
+# Armazenamento
+
+## BxDolStudioStorages
+- **Descrição Confirmada**: Gerencia opções de armazenamento de dados e arquivos no UNA Studio.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/storages/list - Listar serviços de armazenamento configurados.
+  - POST /studio/storages/add - Adicionar um novo serviço de armazenamento.
+  - PUT /studio/storages/{id}/update - Atualizar configurações de um serviço de armazenamento.
+  - DELETE /studio/storages/{id}/delete - Remover um serviço de armazenamento.
+
+# Ferramentas e Utilitários
+
+## BxDolStudioTools
+- **Descrição Confirmada**: Fornece ferramentas utilitárias para manutenção e otimização do UNA Studio.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/tools/list - Listar ferramentas disponíveis no Studio.
+  - POST /studio/tools/execute/{toolId} - Executar uma ferramenta específica (ex.: limpeza de cache).
+
+## BxDolStudioDashboard
+- **Descrição Confirmada**: Interface do painel de controle do UNA Studio, exibindo estatísticas e informações importantes.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/dashboard/data - Obter dados e estatísticas para o painel de controle.
+  - GET /studio/dashboard/widgets - Listar widgets disponíveis no painel.
+  - PUT /studio/dashboard/widgets/update - Atualizar configuração de widgets no painel.
+
+## BxDolStudioLauncher
+- **Descrição Confirmada**: Gerencia o lançador de aplicativos ou ferramentas rápidas no Studio.
+- **Rotas RESTful Refinadas**:
+  - GET /studio/launcher/apps - Listar aplicativos ou ferramentas no lançador.
+  - POST /studio/launcher/add - Adicionar um aplicativo ao lançador.
+  - DELETE /studio/launcher/remove/{appId} - Remover um aplicativo do lançador.
+
+# Observações
+
+Esta é a terceira parte da análise baseada na inspeção do código-fonte. Com esta parte, concluímos a análise detalhada das principais classes no subdiretório 'studio\classes'. Caso haja necessidade de revisar classes específicas, explorar áreas adicionais ou criar partes complementares para classes remanescentes, isso será abordado conforme orientação do usuário.

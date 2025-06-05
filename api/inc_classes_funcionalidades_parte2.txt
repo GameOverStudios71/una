@@ -1,0 +1,187 @@
+Mapeamento das Classes no Subdiretório INC\Classes para API RESTful - Parte 2
+
+Descrição Geral:
+Esta documentação é a continuação da análise das classes PHP localizadas no subdiretório 'classes' dentro de 'inc' (c:\Users\zerocool\una\inc\classes). O objetivo é mapear as funcionalidades principais dessas classes e propor rotas RESTful correspondentes, quando aplicável. Esta segunda parte cobre áreas de funcionalidade adicionais das 194 classes identificadas, seguindo a documentação iniciada em 'inc_classes_funcionalidades.txt'.
+
+Análise das Classes no Subdiretório INC\Classes - Parte 2:
+
+### 4. Classes de Gerenciamento de Armazenamento e Arquivos
+4.1. BxDolStorage.php:
+   - Descrição: Classe principal para gerenciamento de armazenamento de arquivos.
+   - Funcionalidade Principal: Upload, download, gerenciamento e exclusão de arquivos.
+   - Rotas RESTful Propostas:
+     - POST /api/inc/storage/upload: Faz upload de um novo arquivo.
+     - GET /api/inc/storage/{fileId}: Obtém um arquivo específico.
+     - DELETE /api/inc/storage/{fileId}: Exclui um arquivo.
+
+4.2. BxDolStorageQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a armazenamento.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de arquivos.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.3. BxDolStorageLocal.php:
+   - Descrição: Implementação de armazenamento local.
+   - Funcionalidade Principal: Suporte a armazenamento de arquivos no sistema de arquivos local.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.4. BxDolStorageS3.php:
+   - Descrição: Implementação de armazenamento na AWS S3.
+   - Funcionalidade Principal: Suporte a armazenamento de arquivos na nuvem AWS S3.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.5. BxDolStorageS3v4.php:
+   - Descrição: Implementação alternativa de armazenamento na AWS S3 (versão 4).
+   - Funcionalidade Principal: Suporte a uma versão específica do protocolo S3.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.6. BxDolStorageS3v4alt.php:
+   - Descrição: Implementação alternativa adicional de armazenamento na AWS S3.
+   - Funcionalidade Principal: Suporte a outra variante do protocolo S3.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.7. BxDolFile.php:
+   - Descrição: Classe para manipulação de arquivos.
+   - Funcionalidade Principal: Operações básicas com arquivos, como leitura e escrita.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.8. BxDolFileHandler.php:
+   - Descrição: Classe para gerenciamento de handlers de arquivos.
+   - Funcionalidade Principal: Suporte a diferentes tipos de manipulação de arquivos.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.9. BxDolFileHandlerQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a handlers de arquivos.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de handlers.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.10. BxDolUploader.php:
+    - Descrição: Classe para upload de arquivos.
+    - Funcionalidade Principal: Processamento de uploads de arquivos de usuários.
+    - Rotas RESTful Propostas:
+      - POST /api/inc/uploader/upload: Processa o upload de um arquivo.
+
+4.11. BxDolUploaderQuery.php:
+    - Descrição: Classe de suporte para consultas relacionadas a uploads.
+    - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de uploads.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.12. BxDolImageResize.php:
+    - Descrição: Classe para redimensionamento de imagens.
+    - Funcionalidade Principal: Redimensiona imagens para diferentes formatos ou tamanhos.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.13. BxDolTranscoder.php:
+    - Descrição: Classe principal para transcodificação de mídia.
+    - Funcionalidade Principal: Conversão de formatos de mídia, como áudio, vídeo e imagem.
+    - Rotas RESTful Propostas:
+      - POST /api/inc/transcoder/convert: Solicita a conversão de um arquivo de mídia.
+
+4.14. BxDolTranscoderQuery.php:
+    - Descrição: Classe de suporte para consultas relacionadas a transcodificação.
+    - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de transcodificação.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.15. BxDolTranscoderAudio.php:
+    - Descrição: Classe para transcodificação de áudio.
+    - Funcionalidade Principal: Conversão específica de arquivos de áudio.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.16. BxDolTranscoderAudioQuery.php:
+    - Descrição: Classe de suporte para consultas relacionadas a transcodificação de áudio.
+    - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de transcodificação de áudio.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.17. BxDolTranscoderImage.php:
+    - Descrição: Classe para transcodificação de imagens.
+    - Funcionalidade Principal: Conversão ou manipulação específica de imagens.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.18. BxDolTranscoderImageQuery.php:
+    - Descrição: Classe de suporte para consultas relacionadas a transcodificação de imagens.
+    - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de transcodificação de imagens.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.19. BxDolTranscoderVideo.php:
+    - Descrição: Classe para transcodificação de vídeos.
+    - Funcionalidade Principal: Conversão específica de arquivos de vídeo.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.20. BxDolTranscoderVideoQuery.php:
+    - Descrição: Classe de suporte para consultas relacionadas a transcodificação de vídeos.
+    - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de transcodificação de vídeos.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.21. BxDolTranscoderProxy.php:
+    - Descrição: Classe proxy para transcodificação.
+    - Funcionalidade Principal: Suporte a transcodificação através de um proxy ou serviço externo.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.22. BxDolCronStorage.php:
+    - Descrição: Classe para tarefas cron relacionadas a armazenamento.
+    - Funcionalidade Principal: Limpeza ou manutenção de arquivos armazenados via cron.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+4.23. BxDolCronTranscoder.php:
+    - Descrição: Classe para tarefas cron relacionadas a transcodificação.
+    - Funcionalidade Principal: Processamento de transcodificação em segundo plano via cron.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+### 5. Classes de Gerenciamento de Votação e Avaliação
+5.1. BxDolVote.php:
+   - Descrição: Classe principal para votação em conteúdos.
+   - Funcionalidade Principal: Registra e gerencia votos em itens ou conteúdos.
+   - Rotas RESTful Propostas:
+     - POST /api/inc/vote/{itemId}: Registra um voto em um item.
+     - GET /api/inc/vote/{itemId}: Obtém informações sobre votos em um item.
+
+5.2. BxDolVoteQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a votação.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de votação.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+5.3. BxDolVoteLikes.php:
+   - Descrição: Classe específica para curtidas.
+   - Funcionalidade Principal: Gerencia curtidas como um tipo de votação.
+   - Rotas RESTful Propostas:
+     - POST /api/inc/vote/like/{itemId}: Registra uma curtida em um item.
+
+5.4. BxDolVoteLikesQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a curtidas.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de curtidas.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+5.5. BxDolVoteReactions.php:
+   - Descrição: Classe específica para reações.
+   - Funcionalidade Principal: Gerencia reações como um tipo de votação.
+   - Rotas RESTful Propostas:
+     - POST /api/inc/vote/reaction/{itemId}: Registra uma reação em um item.
+
+5.6. BxDolVoteReactionsQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a reações.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de reações.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+5.7. BxDolVoteStars.php:
+   - Descrição: Classe específica para votação por estrelas.
+   - Funcionalidade Principal: Gerencia avaliações em formato de estrelas.
+   - Rotas RESTful Propostas:
+     - POST /api/inc/vote/stars/{itemId}: Registra uma avaliação por estrelas em um item.
+
+5.8. BxDolVoteStarsQuery.php:
+   - Descrição: Classe de suporte para consultas relacionadas a votação por estrelas.
+   - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de votação por estrelas.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+5.9. BxDolScore.php:
+   - Descrição: Classe principal para pontuação de conteúdos.
+   - Funcionalidade Principal: Registra e gerencia pontuações ou avaliações detalhadas de conteúdos.
+   - Rotas RESTful Propostas:
+     - POST /api/inc/score/{itemId}: Registra uma pontuação para um item.
+     - GET /api/inc/score/{itemId}: Obtém pontuações de um item.
+
+5.10. BxDolScoreQuery.php:
+    - Descrição: Classe de suporte para consultas relacionadas a pontuação.
+    - Funcionalidade Principal: Realiza queries no banco de dados para recuperação de dados de pontuação.
+    - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+Nota: Esta é a segunda parte da análise completa das 194 classes no subdiretório 'inc\classes'. As próximas partes continuarão a documentação, cobrindo as áreas de funcionalidade restantes, como formulários, templates, banco de dados, IA, pagamentos, buscas, privacidade, entre outros. As rotas RESTful propostas são baseadas em suposições sobre as funcionalidades das classes, considerando seus nomes e possíveis propósitos. Uma análise mais profunda do código pode refinar essas rotas e adicionar mais detalhes às funcionalidades.

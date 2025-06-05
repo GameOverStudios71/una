@@ -1,0 +1,423 @@
+Mapeamento das Classes e Arquivos no Diretório Studio para API RESTful
+
+Descrição Geral:
+Esta documentação aborda a análise dos arquivos PHP localizados no diretório 'studio' (c:\Users\zerocool\una\studio). O objetivo é mapear as funcionalidades principais desses arquivos e propor rotas RESTful correspondentes, quando aplicável. O diretório 'studio' está relacionado a ferramentas de design, personalização e construção de interfaces no sistema UNA, incluindo builders para páginas, menus, formulários e gerenciamento de templates.
+
+Análise dos Arquivos no Diretório Studio:
+
+### 1. Arquivos Principais no Diretório Studio
+1.1. index.php:
+   - Descrição: Arquivo principal do diretório Studio, ponto de entrada para a interface do Studio.
+   - Funcionalidade Principal: Inicialização da interface do Studio para personalização ou design.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/index: Acessa a interface principal do Studio.
+
+1.2. api.php:
+   - Descrição: Arquivo para processamento de requisições de API relacionadas ao Studio.
+   - Funcionalidade Principal: Endpoint para interações de API com funcionalidades do Studio.
+   - Rotas RESTful Propostas:
+     - POST /api/studio/api: Processa requisições de API específicas do Studio.
+
+1.3. ajax.php:
+   - Descrição: Arquivo para processamento de requisições AJAX no Studio.
+   - Funcionalidade Principal: Suporte a interações dinâmicas na interface do Studio.
+   - Rotas RESTful Propostas:
+     - POST /api/studio/ajax: Processa requisições AJAX para funcionalidades do Studio.
+
+1.4. launcher.php:
+   - Descrição: Arquivo para inicialização ou lançamento de ferramentas do Studio.
+   - Funcionalidade Principal: Provavelmente serve como ponto de entrada alternativo ou inicializador de módulos do Studio.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/launcher: Inicializa ferramentas ou módulos do Studio.
+
+### 2. Arquivos de Construção e Personalização (Builders)
+2.1. builder_page.php:
+   - Descrição: Arquivo para construção de páginas no Studio.
+   - Funcionalidade Principal: Ferramenta para criação e edição de páginas personalizadas.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/builder/page: Acessa a ferramenta de construção de páginas.
+     - POST /api/studio/builder/page/save: Salva uma página criada ou editada.
+     - GET /api/studio/builder/page/list: Lista páginas criadas no Studio.
+     - DELETE /api/studio/builder/page/{pageId}: Exclui uma página do Studio.
+
+2.2. builder_menu.php:
+   - Descrição: Arquivo para construção de menus no Studio.
+   - Funcionalidade Principal: Ferramenta para criação e edição de menus de navegação.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/builder/menu: Acessa a ferramenta de construção de menus.
+     - POST /api/studio/builder/menu/save: Salva um menu criado ou editado.
+     - GET /api/studio/builder/menu/list: Lista menus criados no Studio.
+     - DELETE /api/studio/builder/menu/{menuId}: Exclui um menu do Studio.
+
+2.3. builder_forms.php:
+   - Descrição: Arquivo para construção de formulários no Studio.
+   - Funcionalidade Principal: Ferramenta para criação e edição de formulários personalizados.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/builder/forms: Acessa a ferramenta de construção de formulários.
+     - POST /api/studio/builder/forms/save: Salva um formulário criado ou editado.
+     - GET /api/studio/builder/forms/list: Lista formulários criados no Studio.
+     - DELETE /api/studio/builder/forms/{formId}: Exclui um formulário do Studio.
+
+2.4. builders.php:
+   - Descrição: Arquivo central para gerenciamento de ferramentas de construção no Studio.
+   - Funcionalidade Principal: Provavelmente lista ou inicializa diferentes ferramentas de construção (páginas, menus, formulários, etc.).
+   - Rotas RESTful Propostas:
+     - GET /api/studio/builders: Lista ferramentas de construção disponíveis no Studio.
+
+### 3. Arquivos de Design e Templates
+3.1. design.php:
+   - Descrição: Arquivo para gerenciamento de designs ou temas no Studio.
+   - Funcionalidade Principal: Interface para seleção, aplicação ou personalização de designs.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/design: Acessa a interface de gerenciamento de designs.
+     - GET /api/studio/design/list: Lista designs ou temas disponíveis.
+     - POST /api/studio/design/apply/{designId}: Aplica um design ou tema ao sistema.
+
+3.2. designer.php:
+   - Descrição: Arquivo para ferramenta de design avançado no Studio.
+   - Funcionalidade Principal: Provavelmente uma ferramenta de design visual ou editor de CSS/templates.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/designer: Acessa a ferramenta de design avançado.
+     - POST /api/studio/designer/save: Salva personalizações de design ou CSS.
+
+### 4. Arquivos de Gerenciamento de Configurações e Opções
+4.1. settings.php:
+   - Descrição: Arquivo para gerenciamento de configurações do Studio ou do sistema.
+   - Funcionalidade Principal: Interface para ajustar configurações relacionadas ao design ou builders.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/settings: Acessa configurações do Studio.
+     - PUT /api/studio/settings/update: Atualiza configurações do Studio.
+
+4.2. options.php:
+   - Descrição: Arquivo para gerenciamento de opções específicas no Studio.
+   - Funcionalidade Principal: Provavelmente lista ou gerencia opções de personalização.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/options: Lista opções de personalização disponíveis.
+     - PUT /api/studio/options/update: Atualiza opções de personalização.
+
+4.3. language.php:
+   - Descrição: Arquivo para gerenciamento de idiomas ou traduções no Studio.
+   - Funcionalidade Principal: Interface para gerenciar traduções ou strings de idioma para elementos do Studio.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/language: Acessa interface de gerenciamento de idiomas no Studio.
+     - POST /api/studio/language/update: Atualiza strings de idioma ou traduções.
+
+4.4. polyglot.php:
+   - Descrição: Arquivo para suporte a múltiplos idiomas no Studio.
+   - Funcionalidade Principal: Provavelmente uma ferramenta avançada para gerenciamento de traduções.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/polyglot: Acessa ferramenta de gerenciamento de múltiplos idiomas.
+     - POST /api/studio/polyglot/update: Atualiza traduções ou configurações de idioma.
+
+### 5. Arquivos de Administração e Monitoramento
+5.1. dashboard.php:
+   - Descrição: Arquivo para painel de controle ou dashboard do Studio.
+   - Funcionalidade Principal: Exibe estatísticas ou resumos de atividades no Studio.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/dashboard: Acessa dados do painel de controle do Studio.
+
+5.2. audit.php:
+   - Descrição: Arquivo para auditoria de atividades no Studio.
+   - Funcionalidade Principal: Registro ou visualização de logs de alterações feitas no Studio.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/audit: Lista logs ou registros de auditoria do Studio.
+
+5.3. agents.php:
+   - Descrição: Arquivo para gerenciamento de agentes ou integrações no Studio.
+   - Funcionalidade Principal: Provavelmente gerencia integrações ou scripts de automação.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/agents: Lista agentes ou integrações disponíveis.
+     - POST /api/studio/agents/add: Adiciona um novo agente ou integração.
+
+5.4. badges.php:
+   - Descrição: Arquivo para gerenciamento de badges ou emblemas no Studio.
+   - Funcionalidade Principal: Criação ou gerenciamento de badges para gamificação ou design.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/badges: Lista badges disponíveis.
+     - POST /api/studio/badges/create: Cria um novo badge no Studio.
+
+### 6. Arquivos de Gerenciamento de Módulos e Armazenamento
+6.1. module.php:
+   - Descrição: Arquivo para gerenciamento de módulos no Studio.
+   - Funcionalidade Principal: Interface para instalação ou personalização de módulos.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/module: Acessa interface de gerenciamento de módulos no Studio.
+     - GET /api/studio/module/list: Lista módulos disponíveis no Studio.
+     - POST /api/studio/module/install/{moduleId}: Instala um módulo via Studio.
+
+6.2. store.php:
+   - Descrição: Arquivo para integração com loja ou mercado no Studio.
+   - Funcionalidade Principal: Provavelmente conectado ao mercado de módulos ou temas.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/store: Acessa a loja ou mercado integrado ao Studio.
+     - GET /api/studio/store/list: Lista itens disponíveis na loja.
+
+6.3. storages.php:
+   - Descrição: Arquivo para gerenciamento de armazenamentos no Studio.
+   - Funcionalidade Principal: Configuração de armazenamentos para arquivos ou ativos de design.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/storages: Lista configurações de armazenamento no Studio.
+     - PUT /api/studio/storages/update: Atualiza configurações de armazenamento.
+
+### 7. Arquivos de Permissões e Funções
+7.1. builder_permissions.php:
+   - Descrição: Arquivo para construção de permissões no Studio.
+   - Funcionalidade Principal: Ferramenta para definir ou gerenciar permissões de acesso.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/builder/permissions: Acessa ferramenta de construção de permissões.
+     - POST /api/studio/builder/permissions/save: Salva permissões criadas ou editadas.
+
+7.2. builder_roles.php:
+   - Descrição: Arquivo para construção de papéis (roles) no Studio.
+   - Funcionalidade Principal: Ferramenta para definir ou gerenciar papéis de usuário.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/builder/roles: Acessa ferramenta de construção de papéis.
+     - POST /api/studio/builder/roles/save: Salva papéis criados ou editados.
+
+### 8. Classes no Subdiretório 'classes' do Diretório Studio
+Com base na listagem de arquivos no subdiretório 'classes' dentro de 'studio' (c:\Users\zerocool\una\studio\classes), identifiquei 105 classes PHP que suportam as funcionalidades do Studio. Abaixo, apresento uma análise detalhada das principais classes organizadas por áreas de funcionalidade, com descrições baseadas nos nomes dos arquivos e propostas de rotas RESTful quando aplicável. Note que estas são suposições iniciais e uma análise mais profunda do código-fonte de cada classe é necessária para confirmação.
+
+#### 8.1. Classes de API e Integração
+8.1.1. BxDolStudioAPI.php:
+   - Descrição: Classe para gerenciamento de APIs no Studio.
+   - Funcionalidade Principal: Provavelmente lida com requisições e respostas de API relacionadas ao Studio.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/api/config: Obtém configurações de API do Studio.
+     - POST /api/studio/api/request: Processa uma requisição de API via Studio.
+
+8.1.2. BxDolStudioApiKeys.php:
+   - Descrição: Classe para gerenciamento de chaves de API no Studio.
+   - Funcionalidade Principal: Criação, listagem e revogação de chaves de API para integrações.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/api/keys: Lista chaves de API cadastradas.
+     - POST /api/studio/api/keys/create: Cria uma nova chave de API.
+     - DELETE /api/studio/api/keys/{keyId}: Revoga uma chave de API.
+
+8.1.3. BxDolStudioApiOrigins.php:
+   - Descrição: Classe para gerenciamento de origens permitidas para API no Studio.
+   - Funcionalidade Principal: Configuração de origens (CORS) para acesso à API.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/api/origins: Lista origens permitidas para API.
+     - POST /api/studio/api/origins/add: Adiciona uma nova origem permitida.
+     - DELETE /api/studio/api/origins/{originId}: Remove uma origem permitida.
+
+#### 8.2. Classes de Agentes e Automação
+8.2.1. BxDolStudioAgents.php:
+   - Descrição: Classe para gerenciamento de agentes no Studio.
+   - Funcionalidade Principal: Provavelmente gerencia agentes ou bots para automação de tarefas.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/agents: Lista agentes disponíveis no Studio.
+     - POST /api/studio/agents/create: Cria um novo agente.
+     - PUT /api/studio/agents/{agentId}: Edita um agente existente.
+
+8.2.2. BxDolStudioAgentsAssistants.php:
+   - Descrição: Classe para gerenciamento de assistentes como agentes no Studio.
+   - Funcionalidade Principal: Configuração de assistentes virtuais ou chatbots.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/agents/assistants: Lista assistentes disponíveis.
+     - POST /api/studio/agents/assistants/create: Cria um novo assistente.
+
+8.2.3. BxDolStudioAgentsAutomators.php:
+   - Descrição: Classe para automadores como agentes no Studio.
+   - Funcionalidade Principal: Gerenciamento de scripts ou automações específicas.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/agents/automators: Lista automadores disponíveis.
+     - POST /api/studio/agents/automators/create: Cria um novo automador.
+
+8.2.4. BxDolStudioAgentsAsstChats.php:
+   - Descrição: Classe para gerenciamento de chats de assistentes no Studio.
+   - Funcionalidade Principal: Histórico ou gerenciamento de conversas com assistentes.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/agents/assistants/chats: Lista chats de assistentes.
+     - GET /api/studio/agents/assistants/chats/{chatId}: Obtém detalhes de um chat específico.
+
+#### 8.3. Classes de Auditoria e Monitoramento
+8.3.1. BxDolStudioAudit.php:
+   - Descrição: Classe para auditoria de atividades no Studio.
+   - Funcionalidade Principal: Registro de logs ou alterações feitas no Studio.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/audit/logs: Lista logs de auditoria do Studio.
+     - GET /api/studio/audit/logs/{logId}: Obtém detalhes de um log específico.
+
+8.3.2. BxDolStudioDashboard.php:
+   - Descrição: Classe para painel de controle do Studio.
+   - Funcionalidade Principal: Exibição de estatísticas ou resumos de atividades no Studio.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/dashboard/data: Obtém dados para o painel de controle do Studio.
+
+#### 8.4. Classes de Badges e Gamificação
+8.4.1. BxDolStudioBadges.php:
+   - Descrição: Classe para gerenciamento de badges no Studio.
+   - Funcionalidade Principal: Criação e gerenciamento de badges para gamificação.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/badges: Lista badges disponíveis no Studio.
+     - POST /api/studio/badges/create: Cria um novo badge.
+     - PUT /api/studio/badges/{badgeId}: Edita um badge existente.
+     - DELETE /api/studio/badges/{badgeId}: Exclui um badge.
+
+#### 8.5. Classes de Construção de Páginas e Layouts
+8.5.1. BxDolStudioBuilderPage.php:
+   - Descrição: Classe para construção de páginas no Studio.
+   - Funcionalidade Principal: Ferramenta para criação e edição de páginas personalizadas.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/builder/pages: Lista páginas criadas no Studio.
+     - POST /api/studio/builder/pages/create: Cria uma nova página.
+     - PUT /api/studio/builder/pages/{pageId}: Edita uma página existente.
+     - DELETE /api/studio/builder/pages/{pageId}: Exclui uma página.
+
+#### 8.6. Classes de Design e Templates
+8.6.1. BxDolStudioDesign.php:
+   - Descrição: Classe para gerenciamento de designs no Studio.
+   - Funcionalidade Principal: Aplicação ou personalização de designs ou temas.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/designs: Lista designs disponíveis no Studio.
+     - POST /api/studio/designs/apply/{designId}: Aplica um design ao sistema.
+
+8.6.2. BxDolStudioDesigner.php:
+   - Descrição: Classe para ferramenta de design avançado no Studio.
+   - Funcionalidade Principal: Editor visual ou de CSS para personalização de design.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/designer/data: Obtém dados para a ferramenta de design.
+     - POST /api/studio/designer/save: Salva personalizações de design.
+
+8.6.3. BxDolStudioTemplate.php:
+   - Descrição: Classe para gerenciamento de templates no Studio.
+   - Funcionalidade Principal: Criação, edição e aplicação de templates visuais.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/templates: Lista templates disponíveis no Studio.
+     - POST /api/studio/templates/create: Cria um novo template.
+     - PUT /api/studio/templates/{templateId}: Edita um template existente.
+     - DELETE /api/studio/templates/{templateId}: Exclui um template.
+
+#### 8.7. Classes de Formulários
+8.7.1. BxDolStudioForms.php:
+   - Descrição: Classe para gerenciamento de formulários no Studio.
+   - Funcionalidade Principal: Criação e edição de formulários personalizados.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/forms: Lista formulários criados no Studio.
+     - POST /api/studio/forms/create: Cria um novo formulário.
+     - PUT /api/studio/forms/{formId}: Edita um formulário existente.
+     - DELETE /api/studio/forms/{formId}: Exclui um formulário.
+
+8.7.2. BxDolStudioFormsFields.php:
+   - Descrição: Classe para gerenciamento de campos de formulários no Studio.
+   - Funcionalidade Principal: Adição ou edição de campos em formulários.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/forms/fields/{formId}: Lista campos de um formulário.
+     - POST /api/studio/forms/fields/add: Adiciona um campo a um formulário.
+
+#### 8.8. Classes de Navegação e Menus
+8.8.1. BxDolStudioNavigation.php:
+   - Descrição: Classe para gerenciamento de navegação no Studio.
+   - Funcionalidade Principal: Criação e edição de menus ou estruturas de navegação.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/navigation: Lista estruturas de navegação no Studio.
+     - POST /api/studio/navigation/create: Cria uma nova estrutura de navegação.
+     - PUT /api/studio/navigation/{navId}: Edita uma estrutura de navegação.
+
+8.8.2. BxDolStudioNavigationItems.php:
+   - Descrição: Classe para gerenciamento de itens de navegação no Studio.
+   - Funcionalidade Principal: Adição ou edição de itens em menus de navegação.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/navigation/items/{navId}: Lista itens de uma estrutura de navegação.
+     - POST /api/studio/navigation/items/add: Adiciona um item a uma estrutura de navegação.
+
+#### 8.9. Classes de Permissões e Papéis
+8.9.1. BxDolStudioPermissions.php:
+   - Descrição: Classe para gerenciamento de permissões no Studio.
+   - Funcionalidade Principal: Definição de permissões de acesso a funcionalidades.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/permissions: Lista permissões definidas no Studio.
+     - POST /api/studio/permissions/create: Cria uma nova permissão.
+
+8.9.2. BxDolStudioRoles.php:
+   - Descrição: Classe para gerenciamento de papéis (roles) no Studio.
+   - Funcionalidade Principal: Criação e edição de papéis de usuário com permissões específicas.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/roles: Lista papéis definidos no Studio.
+     - POST /api/studio/roles/create: Cria um novo papel.
+     - PUT /api/studio/roles/{roleId}: Edita um papel existente.
+
+#### 8.10. Classes de Idiomas e Traduções
+8.10.1. BxDolStudioLanguage.php:
+   - Descrição: Classe para gerenciamento de idiomas no Studio.
+   - Funcionalidade Principal: Configuração de idiomas ou traduções para elementos do Studio.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/languages: Lista idiomas disponíveis no Studio.
+     - POST /api/studio/languages/update: Atualiza traduções ou configurações de idioma.
+
+8.10.2. BxDolStudioPolyglot.php:
+   - Descrição: Classe para suporte a múltiplos idiomas no Studio.
+   - Funcionalidade Principal: Ferramenta avançada para gerenciamento de traduções.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/polyglot/data: Obtém dados de traduções no Studio.
+     - POST /api/studio/polyglot/update: Atualiza traduções ou strings de idioma.
+
+#### 8.11. Classes de Módulos e Instalação
+8.11.1. BxDolStudioModule.php:
+   - Descrição: Classe para gerenciamento de módulos no Studio.
+   - Funcionalidade Principal: Instalação, configuração ou personalização de módulos.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/modules: Lista módulos disponíveis no Studio.
+     - POST /api/studio/modules/install/{moduleId}: Instala um módulo.
+     - PUT /api/studio/modules/configure/{moduleId}: Configura um módulo instalado.
+
+8.11.2. BxDolStudioInstaller.php:
+   - Descrição: Classe para instalação de módulos ou atualizações no Studio.
+   - Funcionalidade Principal: Gerenciamento de processos de instalação ou atualização.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/installer/status: Verifica status de instalações ou atualizações.
+     - POST /api/studio/installer/start: Inicia um processo de instalação ou atualização.
+
+#### 8.12. Classes de Loja e Compras
+8.12.1. BxDolStudioStore.php:
+   - Descrição: Classe para integração com loja no Studio.
+   - Funcionalidade Principal: Conexão com mercado de módulos, temas ou outros itens.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/store/items: Lista itens disponíveis na loja do Studio.
+     - POST /api/studio/store/purchase/{itemId}: Realiza compra de um item na loja.
+
+8.12.2. BxDolStudioCart.php:
+   - Descrição: Classe para gerenciamento de carrinho de compras no Studio.
+   - Funcionalidade Principal: Adição de itens ao carrinho para compra na loja.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/cart: Obtém conteúdo do carrinho de compras.
+     - POST /api/studio/cart/add/{itemId}: Adiciona um item ao carrinho.
+
+#### 8.13. Classes de Configurações e Opções
+8.13.1. BxDolStudioOptions.php:
+   - Descrição: Classe para gerenciamento de opções no Studio.
+   - Funcionalidade Principal: Configuração de opções de personalização ou comportamento.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/options: Lista opções disponíveis no Studio.
+     - PUT /api/studio/options/update: Atualiza opções configuradas.
+
+8.13.2. BxDolStudioSettings.php:
+   - Descrição: Classe para gerenciamento de configurações gerais no Studio.
+   - Funcionalidade Principal: Ajuste de configurações do sistema via Studio.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/settings: Obtém configurações do Studio.
+     - PUT /api/studio/settings/update: Atualiza configurações do Studio.
+
+#### 8.14. Classes de Armazenamento
+8.14.1. BxDolStudioStorages.php:
+   - Descrição: Classe para gerenciamento de armazenamentos no Studio.
+   - Funcionalidade Principal: Configuração de armazenamentos para arquivos ou ativos de design.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/storages: Lista configurações de armazenamento no Studio.
+     - PUT /api/studio/storages/update: Atualiza configurações de armazenamento.
+
+#### 8.15. Classes de Ferramentas e Utilitários
+8.15.1. BxDolStudioTools.php:
+   - Descrição: Classe para ferramentas adicionais no Studio.
+   - Funcionalidade Principal: Conjunto de ferramentas úteis para design ou administração.
+   - Rotas RESTful Propostas:
+     - GET /api/studio/tools: Lista ferramentas disponíveis no Studio.
+     - POST /api/studio/tools/execute/{toolId}: Executa uma ferramenta específica.
+
+8.15.2. BxDolStudioUtils.php:
+   - Descrição: Classe de utilitários para o Studio.
+   - Funcionalidade Principal: Funções de suporte ou utilitárias para outras classes do Studio.
+   - Rotas RESTful Propostas: Nenhuma rota específica, serve como suporte.
+
+Nota: Esta seção cobre as principais classes identificadas no subdiretório 'classes' do diretório 'studio'. Devido ao grande número de arquivos (105), listei apenas as classes mais relevantes ou representativas de cada área de funcionalidade. As descrições e rotas RESTful propostas são baseadas em suposições derivadas dos nomes das classes. Uma análise detalhada do código-fonte de cada classe é necessária para confirmar suas funcionalidades reais e refinar as rotas propostas. Caso haja interesse em explorar classes específicas ou outras áreas do sistema, a documentação pode ser expandida conforme necessário.
