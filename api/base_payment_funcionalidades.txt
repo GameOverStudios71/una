@@ -7,57 +7,89 @@ Nota: Como se trata de um módulo base, as classes aqui podem não ter funcional
 
 Análise de Classes do Módulo Base Payment:
 
-1. BxBaseModPaymentAlerts.php:
-   - BxBaseModPaymentAlerts extends BxDolAlertsResponse: Classe base para respostas a alertas relacionados a pagamentos.
-   - __construct(): Construtor que inicializa as respostas a alertas.
-   - response($oAlert): Método para processar alertas de pagamentos.
-
-2. BxBaseModPaymentConfig.php:
-   - BxBaseModPaymentConfig extends BxDolConfig: Configurações base para o módulo de pagamentos.
-   - __construct($aModule): Construtor que inicializa as configurações.
-
-3. BxBaseModPaymentDb.php:
-   - BxBaseModPaymentDb extends BxDolDb: Banco de dados base para o módulo de pagamentos.
-   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
-
-4. BxBaseModPaymentModule.php:
-   - BxBaseModPaymentModule extends BxDolModule: Classe principal base para gerenciar a lógica de pagamentos.
-   - __construct(&$aModule): Construtor que inicializa o módulo.
-   - serviceProcessPayment($aParams): Método base para processar um pagamento.
-   - serviceGetCartItems($iUserId): Método base para obter itens no carrinho de um usuário.
-   - serviceAddToCart($iItemId, $iQuantity): Método base para adicionar itens ao carrinho.
-   - serviceRemoveFromCart($iItemId): Método base para remover itens do carrinho.
-   - serviceGetInvoices($iUserId): Método base para obter faturas de um usuário.
-
-5. BxBaseModPaymentCron.php:
-   - BxBaseModPaymentCron extends BxDolCron: Classe base para tarefas cron relacionadas a pagamentos.
-   - process(): Método para executar tarefas cron de pagamentos.
-
-6. BxBaseModPaymentCart.php:
-   - BxBaseModPaymentCart extends BxDolObject: Classe base para gerenciamento de carrinho de compras.
+1. BxBaseModPaymentCart.php:
+   - BxBaseModPaymentCart extends BxDol: Classe base para gerenciamento de carrinho de compras.
    - __construct(&$oModule): Construtor que inicializa o carrinho.
    - addItem($iItemId, $iQuantity): Método para adicionar itens ao carrinho.
    - removeItem($iItemId): Método para remover itens do carrinho.
    - getItems($iUserId): Método para obter itens no carrinho.
 
-7. BxBaseModPaymentGridCart.php:
-   - BxBaseModPaymentGridCart extends BxDolGrid: Classe base para grid de carrinho de compras.
-   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid.
+2. BxBaseModPaymentCommissions.php:
+   - BxBaseModPaymentCommissions extends BxDol: Classe para gerenciamento de comissões em pagamentos.
+   - __construct(&$oModule): Construtor que inicializa o gerenciamento de comissões.
+
+3. BxBaseModPaymentConfig.php:
+   - BxBaseModPaymentConfig extends BxBaseModGeneralConfig: Configurações base para o módulo de pagamentos.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+4. BxBaseModPaymentDb.php:
+   - BxBaseModPaymentDb extends BxBaseModGeneralDb: Banco de dados base para o módulo de pagamentos.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+5. BxBaseModPaymentDetails.php:
+   - BxBaseModPaymentDetails extends BxDol: Classe para detalhes de pagamentos.
+   - __construct(&$oModule): Construtor que inicializa os detalhes de pagamento.
+
+6. BxBaseModPaymentGridCarts.php:
+   - BxBaseModPaymentGridCarts extends BxTemplGrid: Classe para grid de carrinhos de compras.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid de carrinhos.
+
+7. BxBaseModPaymentGridCommissions.php:
+   - BxBaseModPaymentGridCommissions extends BxTemplGrid: Classe para grid de comissões em pagamentos.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid de comissões.
 
 8. BxBaseModPaymentGridInvoices.php:
-   - BxBaseModPaymentGridInvoices extends BxDolGrid: Classe base para grid de faturas.
-   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid.
+   - BxBaseModPaymentGridInvoices extends BxTemplGrid: Classe base para grid de faturas.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid de faturas.
 
-9. BxBaseModPaymentMenu.php:
-   - BxBaseModPaymentMenu extends BxBaseMenu: Classe base para menu de pagamentos.
-   - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu.
+9. BxBaseModPaymentGridOrders.php:
+   - BxBaseModPaymentGridOrders extends BxBaseModPaymentGridTransactions: Classe para grid de pedidos em pagamentos.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid de pedidos.
 
-10. BxBaseModPaymentTemplate.php:
-    - BxBaseModPaymentTemplate extends BxDolTemplate: Template base para renderização de elementos de pagamentos.
+10. BxBaseModPaymentGridProviders.php:
+    - BxBaseModPaymentGridProviders extends BxTemplGrid: Classe para grid de provedores de pagamento.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid de provedores.
+
+11. BxBaseModPaymentGridTransactions.php:
+    - BxBaseModPaymentGridTransactions extends BxTemplGrid: Classe para grid de transações em pagamentos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid de transações.
+
+12. BxBaseModPaymentInstaller.php:
+    - BxBaseModPaymentInstaller extends BxBaseModGeneralInstaller: Classe para instalação do módulo de pagamentos.
+    - __construct($aConfig): Construtor que inicializa o instalador.
+
+13. BxBaseModPaymentJoin.php:
+    - BxBaseModPaymentJoin extends BxDol: Classe para junção de pagamentos (possivelmente para associações ou integrações).
+    - __construct(&$oModule): Construtor que inicializa a junção de pagamentos.
+
+14. BxBaseModPaymentModule.php:
+    - BxBaseModPaymentModule extends BxBaseModGeneralModule: Classe principal base para gerenciar a lógica de pagamentos.
+    - __construct(&$aModule): Construtor que inicializa o módulo.
+    - serviceProcessPayment($aParams): Método base para processar um pagamento.
+    - serviceGetCartItems($iUserId): Método base para obter itens no carrinho de um usuário.
+    - serviceAddToCart($iItemId, $iQuantity): Método base para adicionar itens ao carrinho.
+    - serviceRemoveFromCart($iItemId): Método base para remover itens do carrinho.
+    - serviceGetInvoices($iUserId): Método base para obter faturas de um usuário.
+
+15. BxBaseModPaymentOrders.php:
+    - BxBaseModPaymentOrders extends BxDol: Classe para gerenciamento de pedidos em pagamentos.
+    - __construct(&$oModule): Construtor que inicializa o gerenciamento de pedidos.
+
+16. BxBaseModPaymentProvider.php:
+    - BxBaseModPaymentProvider extends BxDol: Classe base para provedores de pagamento.
+    - __construct(&$oModule): Construtor que inicializa o provedor de pagamento.
+
+17. BxBaseModPaymentPage.php:
+    - BxBaseModPaymentPage extends BxTemplPage: Classe para página de pagamentos.
+    - __construct($sPage, $oModule): Construtor que inicializa a página de pagamentos.
+
+18. BxBaseModPaymentSubscriptions.php:
+    - BxBaseModPaymentSubscriptions extends BxDol: Classe para gerenciamento de assinaturas em pagamentos.
+    - __construct(&$oModule): Construtor que inicializa o gerenciamento de assinaturas.
+
+19. BxBaseModPaymentTemplate.php:
+    - BxBaseModPaymentTemplate extends BxBaseModGeneralTemplate: Template base para renderização de elementos de pagamentos.
     - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
-
-11-19. Outras Classes Relacionadas:
-    - Há várias outras classes relacionadas a funcionalidades específicas de pagamentos, como gerenciamento de opções (BxBaseModPaymentOptions*), ordens (BxBaseModPaymentOrders*), provedores (BxBaseModPaymentProvider*), entre outras. Essas classes fornecem suporte detalhado para aspectos específicos do processamento de pagamentos.
 
 Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
 - POST /api/base/payment/process: Processa um pagamento (base).
