@@ -14,11 +14,14 @@ Caso precise continuar ou revisar este mapeamento, siga estes passos:
 1. **Localize os Arquivos de Documentação**: Os arquivos de mapeamento estão no diretório api, como `c:\xampp\htdocs\una\api\posts_funcionalidades.txt` para o módulo `posts`.
 2. **Analise Classes Pendentes**: Liste os arquivos no diretório `classes` do módulo (ex.: `c:\xampp\htdocs\una\modules\boonex\posts\classes`) e verifique quais ainda não foram documentados no arquivo de funcionalidades.
 3. **Documente Novas Classes**: Para cada classe não documentada, leia o código-fonte, descreva a classe, seus métodos principais e propósito no arquivo de funcionalidades.
-4. **Mapeie Rotas RESTful**: Com base nas funcionalidades da classe, proponha rotas RESTful que correspondam às operações disponíveis, seguindo o padrão de nomenclatura e estrutura já estabelecido (ex.: `GET /api/posts/...`).
+4. **Mapeie Rotas RESTful**: Com base nas funcionalidades da classe, proponha rotas RESTful que correspondam às operações seguindo o padrão de nomenclatura e estrutura já estabelecido (ex.: `GET /api/posts/...`). adicione as rotas para todas as funcionalidades porque é importante que todas as funcionalidades sejam mapeadas para rotas RESTful.
 5. **Remova Seções Desnecessárias**: não precisa escrever  'Notas e Próximos Passos' manter o arquivo limpo, 
-6. **Prossiga para Outros Módulos**: Após completar o mapeamento do módulo, passe para outros módulos repetindo o processo até documentar todos os módulos do sistema. Utilize os arquivos dentro do diretório api como referência para saber quais módulos já foram documentados.
+6. **Prossiga para Outros Módulos**: Após completar o mapeamento do módulo, passe para outros módulos repetindo o processo até documentar todos os módulos do sistema. Utilize os arquivos dentro do diretório api como referência para saber quais módulos já foram documentados. responda sempre em português, não precisa fazer módulos que funcionam como idiomas, autenticação de usuários para outros provedores e nem templates
 
 ## Exemplos de Documentação e Mapeamento
+
+### Descrição Geral do Módulo
+O módulo 'posts' gerencia a criação, edição, exclusão e visualização de posts no sistema UNA. É um componente central para funcionalidades de conteúdo, possivelmente integrado a timelines, feeds ou blogs. É composto por classes como BxPostsModule.php (lógica específica do módulo) e outras classes de suporte para formulários, buscas, configurações e templates.
 
 ### Exemplo de Análise de Classe
 No arquivo `posts_funcionalidades.txt`, a análise de uma classe pode ser vista como:

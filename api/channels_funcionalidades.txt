@@ -1,0 +1,129 @@
+Mapeamento do Módulo Channels para API RESTful
+
+Descrição Geral:
+O módulo 'channels' gerencia a criação, edição, exclusão e visualização de canais no sistema UNA. É um componente central para funcionalidades de comunicação ou agrupamento de conteúdo, possivelmente integrado a chats, grupos ou feeds específicos. É composto por classes como BxCnlModule.php (lógica específica do módulo) e outras classes de suporte para formulários, buscas, configurações e templates.
+
+Análise de Classes do Módulo Channels:
+
+1. BxCnlModule.php (Classe Principal do Módulo Channels):
+   - BxCnlModule extends BxBaseModGroupsModule: Classe principal para gerenciar a lógica central do módulo channels.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetTimelinePost($mixedContent, $sType = 'id', $iStart = 0, $iPerPage = 10, $sFilter = '', $sTimeline = 'all', $sModule = ''): Método para obter posts de canais para timeline.
+   - serviceCheckAllowedCommentsPost($iContentId, $sObjectComments): Método para verificar se comentários são permitidos em um canal específico.
+   - serviceCheckAllowedCommentsView($iContentId, $sObjectComments): Método para verificar se a visualização de comentários é permitida em um canal específico.
+   - serviceGetMembers($iContentId, $iStart = 0, $iLimit = 10): Método para obter lista de membros de um canal.
+
+2. BxCnlConfig.php:
+   - BxCnlConfig extends BxBaseModGroupsConfig: Configurações específicas do módulo channels.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxCnlDb.php:
+   - BxCnlDb extends BxBaseModGroupsDb: Banco de dados específico para canais.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxCnlTemplate.php:
+   - BxCnlTemplate extends BxBaseModGroupsTemplate: Template para renderização de canais.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+5. BxCnlSearchResult.php:
+   - BxCnlSearchResult extends BxBaseModGroupsSearchResult: Resultados de busca para canais.
+   - __construct(): Construtor que inicializa os resultados de busca.
+
+6. BxCnlAlertsResponse.php:
+   - BxCnlAlertsResponse extends BxBaseModGroupsAlertsResponse: Respostas a alertas específicos para canais.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+
+7. BxCnlFormEntry.php:
+   - BxCnlFormEntry extends BxBaseModGroupsFormEntry: Formulário para entrada de dados de canais.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+8. BxCnlFormsEntryHelper.php:
+   - BxCnlFormsEntryHelper extends BxBaseModGroupsFormsEntryHelper: Auxiliar para formulários de entrada de canais.
+   - __construct($oForm): Construtor que inicializa o auxiliar de formulários.
+
+9. BxCnlGridAdministration.php:
+   - BxCnlGridAdministration extends BxBaseModGroupsGridAdministration: Grade de administração para canais.
+   - __construct(): Construtor que inicializa a grade de administração.
+
+10. BxCnlMenu.php:
+    - BxCnlMenu extends BxBaseModGroupsMenu: Menu principal para canais.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu.
+
+11. BxCnlMenuManageTools.php:
+    - BxCnlMenuManageTools extends BxBaseModGroupsMenuManageTools: Ferramentas de gerenciamento de menu para canais.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa as ferramentas de gerenciamento.
+
+12. BxCnlMenuSnippetMeta.php:
+    - BxCnlMenuSnippetMeta extends BxBaseModGroupsMenuSnippetMeta: Metadados de snippet de menu para canais.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa os metadados de snippet.
+
+13. BxCnlMenuView.php:
+    - BxCnlMenuView extends BxBaseModGroupsMenuView: Menu de visualização para canais.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+14. BxCnlMenuViewActions.php:
+    - BxCnlMenuViewActions extends BxBaseModGroupsMenuViewActions: Ações de menu de visualização para canais.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa as ações de menu.
+
+15. BxCnlMenuViewActionsAll.php:
+    - BxCnlMenuViewActionsAll extends BxCnlMenuViewActions: Todas as ações de menu de visualização para canais.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa todas as ações de menu.
+
+16. BxCnlMenuViewMeta.php:
+    - BxCnlMenuViewMeta extends BxBaseModGroupsMenuViewMeta: Metadados de visualização de menu para canais.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa os metadados de visualização.
+
+17. BxCnlPageAuthor.php:
+    - BxCnlPageAuthor extends BxBaseModGroupsPageAuthor: Página de autor para canais.
+    - __construct($oTemplate = false): Construtor que inicializa a página de autor.
+
+18. BxCnlPageBrowse.php:
+    - BxCnlPageBrowse extends BxBaseModGroupsPageBrowse: Página de navegação para canais.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de navegação.
+
+19. BxCnlPageEntry.php:
+    - BxCnlPageEntry extends BxBaseModGroupsPageEntry: Página de entrada para canais.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+20. BxCnlPrivacy.php:
+    - BxCnlPrivacy extends BxBaseModGroupsPrivacy: Privacidade para canais.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade.
+
+21. BxCnlPrivacyNotifications.php:
+    - BxCnlPrivacyNotifications extends BxBaseModGroupsPrivacyNotifications: Notificações de privacidade para canais.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as notificações de privacidade.
+
+22. BxCnlStudioPage.php:
+    - BxCnlStudioPage extends BxTemplStudioPage: Página de estúdio para canais.
+    - __construct($oTemplate = false): Construtor que inicializa a página de estúdio.
+
+23. BxCnlUploaderCoverCrop.php:
+    - BxCnlUploaderCoverCrop extends BxBaseModGroupsUploaderCoverCrop: Ferramenta de upload com recorte para capa de canais.
+    - __construct(): Construtor que inicializa a ferramenta de upload com recorte para capa.
+
+24. BxCnlUploaderPictureCrop.php:
+    - BxCnlUploaderPictureCrop extends BxBaseModGroupsUploaderPictureCrop: Ferramenta de upload com recorte para imagem de canais.
+    - __construct(): Construtor que inicializa a ferramenta de upload com recorte para imagem.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades Principais):
+- GET /api/channels/timeline: Obtém dados de canais para timeline.
+- POST /api/channels/{id}/comments/allow: Configura permissão para comentários em um canal.
+- GET /api/channels/{id}/comments/allow: Verifica se a visualização de comentários é permitida em um canal.
+- GET /api/channels/{id}/members: Obtém lista de membros de um canal específico.
+- POST /api/channels/create: Cria um novo canal.
+- PUT /api/channels/{id}: Edita um canal existente.
+- DELETE /api/channels/{id}: Exclui um canal.
+- GET /api/channels/search: Busca canais com base em critérios.
+- POST /api/channels/{id}/members/add: Adiciona um membro a um canal.
+- DELETE /api/channels/{id}/members/{memberId}: Remove um membro de um canal.
+- GET /api/channels/{id}/comments: Lista comentários de um canal.
+- POST /api/channels/{id}/comments: Adiciona um comentário a um canal.
+- DELETE /api/channels/{id}/comments/{commentId}: Remove um comentário de um canal.
+- GET /api/channels/author/{authorId}: Lista canais de um autor específico.
+- GET /api/channels/browse: Navega pelos canais disponíveis.
+- GET /api/channels/{id}/entry: Obtém detalhes de entrada de um canal.
+- GET /api/channels/list: Lista todos os canais.
+- POST /api/channels/{id}/cover/upload: Faz upload de uma capa para um canal.
+- POST /api/channels/{id}/picture/upload: Faz upload de uma imagem para um canal.
+- PUT /api/channels/{id}/privacy: Atualiza as configurações de privacidade de um canal.
+- GET /api/channels/{id}/privacy: Obtém as configurações de privacidade de um canal.
