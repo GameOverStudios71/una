@@ -1,0 +1,127 @@
+Mapeamento do Módulo Polls para API RESTful
+
+Descrição Geral:
+O módulo 'polls' gerencia a criação, edição, exclusão e visualização de enquetes no sistema UNA. É um componente central para funcionalidades de votação e pesquisa de opinião, permitindo que usuários criem enquetes, votem e visualizem resultados. É composto por classes como BxPollsModule.php (lógica específica do módulo) e outras classes de suporte para formulários, buscas, configurações e templates.
+
+Análise de Classes do Módulo Polls:
+
+1. BxPollsModule.php (Classe Principal do Módulo Polls):
+   - BxPollsModule extends BxBaseModTextModule: Classe principal para gerenciar a lógica central do módulo polls.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetTimelinePost($mixedContent, $sType = 'id', $iStart = 0, $iPerPage = 10, $sFilter = '', $sTimeline = 'all', $sModule = ''): Método para obter posts de enquetes para timeline.
+   - serviceCheckAllowedCommentsPost($iContentId, $sObjectComments): Método para verificar se comentários são permitidos em uma enquete específica.
+   - serviceCheckAllowedCommentsView($iContentId, $sObjectComments): Método para verificar se a visualização de comentários é permitida em uma enquete específica.
+   - serviceVote($iContentId, $iOptionId): Método para votar em uma opção de enquete.
+   - serviceGetResults($iContentId): Método para obter resultados de uma enquete.
+
+2. BxPollsConfig.php:
+   - BxPollsConfig extends BxBaseModTextConfig: Configurações específicas do módulo polls.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxPollsDb.php:
+   - BxPollsDb extends BxBaseModTextDb: Banco de dados específico para enquetes.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - getOptions($iContentId): Método para obter opções de uma enquete.
+   - addVote($iContentId, $iOptionId, $iUserId): Método para adicionar um voto a uma enquete.
+   - getVotes($iContentId): Método para obter votos de uma enquete.
+
+4. BxPollsTemplate.php:
+   - BxPollsTemplate extends BxBaseModTextTemplate: Template para renderização de enquetes.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getPoll($iContentId, $aParams = array()): Método para obter HTML de uma enquete.
+
+5. BxPollsSearchResult.php:
+   - BxPollsSearchResult extends BxBaseModTextSearchResult: Resultados de busca para enquetes.
+   - __construct(): Construtor que inicializa os resultados de busca.
+
+6. BxPollsAlertsResponse.php:
+   - BxPollsAlertsResponse extends BxBaseModTextAlertsResponse: Respostas a alertas específicos para enquetes.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+
+7. BxPollsCmtsSearchResult.php:
+   - BxPollsCmtsSearchResult extends BxBaseModTextCmtsSearchResult: Resultados de busca para comentários em enquetes.
+   - __construct(): Construtor que inicializa os resultados de busca de comentários.
+
+8. BxPollsFormEntry.php:
+   - BxPollsFormEntry extends BxBaseModTextFormEntry: Formulário para entrada de dados de enquetes.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+9. BxPollsFormsEntryHelper.php:
+   - BxPollsFormsEntryHelper extends BxBaseModTextFormsEntryHelper: Auxiliar para formulários de entrada de enquetes.
+   - __construct($oForm): Construtor que inicializa o auxiliar de formulários.
+
+10. BxPollsGridAdministration.php:
+    - BxPollsGridAdministration extends BxBaseModTextGridAdministration: Grade de administração para enquetes.
+    - __construct(): Construtor que inicializa a grade de administração.
+
+11. BxPollsGridCommon.php:
+    - BxPollsGridCommon extends BxBaseModTextGridCommon: Grade comum para enquetes.
+    - __construct(): Construtor que inicializa a grade comum.
+
+12. BxPollsMenu.php:
+    - BxPollsMenu extends BxBaseModTextMenu: Menu principal para enquetes.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu.
+
+13. BxPollsMenuManageTools.php:
+    - BxPollsMenuManageTools extends BxBaseModTextMenuManageTools: Ferramentas de gerenciamento de menu para enquetes.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa as ferramentas de gerenciamento.
+
+14. BxPollsMenuSnippetMeta.php:
+    - BxPollsMenuSnippetMeta extends BxBaseModTextMenuSnippetMeta: Metadados de snippet de menu para enquetes.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa os metadados de snippet.
+
+15. BxPollsMenuView.php:
+    - BxPollsMenuView extends BxBaseModTextMenuView: Menu de visualização para enquetes.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+16. BxPollsMenuViewActions.php:
+    - BxPollsMenuViewActions extends BxBaseModTextMenuViewActions: Ações de menu de visualização para enquetes.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa as ações de menu.
+
+17. BxPollsPageAuthor.php:
+    - BxPollsPageAuthor extends BxBaseModTextPageAuthor: Página de autor para enquetes.
+    - __construct($oTemplate = false): Construtor que inicializa a página de autor.
+
+18. BxPollsPageBrowse.php:
+    - BxPollsPageBrowse extends BxBaseModTextPageBrowse: Página de navegação para enquetes.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de navegação.
+
+19. BxPollsPageEntry.php:
+    - BxPollsPageEntry extends BxBaseModTextPageEntry: Página de entrada para enquetes.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+20. BxPollsPageListEntry.php:
+    - BxPollsPageListEntry extends BxBaseModTextPageListEntry: Página de listagem de entradas para enquetes.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de listagem.
+
+21. BxPollsVoteSubentries.php:
+    - BxPollsVoteSubentries extends BxBaseModTextVote: Sistema de votação para subentradas de enquetes.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa o sistema de votação.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/polls/timeline: Obtém dados de enquetes para timeline.
+- POST /api/polls/{id}/comments/allow: Configura permissão para comentários em uma enquete.
+- GET /api/polls/{id}/comments/allow: Verifica se a visualização de comentários é permitida em uma enquete.
+- POST /api/polls/create: Cria uma nova enquete.
+- PUT /api/polls/{id}: Edita uma enquete existente.
+- DELETE /api/polls/{id}: Exclui uma enquete.
+- GET /api/polls/search: Busca enquetes com base em critérios.
+- GET /api/polls/{id}/comments: Lista comentários de uma enquete.
+- POST /api/polls/{id}/comments: Adiciona um comentário a uma enquete.
+- DELETE /api/polls/{id}/comments/{commentId}: Remove um comentário de uma enquete.
+- GET /api/polls/author/{authorId}: Lista enquetes de um autor específico.
+- GET /api/polls/browse: Navega pelas enquetes disponíveis.
+- GET /api/polls/{id}/entry: Obtém detalhes de entrada de uma enquete.
+- GET /api/polls/list: Lista todas as enquetes.
+- PUT /api/polls/{id}/privacy: Atualiza as configurações de privacidade de uma enquete.
+- GET /api/polls/{id}/privacy: Obtém as configurações de privacidade de uma enquete.
+- POST /api/polls/{id}/vote/{optionId}: Vota em uma opção específica de uma enquete.
+- GET /api/polls/{id}/results: Obtém os resultados de uma enquete.
+- GET /api/polls/{id}/options: Lista as opções de uma enquete.
+- GET /api/polls/{id}/meta: Obtém metadados de uma enquete específica.
+- PUT /api/polls/{id}/meta: Atualiza metadados de uma enquete específica.
+- GET /api/polls/categories: Lista categorias de enquetes.
+- GET /api/polls/categories/{categoryId}: Obtém detalhes de uma categoria de enquetes.
+- POST /api/polls/categories: Cria uma nova categoria de enquetes.
+- PUT /api/polls/categories/{categoryId}: Edita uma categoria de enquetes.
+- DELETE /api/polls/categories/{categoryId}: Exclui uma categoria de enquetes.

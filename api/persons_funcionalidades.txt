@@ -1,0 +1,160 @@
+Mapeamento do Módulo Persons para API RESTful
+
+Descrição Geral:
+O módulo 'persons' gerencia a criação, edição, exclusão e visualização de perfis de pessoas no sistema UNA. É um componente central para funcionalidades de perfis individuais, permitindo que usuários gerenciem informações pessoais, interajam com outros usuários e configurem privacidade. É composto por classes como BxPersonsModule.php (lógica específica do módulo) e outras classes de suporte para formulários, buscas, configurações e templates.
+
+Análise de Classes do Módulo Persons:
+
+1. BxPersonsModule.php (Classe Principal do Módulo Persons):
+   - BxPersonsModule extends BxBaseModProfileModule: Classe principal para gerenciar a lógica central do módulo persons.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetTimelinePost($mixedContent, $sType = 'id', $iStart = 0, $iPerPage = 10, $sFilter = '', $sTimeline = 'all', $sModule = ''): Método para obter posts de pessoas para timeline.
+   - serviceCheckAllowedCommentsPost($iContentId, $sObjectComments): Método para verificar se comentários são permitidos em um perfil específico.
+   - serviceCheckAllowedCommentsView($iContentId, $sObjectComments): Método para verificar se a visualização de comentários é permitida em um perfil específico.
+   - serviceGetProfile($iContentId): Método para obter detalhes de um perfil de pessoa.
+
+2. BxPersonsConfig.php:
+   - BxPersonsConfig extends BxBaseModProfileConfig: Configurações específicas do módulo persons.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxPersonsDb.php:
+   - BxPersonsDb extends BxBaseModProfileDb: Banco de dados específico para pessoas.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxPersonsTemplate.php:
+   - BxPersonsTemplate extends BxBaseModProfileTemplate: Template para renderização de perfis de pessoas.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+5. BxPersonsSearchResult.php:
+   - BxPersonsSearchResult extends BxBaseModProfileSearchResult: Resultados de busca para perfis de pessoas.
+   - __construct(): Construtor que inicializa os resultados de busca.
+
+6. BxPersonsAlertsResponse.php:
+   - BxPersonsAlertsResponse extends BxBaseModProfileAlertsResponse: Respostas a alertas específicos para perfis de pessoas.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+
+7. BxPersonsCmts.php:
+   - BxPersonsCmts extends BxBaseModProfileCmts: Gerenciamento de comentários em perfis de pessoas.
+   - __construct($sSystem, $iId, $iInit = true, $oTemplate = false): Construtor que inicializa o gerenciamento de comentários.
+
+8. BxPersonsCmtsSearchResult.php:
+   - BxPersonsCmtsSearchResult extends BxBaseModProfileCmtsSearchResult: Resultados de busca para comentários em perfis de pessoas.
+   - __construct(): Construtor que inicializa os resultados de busca de comentários.
+
+9. BxPersonsFavorite.php:
+   - BxPersonsFavorite extends BxBaseModProfileFavorite: Gerenciamento de favoritos para perfis de pessoas.
+   - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa o gerenciamento de favoritos.
+
+10. BxPersonsFormEntry.php:
+    - BxPersonsFormEntry extends BxBaseModProfileFormEntry: Formulário para entrada de dados de perfis de pessoas.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+11. BxPersonsFormsEntryHelper.php:
+    - BxPersonsFormsEntryHelper extends BxBaseModProfileFormsEntryHelper: Auxiliar para formulários de entrada de perfis de pessoas.
+    - __construct($oForm): Construtor que inicializa o auxiliar de formulários.
+
+12. BxPersonsGridAdministration.php:
+    - BxPersonsGridAdministration extends BxBaseModProfileGridAdministration: Grade de administração para perfis de pessoas.
+    - __construct(): Construtor que inicializa a grade de administração.
+
+13. BxPersonsGridCommon.php:
+    - BxPersonsGridCommon extends BxBaseModProfileGridCommon: Grade comum para perfis de pessoas.
+    - __construct(): Construtor que inicializa a grade comum.
+
+14. BxPersonsMenuManageTools.php:
+    - BxPersonsMenuManageTools extends BxBaseModProfileMenuManageTools: Ferramentas de gerenciamento de menu para perfis de pessoas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa as ferramentas de gerenciamento.
+
+15. BxPersonsMenuSnippetMeta.php:
+    - BxPersonsMenuSnippetMeta extends BxBaseModProfileMenuSnippetMeta: Metadados de snippet de menu para perfis de pessoas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa os metadados de snippet.
+
+16. BxPersonsMenuView.php:
+    - BxPersonsMenuView extends BxBaseModProfileMenuView: Menu de visualização para perfis de pessoas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+17. BxPersonsMenuViewActions.php:
+    - BxPersonsMenuViewActions extends BxBaseModProfileMenuViewActions: Ações de menu de visualização para perfis de pessoas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa as ações de menu.
+
+18. BxPersonsMenuViewActionsAll.php:
+    - BxPersonsMenuViewActionsAll extends BxBaseModProfileMenuViewActionsAll: Todas as ações de menu de visualização para perfis de pessoas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa todas as ações de menu.
+
+19. BxPersonsMenuViewMeta.php:
+    - BxPersonsMenuViewMeta extends BxBaseModProfileMenuViewMeta: Metadados de visualização de menu para perfis de pessoas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa os metadados de visualização.
+
+20. BxPersonsPageBrowse.php:
+    - BxPersonsPageBrowse extends BxBaseModProfilePageBrowse: Página de navegação para perfis de pessoas.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de navegação.
+
+21. BxPersonsPageEntry.php:
+    - BxPersonsPageEntry extends BxBaseModProfilePageEntry: Página de entrada para perfis de pessoas.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+22. BxPersonsPrivacy.php:
+    - BxPersonsPrivacy extends BxBaseModProfilePrivacy: Privacidade para perfis de pessoas.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade.
+
+23. BxPersonsPrivacyContact.php:
+    - BxPersonsPrivacyContact extends BxBaseModProfilePrivacyContact: Privacidade de contato para perfis de pessoas.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a privacidade de contato.
+
+24. BxPersonsPrivacyPost.php:
+    - BxPersonsPrivacyPost extends BxBaseModProfilePrivacyPost: Privacidade de postagens em perfis de pessoas.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a privacidade de postagens.
+
+25. BxPersonsReport.php:
+    - BxPersonsReport extends BxBaseModProfileReport: Gerenciamento de denúncias para perfis de pessoas.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa o gerenciamento de denúncias.
+
+26. BxPersonsUploaderCoverCrop.php:
+    - BxPersonsUploaderCoverCrop extends BxBaseModProfileUploaderCoverCrop: Ferramenta de upload com recorte para capa de perfis de pessoas.
+    - __construct(): Construtor que inicializa a ferramenta de upload com recorte para capa.
+
+27. BxPersonsUploaderPictureCrop.php:
+    - BxPersonsUploaderPictureCrop extends BxBaseModProfileUploaderPictureCrop: Ferramenta de upload com recorte para imagem de perfis de pessoas.
+    - __construct(): Construtor que inicializa a ferramenta de upload com recorte para imagem.
+
+28. BxPersonsVote.php:
+    - BxPersonsVote extends BxBaseModProfileVote: Sistema de votação para perfis de pessoas.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa o sistema de votação.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/persons/timeline: Obtém dados de perfis de pessoas para timeline.
+- POST /api/persons/{id}/comments/allow: Configura permissão para comentários em um perfil.
+- GET /api/persons/{id}/comments/allow: Verifica se a visualização de comentários é permitida em um perfil.
+- POST /api/persons/create: Cria um novo perfil de pessoa.
+- PUT /api/persons/{id}: Edita um perfil de pessoa existente.
+- DELETE /api/persons/{id}: Exclui um perfil de pessoa.
+- GET /api/persons/search: Busca perfis de pessoas com base em critérios.
+- GET /api/persons/{id}/comments: Lista comentários de um perfil.
+- POST /api/persons/{id}/comments: Adiciona um comentário a um perfil.
+- DELETE /api/persons/{id}/comments/{commentId}: Remove um comentário de um perfil.
+- GET /api/persons/{id}: Obtém detalhes de um perfil de pessoa específico.
+- GET /api/persons/browse: Navega pelos perfis de pessoas disponíveis.
+- GET /api/persons/{id}/entry: Obtém detalhes de entrada de um perfil.
+- GET /api/persons/list: Lista todos os perfis de pessoas.
+- PUT /api/persons/{id}/privacy: Atualiza as configurações de privacidade de um perfil.
+- GET /api/persons/{id}/privacy: Obtém as configurações de privacidade de um perfil.
+- PUT /api/persons/{id}/privacy/contact: Atualiza as configurações de privacidade de contato de um perfil.
+- GET /api/persons/{id}/privacy/contact: Obtém as configurações de privacidade de contato de um perfil.
+- PUT /api/persons/{id}/privacy/post: Atualiza as configurações de privacidade de postagens de um perfil.
+- GET /api/persons/{id}/privacy/post: Obtém as configurações de privacidade de postagens de um perfil.
+- POST /api/persons/{id}/favorite: Adiciona um perfil aos favoritos.
+- DELETE /api/persons/{id}/favorite: Remove um perfil dos favoritos.
+- GET /api/persons/favorites: Lista perfis favoritados pelo usuário.
+- POST /api/persons/{id}/vote: Vota em um perfil de pessoa.
+- GET /api/persons/{id}/votes: Obtém votos de um perfil de pessoa.
+- POST /api/persons/{id}/report: Denuncia um perfil de pessoa.
+- GET /api/persons/{id}/reports: Lista denúncias de um perfil de pessoa.
+- POST /api/persons/{id}/cover/upload: Faz upload de uma capa para um perfil.
+- POST /api/persons/{id}/picture/upload: Faz upload de uma imagem para um perfil.
+- GET /api/persons/{id}/meta: Obtém metadados de um perfil específico.
+- PUT /api/persons/{id}/meta: Atualiza metadados de um perfil específico.
+- GET /api/persons/categories: Lista categorias de perfis de pessoas.
+- GET /api/persons/categories/{categoryId}: Obtém detalhes de uma categoria de perfis de pessoas.
+- POST /api/persons/categories: Cria uma nova categoria de perfis de pessoas.
+- PUT /api/persons/categories/{categoryId}: Edita uma categoria de perfis de pessoas.
+- DELETE /api/persons/categories/{categoryId}: Exclui uma categoria de perfis de pessoas.

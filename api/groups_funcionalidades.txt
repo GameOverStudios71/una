@@ -1,0 +1,210 @@
+Mapeamento do Módulo Groups para API RESTful
+
+Descrição Geral:
+O módulo 'groups' gerencia a criação, edição, exclusão e visualização de grupos no sistema UNA. É um componente central para funcionalidades de comunidades ou equipes, permitindo que usuários se juntem, interajam e gerenciem conteúdos dentro de grupos. É composto por classes como BxGroupsModule.php (lógica específica do módulo) e outras classes de suporte para formulários, buscas, configurações e templates.
+
+Análise de Classes do Módulo Groups:
+
+1. BxGroupsModule.php (Classe Principal do Módulo Groups):
+   - BxGroupsModule extends BxBaseModGroupsModule: Classe principal para gerenciar a lógica central do módulo groups.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetTimelinePost($mixedContent, $sType = 'id', $iStart = 0, $iPerPage = 10, $sFilter = '', $sTimeline = 'all', $sModule = ''): Método para obter posts de grupos para timeline.
+   - serviceCheckAllowedCommentsPost($iContentId, $sObjectComments): Método para verificar se comentários são permitidos em um grupo específico.
+   - serviceCheckAllowedCommentsView($iContentId, $sObjectComments): Método para verificar se a visualização de comentários é permitida em um grupo específico.
+   - serviceGetFans($iContentId, $iStart = 0, $iLimit = 10): Método para obter lista de fãs ou membros de um grupo.
+
+2. BxGroupsConfig.php:
+   - BxGroupsConfig extends BxBaseModGroupsConfig: Configurações específicas do módulo groups.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxGroupsDb.php:
+   - BxGroupsDb extends BxBaseModGroupsDb: Banco de dados específico para grupos.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxGroupsTemplate.php:
+   - BxGroupsTemplate extends BxBaseModGroupsTemplate: Template para renderização de grupos.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+5. BxGroupsSearchResult.php:
+   - BxGroupsSearchResult extends BxBaseModGroupsSearchResult: Resultados de busca para grupos.
+   - __construct(): Construtor que inicializa os resultados de busca.
+
+6. BxGroupsAlertsResponse.php:
+   - BxGroupsAlertsResponse extends BxBaseModGroupsAlertsResponse: Respostas a alertas específicos para grupos.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+
+7. BxGroupsCmts.php:
+   - BxGroupsCmts extends BxBaseModGroupsCmts: Gerenciamento de comentários em grupos.
+   - __construct($sSystem, $iId, $iInit = true, $oTemplate = false): Construtor que inicializa o gerenciamento de comentários.
+
+8. BxGroupsConnectionFans.php:
+   - BxGroupsConnectionFans extends BxBaseModGroupsConnectionFans: Gerenciamento de conexões de fãs ou membros em grupos.
+   - __construct($aObject): Construtor que inicializa as conexões de fãs.
+
+9. BxGroupsCronPruning.php:
+   - BxGroupsCronPruning extends BxDolCron: Processo cron para limpeza de dados de grupos.
+   - processing(): Método para processar a limpeza de dados.
+
+10. BxGroupsFormEntry.php:
+    - BxGroupsFormEntry extends BxBaseModGroupsFormEntry: Formulário para entrada de dados de grupos.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+11. BxGroupsFormPrice.php:
+    - BxGroupsFormPrice extends BxTemplFormView: Formulário para preços ou ingressos em grupos.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de preços.
+
+12. BxGroupsFormsEntryHelper.php:
+    - BxGroupsFormsEntryHelper extends BxBaseModGroupsFormsEntryHelper: Auxiliar para formulários de entrada de grupos.
+    - __construct($oForm): Construtor que inicializa o auxiliar de formulários.
+
+13. BxGroupsGridAdministration.php:
+    - BxGroupsGridAdministration extends BxBaseModGroupsGridAdministration: Grade de administração para grupos.
+    - __construct(): Construtor que inicializa a grade de administração.
+
+14. BxGroupsGridBans.php:
+    - BxGroupsGridBans extends BxBaseModGroupsGridBans: Grade para banimentos em grupos.
+    - __construct(): Construtor que inicializa a grade de banimentos.
+
+15. BxGroupsGridCommon.php:
+    - BxGroupsGridCommon extends BxBaseModGroupsGridCommon: Grade comum para grupos.
+    - __construct(): Construtor que inicializa a grade comum.
+
+16. BxGroupsGridConnections.php:
+    - BxGroupsGridConnections extends BxBaseModGroupsGridConnections: Grade para conexões ou membros de grupos.
+    - __construct(): Construtor que inicializa a grade de conexões.
+
+17. BxGroupsGridInvites.php:
+    - BxGroupsGridInvites extends BxBaseModGroupsGridInvites: Grade para convites de grupos.
+    - __construct(): Construtor que inicializa a grade de convites.
+
+18. BxGroupsGridPricesManage.php:
+    - BxGroupsGridPricesManage extends BxBaseModGroupsGridPricesManage: Grade para gerenciamento de preços em grupos.
+    - __construct(): Construtor que inicializa a grade de gerenciamento de preços.
+
+19. BxGroupsGridPricesView.php:
+    - BxGroupsGridPricesView extends BxBaseModGroupsGridPricesView: Grade para visualização de preços em grupos.
+    - __construct(): Construtor que inicializa a grade de visualização de preços.
+
+20. BxGroupsMenu.php:
+    - BxGroupsMenu extends BxBaseModGroupsMenu: Menu principal para grupos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu.
+
+21. BxGroupsMenuManageTools.php:
+    - BxGroupsMenuManageTools extends BxBaseModGroupsMenuManageTools: Ferramentas de gerenciamento de menu para grupos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa as ferramentas de gerenciamento.
+
+22. BxGroupsMenuSnippetMeta.php:
+    - BxGroupsMenuSnippetMeta extends BxBaseModGroupsMenuSnippetMeta: Metadados de snippet de menu para grupos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa os metadados de snippet.
+
+23. BxGroupsMenuView.php:
+    - BxGroupsMenuView extends BxBaseModGroupsMenuView: Menu de visualização para grupos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+24. BxGroupsMenuViewActions.php:
+    - BxGroupsMenuViewActions extends BxBaseModGroupsMenuViewActions: Ações de menu de visualização para grupos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa as ações de menu.
+
+25. BxGroupsMenuViewActionsAll.php:
+    - BxGroupsMenuViewActionsAll extends BxBaseModGroupsMenuViewActionsAll: Todas as ações de menu de visualização para grupos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa todas as ações de menu.
+
+26. BxGroupsMenuViewMeta.php:
+    - BxGroupsMenuViewMeta extends BxBaseModGroupsMenuViewMeta: Metadados de visualização de menu para grupos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa os metadados de visualização.
+
+27. BxGroupsPageBrowse.php:
+    - BxGroupsPageBrowse extends BxBaseModGroupsPageBrowse: Página de navegação para grupos.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de navegação.
+
+28. BxGroupsPageEntriesInContext.php:
+    - BxGroupsPageEntriesInContext extends BxBaseModGroupsPageBrowse: Página de entradas em contexto para grupos.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de entradas em contexto.
+
+29. BxGroupsPageEntry.php:
+    - BxGroupsPageEntry extends BxBaseModGroupsPageEntry: Página de entrada para grupos.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+30. BxGroupsPageJoinedEntries.php:
+    - BxGroupsPageJoinedEntries extends BxBaseModGroupsPageBrowse: Página de entradas participadas para grupos.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de entradas participadas.
+
+31. BxGroupsPageListEntry.php:
+    - BxGroupsPageListEntry extends BxBaseModGroupsPageListEntry: Página de listagem de entradas para grupos.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de listagem.
+
+32. BxGroupsPrivacy.php:
+    - BxGroupsPrivacy extends BxBaseModGroupsPrivacy: Privacidade para grupos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade.
+
+33. BxGroupsPrivacyNotifications.php:
+    - BxGroupsPrivacyNotifications extends BxBaseModGroupsPrivacyNotifications: Notificações de privacidade para grupos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as notificações de privacidade.
+
+34. BxGroupsPrivacyPost.php:
+    - BxGroupsPrivacyPost extends BxBaseModGroupsPrivacyPost: Privacidade de postagens em grupos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a privacidade de postagens.
+
+35. BxGroupsRecommendationFans.php:
+    - BxGroupsRecommendationFans extends BxBaseModGroupsRecommendationFans: Recomendações de fãs ou membros para grupos.
+    - __construct(): Construtor que inicializa as recomendações de fãs.
+
+36. BxGroupsUploaderCoverCrop.php:
+    - BxGroupsUploaderCoverCrop extends BxBaseModGroupsUploaderCoverCrop: Ferramenta de upload com recorte para capa de grupos.
+    - __construct(): Construtor que inicializa a ferramenta de upload com recorte para capa.
+
+37. BxGroupsUploaderPictureCrop.php:
+    - BxGroupsUploaderPictureCrop extends BxBaseModGroupsUploaderPictureCrop: Ferramenta de upload com recorte para imagem de grupos.
+    - __construct(): Construtor que inicializa a ferramenta de upload com recorte para imagem.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/groups/timeline: Obtém dados de grupos para timeline.
+- POST /api/groups/{id}/comments/allow: Configura permissão para comentários em um grupo.
+- GET /api/groups/{id}/comments/allow: Verifica se a visualização de comentários é permitida em um grupo.
+- POST /api/groups/create: Cria um novo grupo.
+- PUT /api/groups/{id}: Edita um grupo existente.
+- DELETE /api/groups/{id}: Exclui um grupo.
+- GET /api/groups/search: Busca grupos com base em critérios.
+- GET /api/groups/{id}/comments: Lista comentários de um grupo.
+- POST /api/groups/{id}/comments: Adiciona um comentário a um grupo.
+- DELETE /api/groups/{id}/comments/{commentId}: Remove um comentário de um grupo.
+- GET /api/groups/author/{authorId}: Lista grupos de um autor específico.
+- GET /api/groups/browse: Navega pelos grupos disponíveis.
+- GET /api/groups/{id}/entry: Obtém detalhes de entrada de um grupo.
+- GET /api/groups/list: Lista todos os grupos.
+- PUT /api/groups/{id}/privacy: Atualiza as configurações de privacidade de um grupo.
+- GET /api/groups/{id}/privacy: Obtém as configurações de privacidade de um grupo.
+- POST /api/groups/{id}/join: Participa de um grupo.
+- GET /api/groups/{id}/fans: Lista fãs ou membros de um grupo.
+- POST /api/groups/{id}/leave: Sai de um grupo.
+- POST /api/groups/{id}/roles/add: Adiciona um papel ou permissão a um membro do grupo.
+- PUT /api/groups/{id}/roles/{roleId}: Edita um papel ou permissão de um membro do grupo.
+- DELETE /api/groups/{id}/roles/{roleId}: Remove um papel ou permissão de um membro do grupo.
+- GET /api/groups/{id}/roles: Lista papéis ou permissões de membros do grupo.
+- POST /api/groups/{id}/media/upload: Faz upload de mídia para um grupo.
+- GET /api/groups/{id}/media: Lista mídias de um grupo.
+- DELETE /api/groups/{id}/media/{mediaId}: Remove uma mídia de um grupo.
+- GET /api/groups/{id}/meta: Obtém metadados de um grupo específico.
+- PUT /api/groups/{id}/meta: Atualiza metadados de um grupo específico.
+- GET /api/groups/categories: Lista categorias de grupos.
+- GET /api/groups/categories/{categoryId}: Obtém detalhes de uma categoria de grupos.
+- POST /api/groups/categories: Cria uma nova categoria de grupos.
+- PUT /api/groups/categories/{categoryId}: Edita uma categoria de grupos.
+- DELETE /api/groups/categories/{categoryId}: Exclui uma categoria de grupos.
+- POST /api/groups/{id}/invite: Envia um convite para um grupo.
+- GET /api/groups/{id}/invites: Lista convites de um grupo.
+- POST /api/groups/{id}/ban: Bane um membro de um grupo.
+- DELETE /api/groups/{id}/ban/{banId}: Remove o banimento de um membro de um grupo.
+- GET /api/groups/{id}/bans: Lista membros banidos de um grupo.
+- POST /api/groups/{id}/price/add: Adiciona um preço ou taxa de adesão ao grupo.
+- PUT /api/groups/{id}/price/{priceId}: Edita um preço ou taxa de adesão do grupo.
+- DELETE /api/groups/{id}/price/{priceId}: Remove um preço ou taxa de adesão do grupo.
+- GET /api/groups/{id}/prices: Lista preços ou taxas de adesão do grupo.
+- GET /api/groups/joined: Lista grupos que o usuário ingressou.
+- GET /api/groups/recommendations: Obtém recomendações de grupos ou membros.
+- PUT /api/groups/{id}/notifications: Atualiza configurações de notificações de privacidade para um grupo.
+- GET /api/groups/{id}/notifications: Obtém configurações de notificações de privacidade para um grupo.
+- PUT /api/groups/{id}/post/privacy: Atualiza configurações de privacidade de postagens em um grupo.
+- GET /api/groups/{id}/post/privacy: Obtém configurações de privacidade de postagens em um grupo.
+- POST /api/groups/{id}/cover/upload: Faz upload de uma capa para um grupo.
+- POST /api/groups/{id}/picture/upload: Faz upload de uma imagem para um grupo.
