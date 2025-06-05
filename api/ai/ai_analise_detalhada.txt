@@ -1,0 +1,37 @@
+Análise Detalhada do Diretório 'ai' - Inteligência Artificial no Sistema UNA
+
+Esta documentação contém uma análise aprofundada do código-fonte do arquivo 'BxDolAI.php' localizado em 'c:\Users\zerocool\una\ai'. O objetivo é confirmar as funcionalidades reais relacionadas a inteligência artificial (IA) no sistema UNA e refinar as rotas RESTful propostas anteriormente no arquivo 'ai_funcionalidades.txt'.
+
+# Arquivo Principal: BxDolAI.php
+
+## BxDolAI
+- **Descrição Confirmada**: Classe singleton que gerencia funcionalidades de inteligência artificial no sistema UNA. Inclui suporte para automação via eventos, agendamentos e webhooks, integração com modelos de IA (como chat com endpoints), e execução de código personalizado para automações. Também lida com instruções HTML para automações e perfis de bot.
+- **Funcionalidades Principais**:
+  - Gerenciamento de modelos de IA e automações.
+  - Integração com endpoints de IA para chat (ex.: OpenAI).
+  - Execução de código personalizado para automações baseadas em eventos ou agendamentos.
+  - Suporte a instruções em HTML para diferentes tipos de automação.
+- **Rotas RESTful Refinadas**:
+  - GET /ai/models - Listar modelos de IA disponíveis no sistema.
+  - GET /ai/models/{id} - Obter detalhes de um modelo de IA específico.
+  - POST /ai/chat - Enviar mensagens para um endpoint de IA e receber respostas.
+  - GET /ai/automators - Listar automações configuradas (eventos, agendamentos, webhooks).
+  - GET /ai/automators/{id} - Obter detalhes de uma automação específica.
+  - POST /ai/automators/create - Criar uma nova automação.
+  - PUT /ai/automators/{id}/update - Atualizar uma automação existente.
+  - DELETE /ai/automators/{id}/delete - Excluir uma automação.
+  - GET /ai/instructions/{type} - Obter instruções HTML para um tipo de automação.
+  - POST /ai/automators/execute - Executar manualmente uma automação.
+  - GET /ai/profile - Obter o ID do perfil de bot usado para IA.
+  - PUT /ai/config - Configurar parâmetros ou credenciais para serviços de IA.
+
+# Observações
+
+- A classe `BxDolAI` é altamente especializada, com suporte a automação avançada e integração com serviços de IA externos (como OpenAI, conforme indicado pelo cabeçalho 'OpenAI-Beta').
+- Há referências a um perfil de bot (`sys_profile_bot`), sugerindo que ações de IA podem ser realizadas em nome de um usuário automatizado.
+- A funcionalidade de avaliação de código (`evalCode`) indica um alto grau de personalização, mas também potenciais riscos de segurança que devem ser considerados ao expor via API.
+
+# Próximos Passos
+
+- Explorar o subdiretório 'instructions' para entender melhor os templates ou instruções HTML usados nas automações.
+- Aguardar feedback do usuário para priorizar a análise de outros diretórios ou aprofundar em aspectos específicos de IA, como segurança na execução de código personalizado.
