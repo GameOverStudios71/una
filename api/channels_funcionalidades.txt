@@ -105,17 +105,14 @@ Análise de Classes do Módulo Channels:
     - BxCnlUploaderPictureCrop extends BxBaseModGroupsUploaderPictureCrop: Ferramenta de upload com recorte para imagem de canais.
     - __construct(): Construtor que inicializa a ferramenta de upload com recorte para imagem.
 
-Mapeamento para Rotas RESTful (Baseado em Funcionalidades Principais):
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
 - GET /api/channels/timeline: Obtém dados de canais para timeline.
 - POST /api/channels/{id}/comments/allow: Configura permissão para comentários em um canal.
 - GET /api/channels/{id}/comments/allow: Verifica se a visualização de comentários é permitida em um canal.
-- GET /api/channels/{id}/members: Obtém lista de membros de um canal específico.
 - POST /api/channels/create: Cria um novo canal.
 - PUT /api/channels/{id}: Edita um canal existente.
 - DELETE /api/channels/{id}: Exclui um canal.
 - GET /api/channels/search: Busca canais com base em critérios.
-- POST /api/channels/{id}/members/add: Adiciona um membro a um canal.
-- DELETE /api/channels/{id}/members/{memberId}: Remove um membro de um canal.
 - GET /api/channels/{id}/comments: Lista comentários de um canal.
 - POST /api/channels/{id}/comments: Adiciona um comentário a um canal.
 - DELETE /api/channels/{id}/comments/{commentId}: Remove um comentário de um canal.
@@ -123,7 +120,24 @@ Mapeamento para Rotas RESTful (Baseado em Funcionalidades Principais):
 - GET /api/channels/browse: Navega pelos canais disponíveis.
 - GET /api/channels/{id}/entry: Obtém detalhes de entrada de um canal.
 - GET /api/channels/list: Lista todos os canais.
-- POST /api/channels/{id}/cover/upload: Faz upload de uma capa para um canal.
-- POST /api/channels/{id}/picture/upload: Faz upload de uma imagem para um canal.
 - PUT /api/channels/{id}/privacy: Atualiza as configurações de privacidade de um canal.
 - GET /api/channels/{id}/privacy: Obtém as configurações de privacidade de um canal.
+- POST /api/channels/{id}/join: Participa de um canal.
+- GET /api/channels/{id}/participants: Lista participantes de um canal.
+- POST /api/channels/{id}/leave: Sai de um canal.
+- POST /api/channels/{id}/roles/add: Adiciona um papel ou permissão a um participante do canal.
+- PUT /api/channels/{id}/roles/{roleId}: Edita um papel ou permissão de um participante do canal.
+- DELETE /api/channels/{id}/roles/{roleId}: Remove um papel ou permissão de um participante do canal.
+- GET /api/channels/{id}/roles: Lista papéis ou permissões de participantes do canal.
+- POST /api/channels/{id}/media/upload: Faz upload de mídia para um canal.
+- GET /api/channels/{id}/media: Lista mídias de um canal.
+- DELETE /api/channels/{id}/media/{mediaId}: Remove uma mídia de um canal.
+- GET /api/channels/{id}/meta: Obtém metadados de um canal específico.
+- PUT /api/channels/{id}/meta: Atualiza metadados de um canal específico.
+- GET /api/channels/categories: Lista categorias de canais.
+- GET /api/channels/categories/{categoryId}: Obtém detalhes de uma categoria de canais.
+- POST /api/channels/categories: Cria uma nova categoria de canais.
+- PUT /api/channels/categories/{categoryId}: Edita uma categoria de canais.
+- DELETE /api/channels/categories/{categoryId}: Exclui uma categoria de canais.
+- POST /api/channels/{id}/invite: Envia um convite para um canal.
+- GET /api/channels/{id}/invites: Lista convites de um canal.

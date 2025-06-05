@@ -141,25 +141,37 @@ Análise de Classes do Módulo Albums:
     - BxAlbumsVoteLikesMedia extends BxBaseModTextVoteLikes: Sistema de curtidas para mídias em álbuns.
     - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa o sistema de curtidas.
 
-Mapeamento para Rotas RESTful (Baseado em Funcionalidades Principais):
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
 - GET /api/albums/timeline: Obtém dados de álbuns para timeline.
 - POST /api/albums/{id}/comments/allow: Configura permissão para comentários em um álbum.
 - GET /api/albums/{id}/comments/allow: Verifica se a visualização de comentários é permitida em um álbum.
-- GET /api/albums/{id}/media: Obtém lista de mídias de um álbum específico.
 - POST /api/albums/create: Cria um novo álbum.
 - PUT /api/albums/{id}: Edita um álbum existente.
 - DELETE /api/albums/{id}: Exclui um álbum.
 - GET /api/albums/search: Busca álbuns com base em critérios.
-- POST /api/albums/{id}/media/upload: Faz upload de mídia para um álbum.
-- POST /api/albums/{id}/media/{mediaId}/like: Curte uma mídia em um álbum.
 - GET /api/albums/{id}/comments: Lista comentários de um álbum.
 - POST /api/albums/{id}/comments: Adiciona um comentário a um álbum.
 - DELETE /api/albums/{id}/comments/{commentId}: Remove um comentário de um álbum.
-- GET /api/albums/{id}/media/{mediaId}: Obtém detalhes de uma mídia específica em um álbum.
-- PUT /api/albums/{id}/media/{mediaId}: Edita detalhes de uma mídia em um álbum.
-- DELETE /api/albums/{id}/media/{mediaId}: Exclui uma mídia de um álbum.
 - GET /api/albums/author/{authorId}: Lista álbuns de um autor específico.
 - GET /api/albums/browse: Navega pelos álbuns disponíveis.
-- GET /api/albums/browse/media: Navega pelas mídias de álbuns.
 - GET /api/albums/{id}/entry: Obtém detalhes de entrada de um álbum.
 - GET /api/albums/list: Lista todos os álbuns.
+- PUT /api/albums/{id}/privacy: Atualiza as configurações de privacidade de um álbum.
+- GET /api/albums/{id}/privacy: Obtém as configurações de privacidade de um álbum.
+- POST /api/albums/{id}/media/upload: Faz upload de mídia para um álbum.
+- GET /api/albums/{id}/media: Lista mídias de um álbum.
+- DELETE /api/albums/{id}/media/{mediaId}: Remove uma mídia de um álbum.
+- PUT /api/albums/{id}/media/{mediaId}: Edita uma mídia de um álbum.
+- GET /api/albums/{id}/meta: Obtém metadados de um álbum específico.
+- PUT /api/albums/{id}/meta: Atualiza metadados de um álbum específico.
+- GET /api/albums/categories: Lista categorias de álbuns.
+- GET /api/albums/categories/{categoryId}: Obtém detalhes de uma categoria de álbuns.
+- POST /api/albums/categories: Cria uma nova categoria de álbuns.
+- PUT /api/albums/categories/{categoryId}: Edita uma categoria de álbuns.
+- DELETE /api/albums/categories/{categoryId}: Exclui uma categoria de álbuns.
+- POST /api/albums/{id}/like: Curte um álbum.
+- DELETE /api/albums/{id}/like: Remove a curtida de um álbum.
+- GET /api/albums/{id}/likes: Lista curtidas de um álbum.
+- POST /api/albums/{id}/favorite: Adiciona um álbum aos favoritos.
+- DELETE /api/albums/{id}/favorite: Remove um álbum dos favoritos.
+- GET /api/albums/favorites: Lista álbuns favoritados pelo usuário.

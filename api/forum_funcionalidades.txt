@@ -1,0 +1,188 @@
+Mapeamento do Módulo Forum para API RESTful
+
+Descrição Geral:
+O módulo 'forum' gerencia a criação, edição, exclusão e visualização de fóruns, tópicos e respostas no sistema UNA. É um componente central para funcionalidades de discussão e interação comunitária, possivelmente integrado a outras áreas do sistema como notificações ou perfis de usuário. É composto por classes como BxForumModule.php (lógica específica do módulo) e outras classes de suporte para formulários, buscas, configurações e templates.
+
+Análise de Classes do Módulo Forum:
+
+1. BxForumModule.php (Classe Principal do Módulo Forum):
+   - BxForumModule extends BxBaseModTextModule: Classe principal para gerenciar a lógica central do módulo forum.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetTimelinePost($mixedContent, $sType = 'id', $iStart = 0, $iPerPage = 10, $sFilter = '', $sTimeline = 'all', $sModule = ''): Método para obter posts de fóruns para timeline.
+   - serviceCheckAllowedCommentsPost($iContentId, $sObjectComments): Método para verificar se comentários são permitidos em um tópico específico.
+   - serviceCheckAllowedCommentsView($iContentId, $sObjectComments): Método para verificar se a visualização de comentários é permitida em um tópico específico.
+   - serviceGetCategories(): Método para obter categorias de fóruns.
+   - serviceGetTopics($iCategoryId, $iStart = 0, $iLimit = 10): Método para obter tópicos de uma categoria específica.
+
+2. BxForumConfig.php:
+   - BxForumConfig extends BxBaseModTextConfig: Configurações específicas do módulo forum.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxForumDb.php:
+   - BxForumDb extends BxBaseModTextDb: Banco de dados específico para fóruns.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxForumTemplate.php:
+   - BxForumTemplate extends BxBaseModTextTemplate: Template para renderização de fóruns.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+5. BxForumSearchResult.php:
+   - BxForumSearchResult extends BxBaseModTextSearchResult: Resultados de busca para fóruns e tópicos.
+   - __construct(): Construtor que inicializa os resultados de busca.
+
+6. BxForumAlertsResponse.php:
+   - BxForumAlertsResponse extends BxBaseModTextAlertsResponse: Respostas a alertas específicos para fóruns.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+
+7. BxForumCategory.php:
+   - BxForumCategory: Gerenciamento de categorias de fóruns.
+   - __construct($iId = 0): Construtor que inicializa uma categoria específica.
+   - getTitle(): Método para obter o título da categoria.
+
+8. BxForumCmts.php:
+   - BxForumCmts extends BxBaseModTextCmts: Gerenciamento de comentários em fóruns.
+   - __construct($sSystem, $iId, $iInit = true, $oTemplate = false): Construtor que inicializa o gerenciamento de comentários.
+
+9. BxForumCmtsSearchResult.php:
+   - BxForumCmtsSearchResult extends BxBaseModTextCmtsSearchResult: Resultados de busca para comentários em fóruns.
+   - __construct(): Construtor que inicializa os resultados de busca de comentários.
+
+10. BxForumFormEntry.php:
+    - BxForumFormEntry extends BxBaseModTextFormEntry: Formulário para entrada de dados de tópicos ou respostas.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+11. BxForumFormPoll.php:
+    - BxForumFormPoll extends BxTemplFormView: Formulário para enquetes em fóruns.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de enquetes.
+
+12. BxForumFormSearch.php:
+    - BxForumFormSearch extends BxTemplFormView: Formulário para busca em fóruns.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de busca.
+
+13. BxForumFormsEntryHelper.php:
+    - BxForumFormsEntryHelper extends BxBaseModTextFormsEntryHelper: Auxiliar para formulários de entrada de fóruns.
+    - __construct($oForm): Construtor que inicializa o auxiliar de formulários.
+
+14. BxForumGrid.php:
+    - BxForumGrid extends BxBaseModTextGrid: Grade base para exibição de dados de fóruns.
+    - __construct(): Construtor que inicializa a grade.
+
+15. BxForumGridAdministration.php:
+    - BxForumGridAdministration extends BxBaseModTextGridAdministration: Grade de administração para fóruns.
+    - __construct(): Construtor que inicializa a grade de administração.
+
+16. BxForumGridCategories.php:
+    - BxForumGridCategories extends BxBaseModTextGrid: Grade para categorias de fóruns.
+    - __construct(): Construtor que inicializa a grade de categorias.
+
+17. BxForumGridCommon.php:
+    - BxForumGridCommon extends BxBaseModTextGridCommon: Grade comum para fóruns.
+    - __construct(): Construtor que inicializa a grade comum.
+
+18. BxForumMenu.php:
+    - BxForumMenu extends BxBaseModTextMenu: Menu principal para fóruns.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu.
+
+19. BxForumMenuAttachments.php:
+    - BxForumMenuAttachments extends BxBaseModTextMenu: Menu para anexos em fóruns.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de anexos.
+
+20. BxForumMenuCategories.php:
+    - BxForumMenuCategories extends BxBaseModTextMenu: Menu para categorias de fóruns.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de categorias.
+
+21. BxForumMenuManageTools.php:
+    - BxForumMenuManageTools extends BxBaseModTextMenuManageTools: Ferramentas de gerenciamento de menu para fóruns.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa as ferramentas de gerenciamento.
+
+22. BxForumMenuSnippetMeta.php:
+    - BxForumMenuSnippetMeta extends BxBaseModTextMenuSnippetMeta: Metadados de snippet de menu para fóruns.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa os metadados de snippet.
+
+23. BxForumMenuView.php:
+    - BxForumMenuView extends BxBaseModTextMenuView: Menu de visualização para fóruns.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+24. BxForumMenuViewActions.php:
+    - BxForumMenuViewActions extends BxBaseModTextMenuViewActions: Ações de menu de visualização para fóruns.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa as ações de menu.
+
+25. BxForumMetatags.php:
+    - BxForumMetatags: Gerenciamento de metatags para fóruns.
+    - __construct(): Construtor que inicializa o gerenciamento de metatags.
+
+26. BxForumPageAuthor.php:
+    - BxForumPageAuthor extends BxBaseModTextPageAuthor: Página de autor para fóruns.
+    - __construct($oTemplate = false): Construtor que inicializa a página de autor.
+
+27. BxForumPageBrowse.php:
+    - BxForumPageBrowse extends BxBaseModTextPageBrowse: Página de navegação para fóruns.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de navegação.
+
+28. BxForumPageEntry.php:
+    - BxForumPageEntry extends BxBaseModTextPageEntry: Página de entrada para tópicos de fóruns.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+29. BxForumPageFolder.php:
+    - BxForumPageFolder extends BxBaseModTextPageBrowse: Página de pasta para fóruns.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de pasta.
+
+30. BxForumPageListEntry.php:
+    - BxForumPageListEntry extends BxBaseModTextPageListEntry: Página de listagem de entradas para fóruns.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de listagem.
+
+31. BxForumStudioPage.php:
+    - BxForumStudioPage extends BxTemplStudioPage: Página de estúdio para fóruns.
+    - __construct($oTemplate = false): Construtor que inicializa a página de estúdio.
+
+32. BxForumUploaderHTML5.php:
+    - BxForumUploaderHTML5 extends BxBaseModTextUploaderHTML5: Ferramenta de upload HTML5 para fóruns.
+    - __construct(): Construtor que inicializa a ferramenta de upload HTML5.
+
+33. BxForumUploaderHTML5Attach.php:
+    - BxForumUploaderHTML5Attach extends BxForumUploaderHTML5: Ferramenta de upload HTML5 para anexos em fóruns.
+    - __construct(): Construtor que inicializa a ferramenta de upload de anexos.
+
+34. BxForumUploaderRecordVideo.php:
+    - BxForumUploaderRecordVideo extends BxBaseModTextUploaderRecordVideo: Ferramenta de upload de gravação de vídeo para fóruns.
+    - __construct(): Construtor que inicializa a ferramenta de upload de vídeo.
+
+35. BxForumUploaderRecordVideoAttach.php:
+    - BxForumUploaderRecordVideoAttach extends BxForumUploaderRecordVideo: Ferramenta de upload de gravação de vídeo para anexos em fóruns.
+    - __construct(): Construtor que inicializa a ferramenta de upload de vídeo para anexos.
+
+36. BxForumVotePollAnswers.php:
+    - BxForumVotePollAnswers extends BxBaseModTextVote: Sistema de votação para respostas de enquetes em fóruns.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa o sistema de votação.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades Principais):
+- GET /api/forum/timeline: Obtém dados de fóruns para timeline.
+- POST /api/forum/topics/{id}/comments/allow: Configura permissão para comentários em um tópico.
+- GET /api/forum/topics/{id}/comments/allow: Verifica se a visualização de comentários é permitida em um tópico.
+- GET /api/forum/categories: Obtém lista de categorias de fóruns.
+- GET /api/forum/categories/{categoryId}/topics: Obtém lista de tópicos de uma categoria específica.
+- POST /api/forum/topics/create: Cria um novo tópico no fórum.
+- PUT /api/forum/topics/{id}: Edita um tópico existente.
+- DELETE /api/forum/topics/{id}: Exclui um tópico.
+- GET /api/forum/search: Busca tópicos ou respostas com base em critérios.
+- GET /api/forum/topics/{id}/comments: Lista comentários ou respostas de um tópico.
+- POST /api/forum/topics/{id}/comments: Adiciona uma resposta a um tópico.
+- PUT /api/forum/comments/{commentId}: Edita uma resposta em um tópico.
+- DELETE /api/forum/comments/{commentId}: Remove uma resposta de um tópico.
+- GET /api/forum/author/{authorId}: Lista tópicos de um autor específico.
+- GET /api/forum/browse: Navega pelos fóruns e tópicos disponíveis.
+- GET /api/forum/topics/{id}/entry: Obtém detalhes de entrada de um tópico.
+- GET /api/forum/topics/list: Lista todos os tópicos.
+- POST /api/forum/topics/{id}/poll: Cria uma enquete em um tópico.
+- POST /api/forum/topics/{id}/poll/vote: Vota em uma enquete de um tópico.
+- POST /api/forum/topics/{id}/attachments/upload: Faz upload de anexos para um tópico ou resposta.
+- GET /api/forum/topics/{id}/attachments: Lista anexos de um tópico ou resposta.
+- DELETE /api/forum/attachments/{attachmentId}: Remove um anexo de um tópico ou resposta.
+- GET /api/forum/folders: Lista pastas ou subfóruns.
+- GET /api/forum/folders/{folderId}/topics: Lista tópicos em uma pasta específica.
+- POST /api/forum/folders/create: Cria uma nova pasta ou subfórum.
+- PUT /api/forum/folders/{folderId}: Edita uma pasta ou subfórum.
+- DELETE /api/forum/folders/{folderId}: Exclui uma pasta ou subfórum.
+- GET /api/forum/metatags/{topicId}: Obtém metatags de um tópico para SEO ou compartilhamento.
+- POST /api/forum/topics/{id}/video/upload: Faz upload de um vídeo para um tópico ou resposta.
+- POST /api/forum/topics/{id}/video/record: Grava um vídeo diretamente para um tópico ou resposta.

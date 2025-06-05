@@ -1,0 +1,229 @@
+Mapeamento do Módulo Events para API RESTful
+
+Descrição Geral:
+O módulo 'events' gerencia a criação, edição, exclusão e visualização de eventos no sistema UNA. É um componente central para funcionalidades de agendamento e participação em atividades, possivelmente integrado a calendários, lembretes e interações sociais. É composto por classes como BxEventsModule.php (lógica específica do módulo) e outras classes de suporte para formulários, buscas, configurações e templates.
+
+Análise de Classes do Módulo Events:
+
+1. BxEventsModule.php (Classe Principal do Módulo Events):
+   - BxEventsModule extends BxBaseModGroupsModule: Classe principal para gerenciar a lógica central do módulo events.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetTimelinePost($mixedContent, $sType = 'id', $iStart = 0, $iPerPage = 10, $sFilter = '', $sTimeline = 'all', $sModule = ''): Método para obter posts de eventos para timeline.
+   - serviceCheckAllowedCommentsPost($iContentId, $sObjectComments): Método para verificar se comentários são permitidos em um evento específico.
+   - serviceCheckAllowedCommentsView($iContentId, $sObjectComments): Método para verificar se a visualização de comentários é permitida em um evento específico.
+   - serviceGetMembers($iContentId, $iStart = 0, $iLimit = 10): Método para obter lista de membros/participantes de um evento.
+   - serviceGetPrices($iContentId): Método para obter preços associados a um evento.
+   - serviceGetSessions($iContentId): Método para obter sessões de um evento.
+
+2. BxEventsConfig.php:
+   - BxEventsConfig extends BxBaseModGroupsConfig: Configurações específicas do módulo events.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxEventsDb.php:
+   - BxEventsDb extends BxBaseModGroupsDb: Banco de dados específico para eventos.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxEventsTemplate.php:
+   - BxEventsTemplate extends BxBaseModGroupsTemplate: Template para renderização de eventos.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+5. BxEventsSearchResult.php:
+   - BxEventsSearchResult extends BxBaseModGroupsSearchResult: Resultados de busca para eventos.
+   - __construct(): Construtor que inicializa os resultados de busca.
+
+6. BxEventsAlertsResponse.php:
+   - BxEventsAlertsResponse extends BxBaseModGroupsAlertsResponse: Respostas a alertas específicos para eventos.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+
+7. BxEventsCmts.php:
+   - BxEventsCmts extends BxBaseModGroupsCmts: Gerenciamento de comentários em eventos.
+   - __construct($sSystem, $iId, $iInit = true, $oTemplate = false): Construtor que inicializa o gerenciamento de comentários.
+
+8. BxEventsConnectionFans.php:
+   - BxEventsConnectionFans extends BxBaseModGroupsConnectionFans: Conexão de fãs/participantes para eventos.
+   - __construct($aParams): Construtor que inicializa a conexão de fãs.
+
+9. BxEventsCronProcessReminders.php:
+   - BxEventsCronProcessReminders extends BxDolCron: Processo cron para lembretes de eventos.
+   - processing(): Método para processar lembretes.
+
+10. BxEventsCronPruning.php:
+    - BxEventsCronPruning extends BxDolCron: Processo cron para limpeza de dados de eventos.
+    - processing(): Método para realizar a limpeza.
+
+11. BxEventsCronPublishing.php:
+    - BxEventsCronPublishing extends BxDolCron: Processo cron para publicação de eventos.
+    - processing(): Método para publicar eventos.
+
+12. BxEventsFormEntry.php:
+    - BxEventsFormEntry extends BxBaseModGroupsFormEntry: Formulário para entrada de dados de eventos.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+13. BxEventsFormPrice.php:
+    - BxEventsFormPrice extends BxTemplFormView: Formulário para preços de eventos.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de preços.
+
+14. BxEventsFormQuestion.php:
+    - BxEventsFormQuestion extends BxTemplFormView: Formulário para perguntas de eventos.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de perguntas.
+
+15. BxEventsFormSession.php:
+    - BxEventsFormSession extends BxTemplFormView: Formulário para sessões de eventos.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de sessões.
+
+16. BxEventsFormsEntryHelper.php:
+    - BxEventsFormsEntryHelper extends BxBaseModGroupsFormsEntryHelper: Auxiliar para formulários de entrada de eventos.
+    - __construct($oForm): Construtor que inicializa o auxiliar de formulários.
+
+17. BxEventsGridAdministration.php:
+    - BxEventsGridAdministration extends BxBaseModGroupsGridAdministration: Grade de administração para eventos.
+    - __construct(): Construtor que inicializa a grade de administração.
+
+18. BxEventsGridCommon.php:
+    - BxEventsGridCommon extends BxBaseModGroupsGridCommon: Grade comum para eventos.
+    - __construct(): Construtor que inicializa a grade comum.
+
+19. BxEventsGridConnections.php:
+    - BxEventsGridConnections extends BxBaseModGroupsGridConnections: Grade de conexões para eventos.
+    - __construct(): Construtor que inicializa a grade de conexões.
+
+20. BxEventsGridInvites.php:
+    - BxEventsGridInvites extends BxBaseModGroupsGridInvites: Grade de convites para eventos.
+    - __construct(): Construtor que inicializa a grade de convites.
+
+21. BxEventsGridPricesManage.php:
+    - BxEventsGridPricesManage extends BxBaseModGroupsGrid: Grade para gerenciamento de preços de eventos.
+    - __construct(): Construtor que inicializa a grade de preços.
+
+22. BxEventsGridPricesView.php:
+    - BxEventsGridPricesView extends BxBaseModGroupsGrid: Grade para visualização de preços de eventos.
+    - __construct(): Construtor que inicializa a grade de visualização de preços.
+
+23. BxEventsGridQuestionsManage.php:
+    - BxEventsGridQuestionsManage extends BxBaseModGroupsGrid: Grade para gerenciamento de perguntas de eventos.
+    - __construct(): Construtor que inicializa a grade de perguntas.
+
+24. BxEventsGridSessionsManage.php:
+    - BxEventsGridSessionsManage extends BxBaseModGroupsGrid: Grade para gerenciamento de sessões de eventos.
+    - __construct(): Construtor que inicializa a grade de sessões.
+
+25. BxEventsMenu.php:
+    - BxEventsMenu extends BxBaseModGroupsMenu: Menu principal para eventos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu.
+
+26. BxEventsMenuManageTools.php:
+    - BxEventsMenuManageTools extends BxBaseModGroupsMenuManageTools: Ferramentas de gerenciamento de menu para eventos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa as ferramentas de gerenciamento.
+
+27. BxEventsMenuSnippetMeta.php:
+    - BxEventsMenuSnippetMeta extends BxBaseModGroupsMenuSnippetMeta: Metadados de snippet de menu para eventos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa os metadados de snippet.
+
+28. BxEventsMenuView.php:
+    - BxEventsMenuView extends BxBaseModGroupsMenuView: Menu de visualização para eventos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+29. BxEventsMenuViewActions.php:
+    - BxEventsMenuViewActions extends BxBaseModGroupsMenuViewActions: Ações de menu de visualização para eventos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa as ações de menu.
+
+30. BxEventsMenuViewActionsAll.php:
+    - BxEventsMenuViewActionsAll extends BxEventsMenuViewActions: Todas as ações de menu de visualização para eventos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa todas as ações de menu.
+
+31. BxEventsMenuViewMeta.php:
+    - BxEventsMenuViewMeta extends BxBaseModGroupsMenuViewMeta: Metadados de visualização de menu para eventos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa os metadados de visualização.
+
+32. BxEventsPageBrowse.php:
+    - BxEventsPageBrowse extends BxBaseModGroupsPageBrowse: Página de navegação para eventos.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de navegação.
+
+33. BxEventsPageCalendar.php:
+    - BxEventsPageCalendar extends BxBaseModGroupsPageBrowse: Página de calendário para eventos.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de calendário.
+
+34. BxEventsPageEntriesInContext.php:
+    - BxEventsPageEntriesInContext extends BxBaseModGroupsPageBrowse: Página de entradas em contexto para eventos.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de entradas em contexto.
+
+35. BxEventsPageEntry.php:
+    - BxEventsPageEntry extends BxBaseModGroupsPageEntry: Página de entrada para eventos.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+36. BxEventsPageJoinedEntries.php:
+    - BxEventsPageJoinedEntries extends BxBaseModGroupsPageBrowse: Página de entradas participadas para eventos.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de entradas participadas.
+
+37. BxEventsPageListEntry.php:
+    - BxEventsPageListEntry extends BxBaseModGroupsPageListEntry: Página de listagem de entradas para eventos.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de listagem.
+
+38. BxEventsPrivacy.php:
+    - BxEventsPrivacy extends BxBaseModGroupsPrivacy: Privacidade para eventos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade.
+
+39. BxEventsPrivacyNotifications.php:
+    - BxEventsPrivacyNotifications extends BxBaseModGroupsPrivacyNotifications: Notificações de privacidade para eventos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as notificações de privacidade.
+
+40. BxEventsPrivacyPost.php:
+    - BxEventsPrivacyPost extends BxBaseModGroupsPrivacyPost: Privacidade de postagem para eventos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a privacidade de postagem.
+
+41. BxEventsUploaderCoverCrop.php:
+    - BxEventsUploaderCoverCrop extends BxBaseModGroupsUploaderCoverCrop: Ferramenta de upload com recorte para capa de eventos.
+    - __construct(): Construtor que inicializa a ferramenta de upload com recorte para capa.
+
+42. BxEventsUploaderPictureCrop.php:
+    - BxEventsUploaderPictureCrop extends BxBaseModGroupsUploaderPictureCrop: Ferramenta de upload com recorte para imagem de eventos.
+    - __construct(): Construtor que inicializa a ferramenta de upload com recorte para imagem.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/events/timeline: Obtém dados de eventos para timeline.
+- POST /api/events/{id}/comments/allow: Configura permissão para comentários em um evento.
+- GET /api/events/{id}/comments/allow: Verifica se a visualização de comentários é permitida em um evento.
+- POST /api/events/create: Cria um novo evento.
+- PUT /api/events/{id}: Edita um evento existente.
+- DELETE /api/events/{id}: Exclui um evento.
+- GET /api/events/search: Busca eventos com base em critérios.
+- GET /api/events/{id}/comments: Lista comentários de um evento.
+- POST /api/events/{id}/comments: Adiciona um comentário a um evento.
+- DELETE /api/events/{id}/comments/{commentId}: Remove um comentário de um evento.
+- GET /api/events/author/{authorId}: Lista eventos de um autor específico.
+- GET /api/events/browse: Navega pelos eventos disponíveis.
+- GET /api/events/{id}/entry: Obtém detalhes de entrada de um evento.
+- GET /api/events/list: Lista todos os eventos.
+- PUT /api/events/{id}/privacy: Atualiza as configurações de privacidade de um evento.
+- GET /api/events/{id}/privacy: Obtém as configurações de privacidade de um evento.
+- POST /api/events/{id}/join: Participa de um evento.
+- GET /api/events/{id}/participants: Lista participantes de um evento.
+- POST /api/events/{id}/leave: Sai de um evento.
+- POST /api/events/{id}/sessions/add: Adiciona uma sessão a um evento.
+- PUT /api/events/{id}/sessions/{sessionId}: Edita uma sessão de um evento.
+- DELETE /api/events/{id}/sessions/{sessionId}: Remove uma sessão de um evento.
+- GET /api/events/{id}/sessions: Lista sessões de um evento.
+- POST /api/events/{id}/price/add: Adiciona um preço ou ingresso a um evento.
+- PUT /api/events/{id}/price/{priceId}: Edita um preço ou ingresso de um evento.
+- DELETE /api/events/{id}/price/{priceId}: Remove um preço ou ingresso de um evento.
+- GET /api/events/{id}/prices: Lista preços ou ingressos de um evento.
+- POST /api/events/{id}/questions/add: Adiciona uma pergunta a um evento.
+- PUT /api/events/{id}/questions/{questionId}: Edita uma pergunta de um evento.
+- DELETE /api/events/{id}/questions/{questionId}: Remove uma pergunta de um evento.
+- GET /api/events/{id}/questions: Lista perguntas de um evento.
+- POST /api/events/{id}/invite: Envia um convite para um evento.
+- GET /api/events/{id}/invites: Lista convites de um evento.
+- POST /api/events/{id}/media/upload: Faz upload de mídia para um evento.
+- GET /api/events/{id}/media: Lista mídias de um evento.
+- DELETE /api/events/{id}/media/{mediaId}: Remove uma mídia de um evento.
+- GET /api/events/calendar: Obtém dados de eventos para um calendário.
+- GET /api/events/{id}/meta: Obtém metadados de um evento específico.
+- PUT /api/events/{id}/meta: Atualiza metadados de um evento específico.
+- GET /api/events/categories: Lista categorias de eventos.
+- GET /api/events/categories/{categoryId}: Obtém detalhes de uma categoria de eventos.
+- POST /api/events/categories: Cria uma nova categoria de eventos.
+- PUT /api/events/categories/{categoryId}: Edita uma categoria de eventos.
+- DELETE /api/events/categories/{categoryId}: Exclui uma categoria de eventos.
+- POST /api/events/{id}/reminder: Configura um lembrete para um evento.
+- GET /api/events/{id}/reminders: Lista lembretes de um evento.
+- DELETE /api/events/{id}/reminders/{reminderId}: Remove um lembrete de um evento.
