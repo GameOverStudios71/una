@@ -137,10 +137,19 @@ class BxProfiler extends BxDol
 
     function _logBegin ($s)
     {
-        $sDate = date ($this->_sLogDateFormat);
-        return "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n" . $sDate . " " . $s . "\n" .
-        (getLoggedId() ? "User ID: " . getLoggedId()  . "\n" : '') .
-        "User role: " . ($GLOBALS['logged']['admin'] ? 'admin' : ($GLOBALS['logged']['member'] ? 'member' : 'guest')) . "\n";
+        $userId = function_exists('getLoggedId') ? getLoggedId() : '';
+        $userRole = isset($GLOBALS['logged']) ? ($GLOBALS['logged']['admin'] ? 'admin' : ($GLOBALS['logged']['member'] ? 'member' : 'guest')) : 'unknown';
+        //$requestUri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'Unknown URL';
+        $requestMethod = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'Unknown Method';
+        $scriptName = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : 'Unknown Script';
+        $queryString = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : 'No Query String';
+        return "---------------------------------------------------------------------------------------------\n" . " " . $s . "\n" .
+        ($userId ? "User ID: " . $userId  . "\n" : '') .
+        "User role: " . $userRole . "\n" .
+        //"Request URL: " . $requestUri . "\n" .
+        "Request Method: " . $requestMethod . "\n" .
+        "Script Name: " . $scriptName . "\n" .
+        "Query String: " . $queryString . "\n";
     }
 
     function _logEnd ()
@@ -151,6 +160,51 @@ class BxProfiler extends BxDol
     function _appendToLog ($s)
     {
 		bx_log('bx_profiler', $s);
+    }
+
+    protected function _logSqlQuery($sQuery)
+    {
+        $sLogFile = 'C:\\xampp\\htdocs\\una\\logs.txt'; // Nome do arquivo de log
+
+        $sLogMessage = $this->_logBegin("");
+        $sLogMessage .= "Query: " . $sQuery . "\n";
+
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 10);
+        // Inverter a ordem do backtrace para mostrar da chamada mais externa para a mais interna
+        $backtrace = array_reverse($backtrace);
+        foreach ($backtrace as $index => $trace) {
+            if($index < count($backtrace) - 3) { // Ajustar para ignorar os últimos 3 itens que são internos ao profiler
+                $file = isset($trace['file']) ? explode('/', str_replace('\\', '/', $trace['file'])) : array();
+                $fileName = !empty($file) ? str_replace('.php', '', end($file)) : 'unknown';
+                // Adicionar caminho abreviado (últimos 2 diretórios, se disponíveis)
+                $filePath = count($file) > 2 ? implode('/', array_slice($file, -3, 2)) . '/' . $fileName : (count($file) > 1 ? implode('/', array_slice($file, -2)) : $fileName);
+                $line = isset($trace['line']) ? $trace['line'] : 'unknown';
+                // Indicador visual de profundidade
+                $depthIndicator = str_repeat('  ', $index) . '-> ';
+                $sLogMessage .= "\n" . $depthIndicator . $filePath;
+                $sLogMessage .= " (Line: " . $line . ")";
+                $sLogMessage .= " :: " . (isset($trace['class']) ? $trace['class'] : 'unknown');
+                // Adicionar tipo de chamada (:: ou ->)
+                $callType = isset($trace['type']) ? $trace['type'] : '';
+                $sLogMessage .= " " . $callType . " " . (isset($trace['function']) ? $trace['function'] : 'unknown');
+                if (isset($trace['args']) && !empty($trace['args'])) {
+                    $sLogMessage .= " :: Args: ";
+                    $args = array();
+                    foreach ($trace['args'] as $arg) {
+                        if (is_array($arg)) {
+                            $args[] = 'array(' . $this->_formatArray($arg, 2) . ')';
+                        } elseif (is_object($arg)) {
+                            $args[] = 'object(' . get_class($arg) . ') ' . $this->_formatObject($arg, 2);
+                        } else {
+                            $args[] = var_export($arg, true);
+                        }
+                    }
+                    $sLogMessage .= implode(', ', $args);
+                }
+            }
+        }
+        $sLogMessage .= "\n" . $this->_logEnd();
+        file_put_contents($sLogFile, $sLogMessage, FILE_APPEND);
     }
 
     function logSqlQuery ($iTime, $aSqlQuery, &$oStmt)
@@ -333,6 +387,8 @@ class BxProfiler extends BxDol
         $this->_aQueries[$this->_sQueryIndex]['affected'] = $oStmt ? BxDolDb::getInstance()->getAffectedRows($oStmt) : '';
         if (isset($this->aConf['long_query']) && $iTime > $this->aConf['long_query'])
             $this->logSqlQuery ($iTime, $this->_aQueries[$this->_sQueryIndex], $oStmt);
+        
+        $this->_logSqlQuery($this->_aQueries[$this->_sQueryIndex]['sql']);
     }
 
     function beginMenu ($sName)
@@ -487,9 +543,9 @@ class BxProfiler extends BxDol
         if ($iCountBlocksNotCached)
             $sBlocksNotCached = $iCountBlocksNotCached . ' (' . $this->_formatTime($iTimeBlocksNotCached, 3) . ')';
         if ($iCountBlocksEmpty)
-            $sBlocksEmpty = $iCountBlocksEmpty . ' (' . $this->_formatTime($iTimeBlocksEmpty, 3) . ')';
+            $sBlocksEmpty = $iCountBlocksEmpty . ' (' . $this->_formatTime($iCountBlocksEmpty, 3) . ')';
         if ($iCountBlocksNotEmpty)
-            $sBlocksNotEmpty = $iCountBlocksNotEmpty . ' (' . $this->_formatTime($iTimeBlocksNotEmpty, 3) . ')';
+            $sBlocksNotEmpty = $iCountBlocksNotEmpty . ' (' . $this->_formatTime($iCountBlocksNotEmpty, 3) . ')';
 
         return $this->oTemplate->plank(
             $this->oTemplate->nameValue('Pages Blocks:', $sBlocks) .
@@ -670,6 +726,49 @@ class BxProfiler extends BxDol
             $s .= "{$r['class']}{$r['type']}{$r['function']} ({$sArgs});\n";
         }
         return $s;
+    }
+
+    // Função auxiliar para formatar arrays com limite de profundidade
+    private function _formatArray($array, $depth = 2, $currentDepth = 0)
+    {
+        if ($currentDepth >= $depth || !is_array($array)) {
+            return '...';
+        }
+        $items = array();
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $items[] = $key . ' => array(' . $this->_formatArray($value, $depth, $currentDepth + 1) . ')';
+            } elseif (is_object($value)) {
+                $items[] = $key . ' => object(' . get_class($value) . ') ' . $this->_formatObject($value, $depth, $currentDepth + 1);
+            } else {
+                $items[] = $key . ' => ' . var_export($value, true);
+            }
+        }
+        return implode(', ', $items);
+    }
+    
+    // Função auxiliar para formatar objetos com limite de profundidade
+    private function _formatObject($object, $depth = 2, $currentDepth = 0)
+    {
+        if ($currentDepth >= $depth) {
+            return '...';
+        }
+        $reflection = new ReflectionObject($object);
+        $properties = $reflection->getProperties();
+        $props = array();
+        foreach ($properties as $prop) {
+            $prop->setAccessible(true);
+            $value = $prop->getValue($object);
+            $name = $prop->getName();
+            if (is_array($value)) {
+                $props[] = $name . ' => array(' . $this->_formatArray($value, $depth, $currentDepth + 1) . ')';
+            } elseif (is_object($value)) {
+                $props[] = $name . ' => object(' . get_class($value) . ') ' . $this->_formatObject($value, $depth, $currentDepth + 1);
+            } else {
+                $props[] = $name . ' => ' . var_export($value, true);
+            }
+        }
+        return '{' . implode(', ', $props) . '}';
     }
 }
 

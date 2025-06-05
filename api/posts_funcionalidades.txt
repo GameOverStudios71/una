@@ -1,0 +1,346 @@
+Módulo: Posts
+
+Descrição Geral:
+O módulo 'posts' gerencia a criação, edição, exclusão e visualização de posts no sistema UNA. É um componente central para funcionalidades de conteúdo, possivelmente integrado a timelines, feeds ou blogs. É composto por classes como BxPostsModule.php (lógica específica do módulo) e outras classes de suporte para formulários, buscas, configurações e templates.
+
+Funcionalidades e Métodos Relevantes (Análise Detalhada):
+
+1. BxPostsModule.php (Core Module Logic):
+   - __construct(&$aModule): Construtor que inicializa o módulo e configura campos de busca excluídos (como 'published', 'anonymous', 'allow_comments') via configurações do CNF.
+   - serviceGetTimelinePost($aEvent, $aBrowseParams = array()): Método para integração com o módulo Timeline, retornando dados de um post para exibição na linha do tempo, ajustando a data de publicação se necessário.
+   - serviceCheckAllowedCommentsPost($iContentId, $sObjectComments): Verifica se é permitido postar comentários em um post específico, considerando a configuração 'allow_comments' do conteúdo.
+   - serviceCheckAllowedCommentsView($iContentId, $sObjectComments): Verifica se é permitido visualizar comentários em um post específico, considerando a configuração 'allow_comments' do conteúdo.
+
+2. BxPostsFormEntry.php (Formulário para Criação/Edição de Posts):
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário para posts, configurando campos de upload para capa (cover), fotos, vídeos, sons e arquivos com base nas permissões e configurações do módulo.
+   - initChecker($aValues = array(), $aSpecificValues = array()): Inicializa o verificador do formulário, ajustando campos como 'published' em modo de edição e configurando templates para uploads.
+   - insert($aValsToAdd = array(), $isIgnore = false): Insere um novo post, definindo valores padrão para 'added' e 'published' (data de adição e publicação), ajustando o status com base nessas datas (aguardando ou ativo), e processando arquivos de capa.
+   - update($iContentId, $aValsToAdd = array(), &$aTrackTextFieldsChanges = null): Atualiza um post existente, ajustando a data de publicação se necessário e processando arquivos de capa.
+   - _getCoverGhostTmplVars($aContentInfo = array()): Retorna variáveis para template de upload de capa.
+   - _getPhotoGhostTmplVars($aContentInfo = array()): Retorna variáveis para template de upload de fotos.
+
+3. BxPostsConfig.php (Configurações do Módulo):
+   - __construct($aModule): Construtor que define configurações do módulo, incluindo ícone, tabelas de banco de dados, campos (como título, texto, capa, fotos, vídeos, sons, arquivos, polls), URIs de páginas (home, popular, top, etc.), parâmetros de sistema (aprovação automática, caracteres de resumo), e objetos para armazenamento, transcodificação de mídia, menus, relatórios, votos, reações, favoritos, etc.
+   - MENU_ITEM_TO_METHOD: Define mapeamento de itens de menu para métodos de verificação de permissão (ex.: 'approve', 'edit-post', 'delete-post').
+   - INFORMERS: Configura mensagens de notificação para status como 'pending', 'hidden', 'awaiting', 'failed'.
+
+4. BxPostsSearchResult.php (Resultados de Busca):
+   - __construct($sMode = '', $aParams = array()): Construtor que configura a busca de posts com base em modos como 'author', 'context', 'favorite', 'recent', 'featured', 'popular', 'top', 'updated', aplicando restrições (status ativo, autor, etc.), definindo ordenação e paginamento, e configurando RSS.
+
+Análise de BxPostsDb.php (Classe de Banco de Dados do Módulo Posts):
+- BxPostsDb extends BxBaseModTextDb: Classe para gerenciar interações com o banco de dados específicas do módulo posts.
+- __construct(&$oConfig): Construtor que chama o construtor da classe pai com a configuração fornecida.
+
+Análise de BxPostsCronPublishing.php (Classe de Publicação Agendada do Módulo Posts):
+- BxPostsCronPublishing extends BxDolCron: Classe para gerenciar a publicação agendada específica do módulo posts.
+- __construct(): Construtor que chama o construtor da classe pai, define o módulo como 'bx_posts' e obtém a instância do módulo.
+- processing(): Método para processar a publicação de entradas agendadas, utilizando o banco de dados do módulo para publicar entradas e disparar eventos de publicação para cada ID.
+
+Análise de BxPostsAlertsResponse.php (Classe de Resposta a Alertas do Módulo Posts):
+- BxPostsAlertsResponse extends BxBaseModTextAlertsResponse: Classe para gerenciar respostas a alertas específicos do módulo posts.
+- __construct(): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai.
+
+Análise de BxPostsCmtsSearchResult.php (Classe de Busca de Comentários do Módulo Posts):
+- BxPostsCmtsSearchResult extends BxBaseModGeneralCmtsSearchResult: Classe para gerenciar a busca de comentários específicos do módulo posts.
+- __construct($sMode = '', $aParams = array()): Construtor que define o módulo como 'bx_posts', chama o construtor da classe pai com modo e parâmetros, e configura o título da página de busca de comentários.
+
+Análise de BxPostsMenu.php (Classe de Menu Geral do Módulo Posts):
+- BxPostsMenu extends BxBaseModTextMenu: Classe para gerenciar menus gerais específicos do módulo posts.
+- __construct($aObject, $oTemplate = false): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com objeto e template.
+
+Análise de BxPostsConfig.php (Classe de Configuração do Módulo Posts):
+- BxPostsConfig extends BxBaseModTextConfig: Classe para gerenciar configurações específicas do módulo posts.
+- __construct($aModule): Construtor que chama o construtor da classe pai com o módulo fornecido e define configurações detalhadas, incluindo ícone do módulo, tabelas de banco de dados, campos, URIs de páginas, parâmetros e objetos.
+
+Análise de BxPostsModule.php (Classe Principal do Módulo Posts):
+- BxPostsModule extends BxBaseModTextModule: Classe principal para gerenciar a lógica central do módulo posts.
+- __construct(&$aModule): Construtor que chama o construtor da classe pai com o módulo fornecido e configura campos não pesquisáveis.
+- serviceGetTimelinePost($aEvent, $aBrowseParams = array()): Método para postagem em timeline, ajustando a data de publicação se necessário.
+- serviceCheckAllowedCommentsPost($iContentId, $sObjectComments): Método para verificar se comentários são permitidos em um post específico.
+- serviceCheckAllowedCommentsView($iContentId, $sObjectComments): Método para verificar se a visualização de comentários é permitida em um post específico.
+
+Análise de BxPostsFormEntry.php (Classe de Formulário de Entrada do Módulo Posts):
+- BxPostsFormEntry extends BxBaseModTextFormEntry: Classe para gerenciar formulários de criação e edição de entradas específicas do módulo posts.
+- __construct($aInfo, $oTemplate = false): Construtor que define o módulo como 'bx_posts', chama o construtor da classe pai e configura campos de upload para capa, fotos, vídeos, sons e arquivos.
+- initChecker($aValues = array(), $aSpecificValues = array()): Método para inicializar verificações, ajustando campos como data de publicação e capa.
+- insert($aValsToAdd = array(), $isIgnore = false): Método para inserir nova entrada, configurando datas de adição e publicação, e processando arquivos de capa.
+- update($iContentId, $aValsToAdd = array(), &$aTrackTextFieldsChanges = null): Método para atualizar entrada existente, ajustando data de publicação e processando arquivos de capa.
+
+Análise de BxPostsSearchResult.php (Classe de Resultados de Busca do Módulo Posts):
+- BxPostsSearchResult extends BxBaseModTextSearchResult: Classe para gerenciar resultados de busca específicos do módulo posts.
+- __construct($sMode = '', $aParams = array()): Construtor que configura a busca de posts com base em modos como 'author', 'context', 'favorite', 'recent', 'featured', 'popular', 'top', 'updated', aplicando restrições (status ativo, autor, etc.), definindo ordenação e paginamento, e configurando RSS.
+
+Análise de BxPostsUploaderHTML5.php (Classe de Upload HTML5 do Módulo Posts):
+- BxPostsUploaderHTML5 extends BxBaseModTextUploaderHTML5: Classe para gerenciar o upload de arquivos HTML5 específico do módulo posts.
+- __construct($aObject, $sStorageObject, $sUniqId, $oTemplate): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com objeto, objeto de armazenamento, ID único e template.
+- isAdmin($iContentId = 0): Método protegido para verificar se o usuário é administrador ou moderador do módulo.
+
+Análise de BxPostsUploaderHTML5Attach.php (Classe de Upload de Anexos HTML5 do Módulo Posts):
+- BxPostsUploaderHTML5Attach extends BxBaseModTextUploaderHTML5Attach: Classe para gerenciar o upload de anexos HTML5 específico do módulo posts.
+- __construct($aObject, $sStorageObject, $sUniqId, $oTemplate): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com objeto, objeto de armazenamento, ID único e template.
+- isAdmin($iContentId = 0): Método protegido para verificar se o usuário é administrador ou moderador do módulo.
+
+Análise de BxPostsGridAdministration.php (Classe de Grid de Administração do Módulo Posts):
+- BxPostsGridAdministration extends BxBaseModTextGridAdministration: Classe para gerenciar grids de administração específicos do módulo posts.
+- __construct($aOptions, $oTemplate = false): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com opções e template.
+
+Análise de BxPostsMenuAttachments.php (Classe de Menu de Anexos do Módulo Posts):
+- BxPostsMenuAttachments extends BxBaseModTextMenuAttachments: Classe para gerenciar menus de anexos específicos do módulo posts.
+- __construct($aObject, $oTemplate = false): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com objeto e template.
+
+Análise de BxPostsFormsEntryHelper.php (Classe de Ajudante de Formulários de Entrada do Módulo Posts):
+- BxPostsFormsEntryHelper extends BxBaseModTextFormsEntryHelper: Classe para gerenciar ajudantes de formulários de entrada específicos do módulo posts.
+- __construct($oModule): Construtor que chama o construtor da classe pai com o módulo fornecido.
+
+Análise de BxPostsMenuManageTools.php (Classe de Menu de Ferramentas de Gerenciamento do Módulo Posts):
+- BxPostsMenuManageTools extends BxBaseModTextMenuManageTools: Classe para gerenciar o menu de ferramentas de gerenciamento específico do módulo posts.
+- __construct($aObject, $oTemplate = false): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com objeto e template.
+
+Análise de BxPostsMenuSnippetMeta.php (Classe de Metadados de Snippets do Módulo Posts):
+- BxPostsMenuSnippetMeta extends BxBaseModTextMenuSnippetMeta: Classe para gerenciar metadados de snippets específicos do módulo posts.
+- __construct($aObject, $oTemplate = false): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com objeto e template.
+
+Análise de BxPostsMenuView.php (Classe de Visualização de Menu do Módulo Posts):
+- BxPostsMenuView extends BxBaseModTextMenuView: Classe para gerenciar a visualização de menus específicos do módulo posts.
+- __construct($aObject, $oTemplate = false): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com objeto e template.
+
+Análise de BxPostsMenuViewActions.php (Classe de Ações de Visualização Social do Módulo Posts):
+- BxPostsMenuViewActions extends BxBaseModTextMenuViewActions: Classe para gerenciar ações de visualização social específicas do módulo posts.
+- __construct($aObject, $oTemplate = false): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com objeto e template.
+- _getMenuItemEditPost($aItem): Método protegido para obter item de menu para edição de post.
+- _getMenuItemDeletePost($aItem): Método protegido para obter item de menu para exclusão de post.
+
+Análise de BxPostsPageAuthor.php (Classe de Página de Autor do Módulo Posts):
+- BxPostsPageAuthor extends BxBaseModTextPageAuthor: Classe para gerenciar a página de entradas de perfil (autor) específica do módulo posts.
+- __construct($aObject, $oTemplate = false): Construtor que chama o construtor da classe pai com objeto e template.
+
+Análise de BxPostsPageBrowse.php (Classe de Navegação de Páginas do Módulo Posts):
+- BxPostsPageBrowse extends BxBaseModTextPageBrowse: Classe para gerenciar páginas de navegação de entradas específicas do módulo posts.
+- __construct($aObject, $oTemplate = false): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com objeto e template.
+
+Análise de BxPostsPageEntry.php (Classe de Página de Entrada do Módulo Posts):
+- BxPostsPageEntry extends BxBaseModTextPageEntry: Classe para gerenciar páginas de criação e edição de entradas específicas do módulo posts.
+- __construct($aObject, $oTemplate = false): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com objeto e template.
+- _setSubmenu($aParams): Método protegido para definir submenu com parâmetros personalizados, incluindo título e ícone vazios.
+
+Análise de BxPostsPageListEntry.php (Classe de Página de Listagem de Entradas do Módulo Posts):
+- BxPostsPageListEntry extends BxBaseModTextPageListEntry: Classe para gerenciar páginas de listagem de entradas específicas do módulo posts.
+- __construct($aObject, $oTemplate = false): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com objeto e template.
+
+Análise de BxPostsUploaderHTML5.php (Classe de Upload HTML5 do Módulo Posts):
+- BxPostsUploaderHTML5 extends BxBaseModTextUploaderHTML5: Classe para gerenciar o upload de arquivos HTML5 específico do módulo posts.
+- __construct($aObject, $sStorageObject, $sUniqId, $oTemplate): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com objeto, objeto de armazenamento, ID único e template.
+- isAdmin($iContentId = 0): Método protegido para verificar se o usuário é administrador ou moderador do módulo.
+
+Análise de BxPostsUploaderHTML5Attach.php (Classe de Upload de Anexos HTML5 do Módulo Posts):
+- BxPostsUploaderHTML5Attach extends BxBaseModTextUploaderHTML5Attach: Classe para gerenciar o upload de anexos HTML5 específico do módulo posts.
+- __construct($aObject, $sStorageObject, $sUniqId, $oTemplate): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com objeto, objeto de armazenamento, ID único e template.
+- isAdmin($iContentId = 0): Método protegido para verificar se o usuário é administrador ou moderador do módulo.
+
+Análise de BxPostsUploaderRecordVideo.php (Classe de Upload de Vídeos Gravados do Módulo Posts):
+- BxPostsUploaderRecordVideo extends BxTemplUploaderRecordVideo: Classe para gerenciar o upload de vídeos gravados específico do módulo posts.
+- __construct($aObject, $sStorageObject, $sUniqId, $oTemplate): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com objeto, objeto de armazenamento, ID único e template.
+- isAdmin($iContentId = 0): Método protegido para verificar se o usuário é administrador ou moderador do módulo.
+
+Análise de BxPostsUploaderRecordVideoAttach.php (Classe de Upload de Anexos de Vídeos Gravados do Módulo Posts):
+- BxPostsUploaderRecordVideoAttach extends BxBaseModTextUploaderRecordVideoAttach: Classe para gerenciar o upload de anexos de vídeos gravados específico do módulo posts.
+- __construct($aObject, $sStorageObject, $sUniqId, $oTemplate): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com objeto, objeto de armazenamento, ID único e template.
+- isAdmin($iContentId = 0): Método protegido para verificar se o usuário é administrador ou moderador do módulo.
+
+Análise de BxPostsVotePollAnswers.php (Classe de Votação em Enquetes do Módulo Posts):
+- BxPostsVotePollAnswers extends BxBaseModTextVotePollAnswers: Classe para gerenciar a votação em enquetes específica do módulo posts.
+- __construct($sSystem, $iId, $iInit = 1): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com sistema, ID e inicialização.
+
+Análise de BxPostsFormPoll.php (Classe de Formulário de Enquetes do Módulo Posts):
+- BxPostsFormPoll extends BxBaseModTextFormPoll: Classe para gerenciar formulários de enquetes específicos do módulo posts.
+- __construct($aInfo, $oTemplate = false): Construtor que define o módulo como 'bx_posts', especifica campos a serem verificados contra spam ('answers') e chama o construtor da classe pai com informações e template.
+- BxPostsFormPollCheckerHelper extends BxBaseModTextFormPollCheckerHelper: Classe auxiliar para verificação de formulários de enquetes.
+
+Análise de BxPostsGridCommon.php (Classe de Grid Comum do Módulo Posts):
+- BxPostsGridCommon extends BxBaseModTextGridCommon: Classe para gerenciar grids comuns específicos do módulo posts.
+- __construct($aOptions, $oTemplate = false): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com opções e template.
+
+Análise de BxPostsTemplate.php (Classe de Template do Módulo Posts):
+- BxPostsTemplate extends BxBaseModTextTemplate: Classe para gerenciar templates específicos do módulo posts.
+- __construct(&$oConfig, &$oDb): Construtor que define o módulo como 'bx_posts' e chama o construtor da classe pai com configuração e banco de dados.
+- getUnit($aData, $aParams = array()): Método protegido para obter uma unidade de template, com personalização para nomes de unidade como 'unit_gallery' e 'unit_showcase'.
+- getUnitThumbAndGallery($aData): Método protegido para obter thumbnail e galeria de uma unidade, utilizando a imagem da galeria para ambos os casos.
+
+Análise de BxPostsStudioPage.php (Classe de Página de Estúdio do Módulo Posts):
+- BxPostsStudioPage extends BxTemplStudioModule: Classe para gerenciar páginas de estúdio específicas do módulo posts.
+- __construct($sModule, $mixedPageName, $sPage = ""): Construtor que define o módulo como 'bx_posts', obtém a instância do módulo e chama o construtor da classe pai com módulo, nome da página e página.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades Identificadas):
+- GET /api/posts: Lista todos os posts (criar serviço para retornar lista de posts, possivelmente usando métodos de BxPostsSearchResult).
+- GET /api/posts/{id}: Obtém detalhes de um post específico (criar serviço para retornar dados de um post).
+- POST /api/posts: Cria um novo post (usar lógica de BxPostsFormEntry::insert para processar dados do formulário).
+- PUT /api/posts/{id}: Atualiza um post existente (usar lógica de BxPostsFormEntry::update para atualizar dados).
+- DELETE /api/posts/{id}: Exclui um post (criar serviço com verificação de permissão, mapeado em BxPostsConfig::MENU_ITEM_TO_METHOD).
+- GET /api/posts/timeline: Lista posts para integração com timeline (usar serviceGetTimelinePost).
+- POST /api/posts/{id}/comments/allow: Configura permissão para comentários (derivado de serviceCheckAllowedCommentsPost e serviceCheckAllowedCommentsView).
+- GET /api/posts/recent: Lista posts recentes (usar modo 'recent' de BxPostsSearchResult).
+- GET /api/posts/featured: Lista posts em destaque (usar modo 'featured' de BxPostsSearchResult).
+- GET /api/posts/popular: Lista posts populares (usar modo 'popular' de BxPostsSearchResult).
+- GET /api/posts/top: Lista posts mais votados (usar modo 'top' de BxPostsSearchResult).
+- GET /api/posts/updated: Lista posts atualizados recentemente (usar modo 'updated' de BxPostsSearchResult).
+- GET /api/posts/author/{authorId}: Lista posts por autor (usar modo 'author' de BxPostsSearchResult).
+- GET /api/posts/context/{contextId}: Lista posts por contexto (usar modo 'context' de BxPostsSearchResult).
+- GET /api/posts/favorites/{userId}: Lista posts favoritados por um usuário (usar modo 'favorite' de BxPostsSearchResult).
+- POST /api/posts/{id}/media/cover: Adiciona ou atualiza capa do post (derivado de BxPostsFormEntry para upload de capa).
+- POST /api/posts/{id}/media/photos: Adiciona fotos ao post (derivado de BxPostsFormEntry para upload de fotos).
+- POST /api/posts/{id}/media/videos: Adiciona vídeos ao post (derivado de BxPostsFormEntry para upload de vídeos).
+- POST /api/posts/{id}/media/sounds: Adiciona sons ao post (derivado de BxPostsFormEntry para upload de sons).
+- POST /api/posts/{id}/media/files: Adiciona arquivos ao post (derivado de BxPostsFormEntry para upload de arquivos).
+- POST /api/posts/{id}/poll: Adiciona ou atualiza uma enquete no post (derivado de BxPostsFormEntry para campo 'poll').
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Busca de Comentários):
+- GET /api/posts/{id}/comments: Lista comentários de um post específico (criar serviço para retornar comentários usando métodos de BxPostsCmtsSearchResult).
+- GET /api/posts/comments: Lista todos os comentários de posts (criar serviço para busca geral de comentários no módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Alertas):
+- GET /api/posts/alerts: Lista alertas relacionados a posts (criar serviço para retornar alertas específicos do módulo posts).
+- POST /api/posts/alerts/response: Responde a um alerta de post (criar serviço para processar respostas a alertas).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Publicação Agendada):
+- POST /api/posts/publish: Publica posts agendados manualmente (criar serviço para acionar a publicação de posts agendados, similar ao processamento cron).
+- GET /api/posts/scheduled: Lista posts agendados para publicação (criar serviço para retornar posts com status de agendamento).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Banco de Dados):
+- GET /api/posts/db/stats: Obtém estatísticas ou metadados do banco de dados de posts (criar serviço para retornar dados estatísticos, se necessário).
+- GET /api/posts/db/{id}: Recupera dados brutos de um post do banco de dados (criar serviço para acesso direto a dados, possivelmente para depuração ou administração).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades Administrativas):
+- GET /api/posts/admin: Lista posts para administração (criar serviço para retornar lista de posts com opções administrativas).
+- POST /api/posts/admin/{id}/action: Executa ações administrativas em um post específico (criar serviço para ações como aprovar, rejeitar, etc.).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Menu):
+- GET /api/posts/menu: Obtém estrutura de menu para posts (criar serviço para retornar opções de menu específicas do módulo posts).
+- GET /api/posts/attachments/menu: Obtém estrutura de menu para anexos de posts (criar serviço para retornar opções de menu de anexos específicas do módulo posts).
+- GET /api/posts/manage/tools: Obtém estrutura de menu para ferramentas de gerenciamento de posts (criar serviço para retornar opções de menu de ferramentas de gerenciamento específicas do módulo posts).
+- GET /api/posts/view/menu: Obtém estrutura de menu para visualização de posts (criar serviço para retornar opções de menu de visualização específicas do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Metadados de Snippets):
+- GET /api/posts/snippets/meta: Obtém metadados de snippets para posts (criar serviço para retornar metadados de snippets específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Ações de Visualização):
+- GET /api/posts/view/actions: Obtém estrutura de menu para ações de visualização de posts (criar serviço para retornar opções de ações de visualização específicas do módulo posts).
+- POST /api/posts/{id}/edit: Edita um post específico (criar serviço para ação de edição de post).
+- DELETE /api/posts/{id}/delete: Exclui um post específico (criar serviço para ação de exclusão de post).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Página de Entrada):
+- GET /api/posts/entry/{id}: Obtém dados de uma entrada específica para visualização ou edição (criar serviço para retornar dados de uma entrada específica).
+- POST /api/posts/entry: Cria uma nova entrada de post (criar serviço para criação de entradas).
+- PUT /api/posts/entry/{id}: Atualiza uma entrada de post existente (criar serviço para atualização de entradas).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Página de Autor):
+- GET /api/posts/author/{authorId}: Obtém posts de um autor específico (criar serviço para retornar posts associados a um autor específico).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Navegação de Páginas):
+- GET /api/posts/browse: Obtém lista de posts para navegação (criar serviço para retornar posts com opções de navegação específicas do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Upload HTML5):
+- POST /api/posts/upload/html5: Realiza upload de arquivos via HTML5 para posts (criar serviço para upload de arquivos específicos do módulo posts).
+- POST /api/posts/upload/html5/attach: Realiza upload de anexos via HTML5 para posts (criar serviço para upload de anexos específicos do módulo posts).
+- POST /api/posts/upload/video/record: Realiza upload de vídeos gravados (criar serviço para upload de vídeos gravados específicos do módulo posts).
+- POST /api/posts/upload/video/record/attach: Realiza upload de anexos de vídeos gravados (criar serviço para upload de anexos de vídeos gravados específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Votação em Enquetes):
+- POST /api/posts/polls/{pollId}/vote: Registra um voto em uma enquete específica (criar serviço para votação em enquetes específicas do módulo posts).
+- GET /api/posts/polls/{pollId}/results: Obtém os resultados de uma enquete específica (criar serviço para retornar resultados de enquetes).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Formulário de Enquetes):
+- POST /api/posts/polls: Cria uma nova enquete associada a um post (criar serviço para criação de enquetes específicas do módulo posts).
+- PUT /api/posts/polls/{pollId}: Atualiza uma enquete existente (criar serviço para atualização de enquetes).
+- DELETE /api/posts/polls/{pollId}: Exclui uma enquete específica (criar serviço para exclusão de enquetes).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Grid Comum):
+- GET /api/posts/grid/common: Obtém dados de grid comum para posts (criar serviço para retornar dados de grid comum específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Template):
+- GET /api/posts/templates/unit: Obtém dados de unidade de template para posts (criar serviço para retornar dados de unidade de template específicos do módulo posts).
+- GET /api/posts/templates/gallery/{id}: Obtém imagens de galeria para um post específico (criar serviço para retornar imagens de galeria).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Página de Estúdio):
+- GET /api/posts/studio/page: Obtém dados da página de estúdio para posts (criar serviço para retornar dados da página de estúdio específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Listagem de Entradas):
+- GET /api/posts/list: Obtém dados da página de listagem de posts (criar serviço para retornar dados da listagem de entradas específicas do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Banco de Dados):
+- GET /api/posts/db/data: Obtém dados do banco de dados para posts (criar serviço para retornar dados do banco de dados específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Publicação Agendada):
+- POST /api/posts/publish/scheduled: Publica entradas agendadas manualmente (criar serviço para acionar a publicação de entradas agendadas específicas do módulo posts).
+- GET /api/posts/publish/scheduled/status: Obtém o status das entradas agendadas para publicação (criar serviço para retornar o status de publicações agendadas).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Resposta a Alertas):
+- GET /api/posts/alerts/response: Obtém dados de respostas a alertas para posts (criar serviço para retornar dados de respostas a alertas específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Busca de Comentários):
+- GET /api/posts/comments/search: Realiza busca de comentários em posts (criar serviço para retornar resultados de busca de comentários específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Menu Geral):
+- GET /api/posts/menu/general: Obtém dados do menu geral para posts (criar serviço para retornar dados do menu geral específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Configuração):
+- GET /api/posts/config: Obtém dados de configuração do módulo posts (criar serviço para retornar configurações específicas do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades Principais):
+- GET /api/posts/timeline: Obtém dados de posts para timeline (criar serviço para retornar posts ajustados para timeline).
+- POST /api/posts/{id}/comments/allow: Configura permissão para comentários (derivado de serviceCheckAllowedCommentsPost e serviceCheckAllowedCommentsView).
+- GET /api/posts/{id}/comments/allow: Verifica se a visualização de comentários é permitida em um post específico.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Formulário de Entrada):
+- POST /api/posts: Cria uma nova entrada de post (criar serviço para processar formulário de criação de posts).
+- PUT /api/posts/{id}: Atualiza uma entrada de post existente (criar serviço para processar formulário de edição de posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Busca):
+- GET /api/posts/search: Realiza busca geral de posts (criar serviço para retornar resultados de busca).
+- GET /api/posts/recent: Obtém posts recentes (modo 'recent').
+- GET /api/posts/featured: Obtém posts em destaque (modo 'featured').
+- GET /api/posts/popular: Obtém posts populares (modo 'popular').
+- GET /api/posts/top: Obtém posts mais votados (modo 'top').
+- GET /api/posts/updated: Obtém posts atualizados recentemente (modo 'updated').
+- GET /api/posts/author/{authorId}: Obtém posts por autor (modo 'author').
+- GET /api/posts/context/{contextId}: Obtém posts por contexto (modo 'context').
+- GET /api/posts/favorite/{userId}: Obtém posts favoritos de um usuário (modo 'favorite').
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Upload HTML5):
+- POST /api/posts/upload/html5: Realiza upload de arquivos via HTML5 para posts (criar serviço para processar upload de arquivos HTML5).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Upload de Anexos HTML5):
+- POST /api/posts/upload/html5/attach: Realiza upload de anexos via HTML5 para posts (criar serviço para processar upload de anexos HTML5).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Grid de Administração):
+- GET /api/posts/grid/administration: Obtém dados de grid de administração para posts (criar serviço para retornar dados de grid de administração específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Menu de Anexos):
+- GET /api/posts/menu/attachments: Obtém dados do menu de anexos para posts (criar serviço para retornar dados do menu de anexos específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Ajudante de Formulários de Entrada):
+- GET /api/posts/forms/entry/helper: Obtém dados de ajudante para formulários de entrada de posts (criar serviço para retornar dados de ajudante para formulários de entrada específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Menu de Ferramentas de Gerenciamento):
+- GET /api/posts/manage/tools: Obtém dados do menu de ferramentas de gerenciamento para posts (criar serviço para retornar dados do menu de ferramentas de gerenciamento específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Metadados de Snippets):
+- GET /api/posts/snippet/meta/{id}: Obtém metadados de snippet para um post específico (criar serviço para retornar metadados de snippet específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Visualização de Menu):
+- GET /api/posts/view/menu/{id}: Obtém dados do menu de visualização para um post específico (criar serviço para retornar dados do menu de visualização específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Ações de Visualização Social):
+- GET /api/posts/view/actions/{id}: Obtém ações de visualização social para um post específico (criar serviço para retornar ações de visualização específicas do módulo posts).
+- POST /api/posts/edit/{id}: Realiza a ação de edição de um post (criar serviço para edição de posts).
+- DELETE /api/posts/delete/{id}: Realiza a ação de exclusão de um post (criar serviço para exclusão de posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Página de Autor):
+- GET /api/posts/author/{authorId}: Obtém dados da página de autor para posts (criar serviço para retornar dados da página de autor específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Navegação de Páginas):
+- GET /api/posts/browse: Obtém dados da página de navegação de posts (criar serviço para retornar dados da página de navegação específicos do módulo posts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Página de Entrada):
+- GET /api/posts/entry/{id}: Obtém dados da página de entrada de um post específico (criar serviço para retornar dados da página de entrada).
+- GET /api/posts/entry/create: Obtém dados da página para criação de um novo post (criar serviço para retornar formulário de criação).
+- GET /api/posts/entry/edit/{id}: Obtém dados da página para edição de um post existente (criar serviço para retornar formulário de edição).

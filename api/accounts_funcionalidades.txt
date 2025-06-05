@@ -1,0 +1,159 @@
+Módulo: Accounts
+
+Descrição Geral:
+O módulo 'accounts' gerencia contas de usuários no sistema UNA, cobrindo funcionalidades como criação, atualização, exclusão, confirmação de e-mail/telefone, gerenciamento de senhas, papéis de operador, e auditoria. É composto por classes como BxAccntModule.php (lógica específica do módulo) e utiliza classes base como BxDolAccount.php (core do sistema para manipulação de contas).
+
+Funcionalidades e Métodos Relevantes (Análise Completa):
+
+1. BxDolAccount.php (Core Account Management):
+   - __construct($iAccountId): Construtor protegido que inicializa uma instância de conta com um ID específico.
+   - __clone(): Previne a clonagem de instâncias para manter o padrão Singleton.
+   - getInstance($mixedAccountId = false, $bClearCache = false): Retorna uma instância única da conta com base no ID ou no usuário logado.
+   - getInstanceStudioOperator(): Retorna a instância do operador do estúdio (possivelmente um administrador).
+   - id(): Retorna o ID da conta.
+   - isConfirmed($iAccountId = false): Verifica se a conta está confirmada com base no tipo de confirmação (e-mail, telefone, ambos).
+   - getCurrentConfirmationStatusValue($iAccountId = false): Retorna o status atual de confirmação (e-mail, telefone ou ambos).
+   - isConfirmedEmail($iAccountId = false): Verifica se o e-mail da conta está confirmado.
+   - isConfirmedPhone($iAccountId = false): Verifica se o telefone da conta está confirmado.
+   - isNeedConfirmEmail(): Verifica se a confirmação de e-mail é necessária com base nas configurações do sistema.
+   - isNeedConfirmPhone(): Verifica se a confirmação de telefone é necessária com base nas configurações do sistema.
+   - isLocked($iAccountId = false): Verifica se a conta está bloqueada.
+   - updateEmailConfirmed($isConfirmed, $isAutoSendConfirmationEmail = true, $iAccountId = false): Marca o e-mail como confirmado ou não, com opção de enviar e-mail de confirmação automaticamente.
+   - updatePhoneConfirmed($isConfirmed, $iAccountId = false): Marca o telefone como confirmado ou não.
+   - updatePassword($sPassword, $iAccountId = false): Altera a senha da conta, gerando um hash seguro.
+   - updatePhone($sPhone, $iAccountId = false): Atualiza o número de telefone da conta.
+   - updateProfileContextAuto($iProfileIdFilterOut = false, $iAccountId = false): Alterna automaticamente para o primeiro perfil disponível da conta.
+   - updateProfileContext($iSwitchToProfileId, $iAccountId = false): Alterna para um perfil específico associado à conta.
+   - sendConfirmationEmail($iAccountId = false): Envia um e-mail de confirmação com um link único.
+   - sendResetPasswordEmail($iAccountId = false): Envia um e-mail para redefinição de senha.
+   - getInfo($iAccountId = false): Retorna informações detalhadas da conta.
+   - getDisplayName($iAccountId = false): Retorna o nome de exibição da conta.
+   - getUrl($iAccountId = false): Retorna a URL da conta (atualmente retorna um placeholder 'javascript:void(0);').
+   - getUnit($iAccountId = false, $aParams = array()): Retorna um bloco HTML representando a conta (com imagem, nome, etc.).
+   - getPicture($iAccountId = false): Retorna a URL da imagem da conta.
+   - getAvatarBig($iAccountId = false): Retorna a URL do avatar grande da conta.
+   - getAvatar($iAccountId = false): Retorna a URL do avatar da conta.
+   - getThumb($iAccountId = false): Retorna a URL da miniatura da conta.
+   - getIcon($iAccountId = false): Retorna a URL do ícone da conta.
+   - getEmail($iAccountId = false): Retorna o e-mail da conta.
+   - getLanguageId($iAccountId = false): Retorna o ID do idioma configurado para a conta.
+   - isOnline($iAccountId = false): Verifica se a conta está online.
+   - getID($s): Valida e retorna o ID da conta com base em um identificador (ID ou e-mail).
+   - isProfilesLimitReached(): Verifica se o limite de perfis associados à conta foi atingido.
+   - getProfilesNumber($isFilterNonSwitchableProfiles = true): Retorna o número de perfis associados à conta.
+   - getProfilesIds($isFilterNonSwitchableProfiles = true, $isFilterSystemProfiles = true): Retorna os IDs dos perfis associados à conta.
+   - getProfiles($isFilterNonSwitchableProfiles = true, $isFilterSystemProfiles = true): Retorna os perfis associados à conta.
+   - delete($bDeleteWithContent = false, $bScheduled = false): Exclui a conta, opcionalmente com conteúdo associado, e pode ser agendado.
+   - addInformerPermanentMessages($oInformer): Adiciona mensagens permanentes ao informante (notificações para o usuário).
+   - addInformerDeletionScheduled($oInformer): Adiciona mensagem sobre exclusão agendada.
+   - getUnsubscribeLink($iEmailType, $iAccountId = false): Retorna um link para cancelar assinatura de e-mails.
+   - getEmailHash($iAccountId = false): Retorna um hash do e-mail da conta.
+   - getPasswordChangedDate($mixedAccount = false): Retorna a data da última alteração de senha.
+   - getPasswordExpiredDate($iPasswordExpiredForMembership, $mixedAccount = false): Retorna a data de expiração da senha com base na associação.
+   - isNeedChangePassword($iAccountId = false, $oInformer = false): Verifica se a senha precisa ser alterada.
+   - doAudit($iAccountId, $sAction, $aData = []): Registra ações de auditoria para a conta.
+   - isAllowedCreate($iProfileId, $isPerformAction = false): Verifica se a criação de conteúdo/perfil é permitida.
+   - isAllowedCreateMultiple($iProfileId, $isPerformAction = false): Verifica se a criação de múltiplos conteúdos/perfis é permitida.
+   - isAllowedEdit($iProfileId, $aContentInfo, $isPerformAction = false): Verifica se a edição de conteúdo/perfil é permitida.
+   - isAllowedDelete($iProfileId, $aContentInfo, $isPerformAction = false): Verifica se a exclusão de conteúdo/perfil é permitida.
+   - pruning(): Método para limpeza de dados (detalhes não visíveis no trecho analisado).
+   - _getImageUrl($sSize, $mixedData): Método interno para obter URLs de imagens em diferentes tamanhos.
+
+2. BxAccntModule.php (Module-Specific Logic):
+   - __construct($aModule): Construtor que inicializa o módulo e configura o banco de dados.
+   - serviceGetSafeServices(): Retorna um array vazio, indicando que não há serviços públicos pré-definidos para chamadas seguras via API.
+   - serviceGetOptionsExportTo(): Retorna opções de exportação (CSV, XML) para dados de contas.
+   - serviceGetTitle($iContentId): Retorna o e-mail de uma conta específica com base no ID.
+   - serviceGetOptionsExportFields(): Retorna campos disponíveis para exportação, baseados em campos de conta no banco de dados.
+   - serviceGetMenuAddonManageTools(): Retorna contadores de contas não confirmadas e total de contas para o painel de administração.
+   - checkAllowedConfirm(&$aDataEntry, $isPerformAction = false): Verifica se é permitido confirmar uma conta (restrito a administradores e se a conta ainda não estiver confirmada).
+   - checkAllowedDelete(&$aDataEntry, $isPerformAction = false): Verifica se é permitido excluir uma conta (administradores não podem excluir a própria conta, além de verificações de ACL).
+   - checkAllowedSetOperatorRole(&$aDataEntry, $isPerformAction = false): Verifica se é permitido definir um papel de operador (restrito a administradores com permissão específica).
+   - checkAllowedMakeOperator(&$aDataEntry, $isPerformAction = false): Verifica se é permitido tornar uma conta operador (restrito a administradores com permissão, não aplicável à própria conta ou a operadores existentes).
+   - checkAllowedUnmakeOperator(&$aDataEntry, $isPerformAction = false): Verifica se é permitido remover o status de operador (restrito a administradores com permissão, não aplicável à própria conta ou a não operadores).
+   - checkAllowedUnlockAccount(&$aDataEntry, $isPerformAction = false): Verifica se é permitido desbloquear uma conta (somente se a conta estiver bloqueada).
+   - isAllowDeleteOrDisable($iActorProfileId, $iTargetProfileId): Verifica se um perfil pode deletar ou desabilitar outro com base em níveis de acesso (ex.: moderadores não podem deletar administradores).
+
+3. BxAccntConfig.php (Configuração do Módulo Accounts):
+   - BxAccntConfig extends BxBaseModGeneralConfig: Classe para gerenciar configurações específicas do módulo accounts.
+   - __construct($aModule): Construtor que inicializa o módulo e define configurações como comprimento máximo do nome de perfil, parâmetros de ordenação, exportação, URLs de páginas, objetos de formulário, menu, grid, e chaves de idioma.
+   - getHtmlIds(): Retorna IDs HTML para elementos de interface.
+
+4. BxAccntDb.php (Banco de Dados do Módulo Accounts):
+   - BxAccntDb extends BxBaseModGeneralDb: Classe para gerenciar interações com o banco de dados específicas do módulo accounts.
+   - __construct(&$oConfig): Construtor que inicializa a configuração do módulo.
+   - getAccountFields(): Retorna os campos da tabela de contas (sys_accounts).
+   - getAccountIds(): Obtém IDs de contas, excluindo a conta 'Robot'.
+   - updateAccount($aSet, $aWhere): Atualiza dados de contas com base em condições específicas.
+   - getEntriesNumByParams($aParams = []): Conta o número de entradas de contas com base em parâmetros fornecidos.
+
+5. BxAccntFormAccount.php (Formulário de Conta do Módulo Accounts):
+   - BxAccntFormAccount extends BxTemplFormAccount: Classe para gerenciar formulários de conta específicos do módulo accounts.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário com informações e template.
+   - BxAccntFormAccountCheckerHelper extends BxFormAccountCheckerHelper: Classe auxiliar para verificações de formulário de conta.
+
+6. BxAccntGridAdministration.php (Grid de Administração do Módulo Accounts):
+   - BxAccntGridAdministration extends BxBaseModProfileGridAdministration: Classe para gerenciar grids de administração específicos do módulo accounts.
+   - __construct($aOptions, $oTemplate = false): Construtor que define o módulo como 'bx_accounts', inicializa filtros para contas não confirmadas, bloqueadas, sem perfil e operadores.
+   - _getDataSql($sFilter, $sOrderField, $sOrderDir, $iStart, $iPerPage): Método protegido para obter dados SQL com base em filtros e ordenação.
+
+7. BxAccntMenuManageTools.php (Menu de Ferramentas de Gerenciamento do Módulo Accounts):
+   - BxAccntMenuManageTools extends BxBaseModGeneralMenuManageTools: Classe para gerenciar o menu de ferramentas de gerenciamento específico do módulo accounts.
+   - __construct($aObject, $oTemplate = false): Construtor que define o módulo como 'bx_accounts' e chama o construtor da classe pai.
+   - _isVisible($a): Método protegido para verificar a visibilidade dos itens do menu com base em permissões para ações como deletar, definir papel de operador, tornar operador e desfazer operador.
+
+8. BxAccntSearchResult.php (Resultados de Busca do Módulo Accounts):
+   - BxAccntSearchResult extends BxBaseModGeneralSearchResult: Classe para gerenciar resultados de busca específicos do módulo accounts.
+   - __construct($sMode = '', $aParams = false): Construtor que configura a busca de contas com base em modos de confirmação (email, telefone, ambos) e restrições como contas confirmadas, não confirmadas e não robôs.
+
+9. BxAccntStudioPage.php (Página de Estúdio do Módulo Accounts):
+   - BxAccntStudioPage extends BxTemplStudioModule: Classe para gerenciar a página de estúdio específica do módulo accounts.
+   - __construct($sModule, $mixedPageName, $sPage = ""): Construtor que define o módulo como 'bx_accounts', inicializa o módulo e configura itens de menu para gerenciamento e configurações.
+   - getManage(): Método protegido para obter a interface de gerenciamento do tipo 'administration' usando um grid.
+
+10. BxAccntTemplate.php (Template do Módulo Accounts):
+   - BxAccntTemplate extends BxBaseModGeneralTemplate: Classe para gerenciar templates específicos do módulo accounts.
+   - __construct(&$oConfig, &$oDb): Construtor que define o módulo como 'bx_accounts', inicializa tipos de autenticação a partir do banco de dados.
+   - getProfilesByAccount($aContentInfo, $iMaxVisible = 2, $iMaxInPopup = 20): Método para obter perfis associados a uma conta, com limite visível e popup.
+   - getAuthTypes($aContentInfo): Método para obter tipos de autenticação disponíveis para uma conta.
+   - getLinkAuth($sType, $iAccountId, $sCallbackUrl = ''): Método para gerar link de autenticação para um tipo específico.
+   - getUnlinkAuth($sType, $iAccountId): Método para gerar link de desvinculação de autenticação.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades Identificadas):
+- GET /api/users: Lista todas as contas (criar serviço em BxAccntModule.php para retornar lista de contas usando getInfo()).
+- GET /api/users/{id}: Obtém detalhes de uma conta específica (usar serviceGetTitle() ou criar serviço mais completo para retornar getInfo()).
+- POST /api/users: Cria uma nova conta (necessita de método em BxDolAccount ou serviço em BxAccntModule.php; não encontrado explicitamente, mas pode ser implementado).
+- PUT /api/users/{id}: Atualiza informações da conta (usar updatePassword(), updatePhone(), ou criar método genérico para outros campos).
+- DELETE /api/users/{id}: Exclui uma conta (usar delete() com verificação de permissão via checkAllowedDelete()).
+- POST /api/users/{id}/confirm/email: Confirma o e-mail da conta (usar updateEmailConfirmed() com verificação via checkAllowedConfirm()).
+- POST /api/users/{id}/confirm/phone: Confirma o telefone da conta (usar updatePhoneConfirmed() com verificação via checkAllowedConfirm()).
+- POST /api/users/{id}/password/reset: Envia e-mail de redefinição de senha (usar sendResetPasswordEmail()).
+- PUT /api/users/{id}/password: Atualiza a senha da conta (usar updatePassword()).
+- PUT /api/users/{id}/phone: Atualiza o telefone da conta (usar updatePhone()).
+- POST /api/users/{id}/roles/operator: Define ou remove papel de operador (criar serviço usando checkAllowedMakeOperator() e checkAllowedUnmakeOperator()).
+- POST /api/users/{id}/unlock: Desbloqueia a conta (criar serviço usando checkAllowedUnlockAccount()).
+- GET /api/users/{id}/profiles: Lista perfis associados à conta (usar getProfiles() ou getProfilesIds()).
+- POST /api/users/{id}/profiles/switch/{profileId}: Alterna para um perfil específico (usar updateProfileContext()).
+- GET /api/users/{id}/status: Retorna status de confirmação e bloqueio (usar isConfirmed(), isLocked(), etc.).
+- GET /api/users/export?format={csv|xml}&fields={field_list}: Exporta dados de contas (usar serviceGetOptionsExportTo() e serviceGetOptionsExportFields()).
+- GET /api/accounts/config: Obtém configurações gerais do módulo accounts (criar serviço para retornar configurações específicas do módulo).
+- GET /api/accounts/html-ids: Obtém IDs HTML usados na interface do módulo accounts (criar serviço para retornar IDs HTML).
+- GET /api/accounts/fields: Obtém a lista de campos da tabela de contas (criar serviço para retornar campos de sys_accounts).
+- GET /api/accounts/ids: Obtém uma lista de IDs de contas (criar serviço para retornar IDs de contas, excluindo 'Robot').
+- PUT /api/accounts/update: Atualiza dados de contas com base em condições (criar serviço para atualizar contas com base em parâmetros).
+- GET /api/accounts/count: Obtém o número de contas com base em parâmetros de filtro (criar serviço para contar entradas com base em parâmetros).
+- GET /api/accounts/form: Obtém o formulário de conta para criação ou edição (criar serviço para retornar estrutura do formulário de conta).
+- GET /api/accounts/admin-grid: Obtém dados do grid de administração de contas com filtros (criar serviço para retornar dados do grid com opções de filtro como não confirmados, bloqueados, etc.).
+- GET /api/accounts/manage/tools/{id}: Obtém o menu de ferramentas de gerenciamento para uma conta específica (criar serviço para retornar opções de gerenciamento como deletar, definir papel de operador, etc.).
+- POST /api/accounts/{id}/delete: Deleta uma conta (criar serviço para deletar conta, verificando permissões).
+- POST /api/accounts/{id}/set-operator-role: Define um papel de operador para uma conta (criar serviço para definir papel de operador).
+- POST /api/accounts/{id}/make-operator: Torna uma conta um operador (criar serviço para tornar operador).
+- POST /api/accounts/{id}/unmake-operator: Remove o status de operador de uma conta (criar serviço para remover status de operador).
+- GET /api/accounts/search: Realiza busca de contas com base em critérios como nome e email (criar serviço para retornar resultados de busca de contas).
+- GET /api/accounts/search/confirmed: Obtém contas confirmadas (criar serviço para retornar contas confirmadas por email, telefone ou ambos).
+- GET /api/accounts/search/unconfirmed: Obtém contas não confirmadas (criar serviço para retornar contas não confirmadas).
+- GET /api/accounts/studio/page: Obtém dados da página de estúdio para accounts (criar serviço para retornar dados da página de estúdio com opções de gerenciamento e configurações).
+- GET /api/accounts/{id}/profiles: Obtém perfis associados a uma conta específica (criar serviço para retornar lista de perfis por conta).
+- GET /api/accounts/{id}/auth-types: Obtém tipos de autenticação disponíveis para uma conta (criar serviço para retornar tipos de autenticação).
+- GET /api/accounts/{id}/link-auth/{type}: Obtém link de autenticação para um tipo específico (criar serviço para retornar URL de autenticação).
+- GET /api/accounts/{id}/unlink-auth/{type}: Obtém link de desvinculação de autenticação para um tipo específico (criar serviço para retornar URL de desvinculação).

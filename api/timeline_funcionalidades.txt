@@ -1,0 +1,513 @@
+Módulo: Timeline
+
+Descrição Geral:
+O módulo 'timeline' gerencia linhas do tempo no sistema UNA, permitindo a exibição de eventos, posts e outras atividades em ordem cronológica. Este módulo é essencial para a interação social e acompanhamento de atualizações no sistema.
+
+Funcionalidades e Métodos Relevantes (Análise Completa):
+
+1. BxTimelineConfig.php (Configuração do Módulo Timeline):
+   - BxTimelineConfig extends BxBaseModNotificationsConfig: Classe para gerenciar configurações específicas do módulo timeline.
+   - __construct($aModule): Construtor que inicializa o módulo e define uma vasta gama de configurações como permissões de edição e exclusão, cache, rolagem infinita, filtros de contexto, RSS, atualizações ao vivo, exibição de caracteres, cartões breves, preload de vídeos e comentários, entre outros.
+   - getTypeToFormDisplay(): Retorna mapeamento de tipos para exibição de formulários.
+   - Muitos outros métodos get para acessar configurações específicas como permissões, cache, filtros, etc.
+
+2. BxTimelineDb.php (Banco de Dados do Módulo Timeline):
+   - BxTimelineDb extends BxBaseModNotificationsDb: Classe para interagir com o banco de dados no módulo timeline.
+   - __construct(&$oConfig): Construtor que inicializa tabelas e configurações específicas do módulo.
+   - Diversos métodos para gerenciamento de eventos, mídias, reposts, rastreamento de popularidade (hot track) e interações usuário-evento.
+
+3. BxTimelineModule.php (Módulo Principal do Timeline):
+   - BxTimelineModule extends BxBaseModNotificationsModule: Classe principal que gerencia todas as funcionalidades do módulo timeline.
+   - __construct($aModule): Construtor que inicializa o módulo.
+   - actionGetContexts($iLimit = 20): Método de ação para obter contextos.
+   - actionPost(): Método de ação para criar um novo post.
+   - actionEdit($iId): Método de ação para editar um post existente.
+   - actionPin(): Método de ação para fixar um post.
+   - actionStick(): Método de ação para destacar um post para todos.
+   - actionPromote(): Método de ação para promover um post.
+   - actionMarkAsRead(): Método de ação para marcar como lido.
+   - actionMute(): Método de ação para silenciar um perfil.
+   - actionDelete(): Método de ação para deletar um post.
+   - actionRepost(): Método de ação para repostar um item.
+   - serviceGetPosts($aParams): Serviço para obter posts com parâmetros específicos.
+   - serviceGetTimelinePost($aEvent, $aBrowseParams = array()): Serviço para obter um post da linha do tempo.
+   - serviceGetBlockPost($iProfileId = 0): Serviço para obter bloco de postagem.
+   - serviceGetBlockView($iProfileId = 0): Serviço para obter bloco de visualização.
+   - serviceRepost($iAuthorId, $iOwnerId, $sType, $sAction, $iObjectId, $bForce = false): Serviço para repostar um item.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades do Módulo Principal):
+- GET /api/timeline/contexts: Obtém contextos da linha do tempo (usar actionGetContexts).
+- POST /api/timeline/post: Cria um novo post na linha do tempo (usar actionPost).
+- PUT /api/timeline/post/{id}: Edita um post existente na linha do tempo (usar actionEdit).
+- POST /api/timeline/post/{id}/pin: Fixa um post na linha do tempo (usar actionPin).
+- POST /api/timeline/post/{id}/stick: Destaca um post para todos na linha do tempo (usar actionStick).
+- POST /api/timeline/post/{id}/promote: Promove um post na linha do tempo (usar actionPromote).
+- POST /api/timeline/post/{id}/mark-as-read: Marca um post como lido (usar actionMarkAsRead).
+- POST /api/timeline/mute: Silencia um perfil na linha do tempo (usar actionMute).
+- DELETE /api/timeline/post/{id}: Deleta um post da linha do tempo (usar actionDelete).
+- POST /api/timeline/repost/{id}: Reposta um item da linha do tempo (usar actionRepost).
+- GET /api/timeline/posts: Obtém posts da linha do tempo com parâmetros (usar serviceGetPosts).
+- GET /api/timeline/post/{id}: Obtém um post específico da linha do tempo (usar serviceGetTimelinePost).
+- GET /api/timeline/block/post: Obtém bloco de postagem (usar serviceGetBlockPost).
+- GET /api/timeline/block/view: Obtém bloco de visualização (usar serviceGetBlockView).
+
+4. BxTimelineTemplate.php (Template do Módulo Timeline):
+   - BxTimelineTemplate extends BxBaseModNotificationsTemplate: Classe para gerenciar templates específicos do módulo timeline.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa configurações e banco de dados, além de níveis de ACL.
+   - init(): Método para inicializar cache de memória para itens e dados.
+   - Diversos métodos para renderização de itens, posts, reposts, visualizações em diferentes formatos (timeline, outline, search).
+
+5. BxTimelineFormPost.php (Formulário de Postagem do Módulo Timeline):
+    - BxTimelineFormPost extends BxBaseModGeneralFormEntry: Classe para gerenciar formulários de criação e edição de posts no módulo timeline.
+    - __construct($aInfo, $oTemplate = false): Construtor que define o módulo e configura modos de exibição (conta, público, perfil).
+    - Diversos métodos para configurar modos (setModeAccount, setModePublic, setModeProfile) e personalizar campos do formulário.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Formulário de Postagem):
+- GET /api/timeline/form/post: Obtém formulário para criação de novo post na linha do tempo (criar serviço para retornar formulário de postagem).
+- GET /api/timeline/form/edit/{id}: Obtém formulário para edição de post existente na linha do tempo (criar serviço para retornar formulário de edição).
+
+6. BxTimelineGridAdministration.php (Grid de Administração do Módulo Timeline):
+   - BxTimelineGridAdministration extends BxTimelineGridManageTools: Classe para gerenciar o grid de administração de posts no módulo timeline.
+   - __construct($aOptions, $oTemplate = false): Construtor que define o módulo e configura campos de status.
+   - Métodos protegidos para personalizar células do grid como _getCellStatus e _getCellOwnerId.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Administração):
+- GET /api/timeline/admin/grid: Obtém grid de administração de posts na linha do tempo (criar serviço para retornar grid de administração).
+- PUT /api/timeline/admin/status/{id}: Atualiza status de um post na linha do tempo (criar serviço para atualizar status).
+
+7. BxTimelineMenuItemActions.php (Menu de Ações de Item do Módulo Timeline):
+    - BxTimelineMenuItemActions extends BxTemplMenuCustom: Classe para gerenciar o menu de ações de itens no módulo timeline.
+    - __construct($aObject, $oTemplate = false): Construtor que define o módulo e configura parâmetros de navegação.
+    - setEventById($iEventId, $aBrowseParams = array()): Método para definir o evento por ID.
+    - setMode($sMode): Método para definir o modo do menu (ações ou contadores).
+    - getMenuItemsRaw(): Método protegido para obter itens de menu brutos.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Ações de Item):
+- GET /api/timeline/item-actions/{eventId}: Obtém menu de ações para um item específico da linha do tempo (criar serviço para retornar menu de ações).
+- POST /api/timeline/item-action/{eventId}/{action}: Executa uma ação em um item da linha do tempo (criar serviço para gerenciar ações).
+
+8. BxTimelineSearchResult.php (Resultados de Busca do Módulo Timeline):
+   - BxTimelineSearchResult extends BxBaseModNotificationsSearchResult: Classe para gerenciar resultados de busca no módulo timeline.
+   - __construct($sMode = '', $aParams = array()): Construtor que define configurações de busca, campos e restrições.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Busca):
+- GET /api/timeline/search: Realiza busca de eventos na linha do tempo com base em critérios (criar serviço para retornar resultados de busca).
+
+9. BxTimelineStudioPage.php (Página de Estúdio do Módulo Timeline):
+   - BxTimelineStudioPage extends BxBaseModNotificationsStudioPage: Classe para gerenciar a página de estúdio no módulo timeline.
+   - __construct($sModule, $mixedPageName, $sPage = ""): Construtor que define o módulo e inicializa a página de estúdio.
+   - getBlockCode_View(): Método para obter o código do bloco de visualização.
+   - getBlockCode_Comments(): Método para obter o código do bloco de comentários.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Estúdio):
+- GET /api/timeline/studio: Obtém página de estúdio da linha do tempo (criar serviço para retornar página de estúdio).
+- GET /api/timeline/studio/page: Obtém dados da página de estúdio para timeline (criar serviço para retornar dados da página de estúdio).
+
+10. BxTimelineCronHot.php (Cron para Conteúdo Hot do Módulo Timeline):
+    - BxTimelineCronHot extends BxDolCron: Classe para gerenciar tarefas cron relacionadas a conteúdo hot no módulo timeline.
+    - __construct(): Construtor que define o módulo.
+    - processing(): Método para processar conteúdo hot, limpando dados antigos e preparando novos rastreamentos.
+    - _prepareTrackByDates(): Método protegido para preparar rastreamento por datas.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Conteúdo Hot):
+- POST /api/timeline/update-hot-content: Atualiza conteúdo hot na linha do tempo (criar serviço para gerenciar atualização de conteúdo hot).
+- GET /api/timeline/hot-content: Obtém lista de conteúdo hot da linha do tempo (criar serviço para retornar conteúdo hot).
+
+11. BxTimelineUploaderHTML5Attach.php (Uploader HTML5 de Anexos do Módulo Timeline):
+    - BxTimelineUploaderHTML5Attach extends BxTemplUploaderHTML5: Classe para gerenciar upload de anexos HTML5 no módulo timeline.
+    - __construct($aObject, $sStorageObject, $sUniqId, $oTemplate): Construtor que define o módulo e inicializa o uploader.
+    - getUploaderJs($mixedGhostTemplate, $isMultiple = true, $aParams = [], $bDynamic = false): Método para obter JavaScript do uploader com callbacks específicos.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Upload de Anexos):
+- POST /api/timeline/upload-attach: Faz upload de anexos para posts na linha do tempo (criar serviço para gerenciar upload de anexos).
+
+12. BxTimelineVoteLikes.php (Votação de Curtidas do Módulo Timeline):
+    - BxTimelineVoteLikes extends BxTemplVoteLikes: Classe para gerenciar votação de curtidas no módulo timeline.
+    - __construct($sSystem, $iId, $iInit = 1): Construtor que inicializa o sistema de curtidas.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Curtidas):
+- POST /api/timeline/like/{eventId}: Registra uma curtida em um evento da linha do tempo (criar serviço para gerenciar curtidas).
+- GET /api/timeline/likes/{eventId}: Obtém o número de curtidas de um evento da linha do tempo (criar serviço para retornar dados de curtidas).
+
+13. BxTimelineCmts.php (Comentários do Módulo Timeline):
+   - BxTimelineCmts extends BxTemplCmts: Classe para gerenciar comentários no módulo timeline.
+   - __construct($sSystem, $iId, $iInit = 1): Construtor que inicializa o sistema de comentários e define o módulo.
+   - onPostAfter($iCmtId, $aDp = []): Método para atualizar o evento após a postagem de um comentário.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Comentários):
+- POST /api/timeline/comment/{eventId}: Adiciona um comentário a um evento da linha do tempo (criar serviço para gerenciar comentários).
+- GET /api/timeline/comments/{eventId}: Obtém comentários de um evento da linha do tempo (criar serviço para retornar comentários).
+
+14. BxTimelineResponse.php (Resposta a Alertas do Módulo Timeline):
+   - BxTimelineResponse extends BxBaseModNotificationsResponse: Classe para gerenciar respostas a alertas no módulo timeline.
+   - __construct(): Construtor que define o módulo.
+   - response($oAlert): Método para processar alertas e chamar métodos específicos baseados na unidade e ação do alerta.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Resposta a Alertas):
+- POST /api/timeline/alert-response: Processa um alerta e registra evento na linha do tempo (criar serviço para gerenciar respostas a alertas).
+
+15. BxTimelinePrivacy.php (Privacidade do Módulo Timeline):
+    - BxTimelinePrivacy extends BxBaseModNotificationsPrivacy: Classe para gerenciar configurações de privacidade no módulo timeline.
+    - __construct($aOptions, $oTemplate = false): Construtor que define o módulo e inicializa configurações de privacidade.
+    - addSpaces($aValues, $iOwnerId, $aParams): Método para adicionar espaços de privacidade com base em parâmetros.
+    - getContentByGroupAsSQLPart($mixedGroupId): Método para obter conteúdo por grupo como parte de SQL.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Privacidade):
+- GET /api/timeline/privacy-settings: Obtém configurações de privacidade para a linha do tempo (criar serviço para retornar configurações de privacidade).
+- POST /api/timeline/privacy-settings: Atualiza configurações de privacidade para a linha do tempo (criar serviço para gerenciar configurações de privacidade).
+
+16. BxTimelineMenuFeeds.php (Menu de Feeds do Módulo Timeline):
+    - BxTimelineMenuFeeds extends BxTemplMenu: Classe para gerenciar o menu de feeds no módulo timeline.
+    - __construct($aObject, $oTemplate = false): Construtor que define o módulo e configura o menu multilevel.
+    - setBrowseParams($aParams = []): Método para definir parâmetros de navegação no menu.
+    - getMenuItemsRaw(): Método protegido para obter itens de menu brutos.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Feeds):
+- GET /api/timeline/feeds-menu: Obtém o menu de feeds da linha do tempo (criar serviço para retornar menu de feeds).
+- POST /api/timeline/feeds-params: Define parâmetros de navegação para feeds da linha do tempo (criar serviço para gerenciar parâmetros de feeds).
+
+17. BxTimelineGridCommon.php (Grid Comum do Módulo Timeline):
+   - BxTimelineGridCommon extends BxTimelineGridManageTools: Classe para gerenciar o grid comum de posts no módulo timeline.
+   - __construct($aOptions, $oTemplate = false): Construtor que define o módulo e configura opções de gerenciamento.
+   - _getCellSwitcher($mixedValue, $sKey, $aField, $aRow): Método protegido para obter célula de alternador de status.
+   - _getCellStatusAdmin($mixedValue, $sKey, $aField, $aRow): Método protegido para obter célula de status administrativo.
+   - _isRowDisabled($aRow): Método protegido para verificar se uma linha está desabilitada.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Grid Comum):
+- GET /api/timeline/common-grid: Obtém o grid comum de posts da linha do tempo (criar serviço para retornar grid comum).
+- POST /api/timeline/common-grid/status: Atualiza status de posts no grid comum da linha do tempo (criar serviço para gerenciar status de posts).
+
+18. BxTimelineGridMute.php (Grid de Silenciamento do Módulo Timeline):
+   - BxTimelineGridMute extends BxDolGridConnections: Classe para gerenciar o grid de silenciamento no módulo timeline.
+   - __construct($aOptions, $oTemplate = false): Construtor que define o módulo e configura o objeto de conexões.
+   - init($bForceInit = false): Método para inicializar o grid com conexões específicas.
+   - _getCellInfo($mixedValue, $sKey, $aField, $aRow): Método protegido para formatar célula de informação.
+   - _delete($mixedId): Método protegido para deletar conexões de silenciamento.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Silenciamento):
+- GET /api/timeline/mute-grid: Obtém o grid de silenciamento da linha do tempo (criar serviço para retornar grid de silenciamento).
+- POST /api/timeline/mute/{profileId}: Silencia um perfil na linha do tempo (criar serviço para gerenciar silenciamento).
+- DELETE /api/timeline/unmute/{profileId}: Remove silenciamento de um perfil na linha do tempo (criar serviço para gerenciar remoção de silenciamento).
+
+19. BxTimelineMenuItemShare.php (Menu de Compartilhamento de Item do Módulo Timeline):
+   - BxTimelineMenuItemShare extends BxTemplMenu: Classe para gerenciar o menu de compartilhamento de itens no módulo timeline.
+   - __construct($aObject, $oTemplate = false): Construtor que define o módulo e configura o evento baseado no ID do conteúdo.
+   - setEventById($iEventId, $aBrowseParams = array()): Método para definir o evento por ID e configurar parâmetros de navegação.
+   - _setBrowseParams($aBrowseParams): Método protegido para definir parâmetros de navegação.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Compartilhamento):
+- GET /api/timeline/share-menu/{eventId}: Obtém menu de compartilhamento para um item específico da linha do tempo (criar serviço para retornar menu de compartilhamento).
+- POST /api/timeline/share/{eventId}: Compartilha um item da linha do tempo (criar serviço para gerenciar compartilhamento).
+
+20. BxTimelinePageViewItem.php (Página de Visualização de Item do Módulo Timeline):
+   - BxTimelinePageViewItem extends BxBaseModTextPageView: Classe para gerenciar página de visualização de itens individuais no módulo timeline.
+   - __construct($aObject, $oTemplate = false): Construtor que inicializa a página de visualização de item.
+   - getBlockCode_View(): Método para obter o código do bloco de visualização.
+   - getBlockCode_Comments(): Método para obter o código do bloco de comentários.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Visualização de Item):
+- GET /api/timeline/view/item/{itemId}: Obtém página de visualização de um item específico da linha do tempo (criar serviço para retornar dados de visualização de item).
+
+21. BxTimelineFormRepost.php (Formulário de Repost do Módulo Timeline):
+   - BxTimelineFormRepost extends BxTemplFormView: Classe para gerenciar formulários de repost no módulo timeline.
+   - __construct($aInfo, $oTemplate = false): Construtor que define o módulo e configura a ação do formulário.
+   - getReposted(): Método para obter informações de itens repostados.
+   - initChecker($aValues = [], $aSpecificValues = []): Método para inicializar verificações com dados de repost.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Repost):
+- GET /api/timeline/repost-form/{eventId}: Obtém formulário de repost para um item específico da linha do tempo (criar serviço para retornar formulário de repost).
+- POST /api/timeline/repost/{eventId}: Realiza repost de um item da linha do tempo (criar serviço para gerenciar repost).
+
+22. BxTimelineMenuView.php (Menu de Visualização do Módulo Timeline):
+   - BxTimelineMenuView extends BxTemplMenuCustom: Classe para gerenciar o menu de visualização no módulo timeline.
+   - __construct($aObject, $oTemplate = false): Construtor que define o módulo e configura a exibição de divisores.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Menu de Visualização):
+- GET /api/timeline/view-menu: Obtém menu de visualização da linha do tempo (criar serviço para retornar menu de visualização).
+
+23. BxTimelineMenuSnippetMeta.php (Menu de Metadados de Snippet do Módulo Timeline):
+   - BxTimelineMenuSnippetMeta extends BxBaseModTextMenuSnippetMeta: Classe para gerenciar metadados de snippets no módulo timeline.
+   - __construct($aObject, $oTemplate = false): Construtor que define o módulo e o prefixo de estilo.
+   - setEvent($aEvent): Método para definir o evento e suas informações de conteúdo.
+   - Métodos protegidos para personalizar itens de menu como data e membership.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Metadados de Snippet):
+- GET /api/timeline/snippet-meta/{eventId}: Obtém metadados de snippet para um item específico da linha do tempo (criar serviço para retornar metadados de snippet).
+
+24. BxTimelineMenuItemActionsAll.php (Menu de Ações de Item Completo do Módulo Timeline):
+    - BxTimelineMenuItemActionsAll extends BxTimelineMenuItemActions: Classe para gerenciar todas as ações de itens no módulo timeline.
+    - __construct($aObject, $oTemplate = false): Construtor que define o módulo e inicializa parâmetros de navegação e submenus.
+    - setEvent($aEvent, $aBrowseParams = array()): Método para definir o evento e configurar submenus de ações e gerenciamento.
+    - addMarkersExt($a): Método para adicionar marcadores aos submenus.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Ações de Item Completo):
+- GET /api/timeline/item-actions-all/{eventId}: Obtém todas as ações disponíveis para um item específico da linha do tempo (criar serviço para retornar menu completo de ações).
+
+25. BxTimelineMenuItemCounters.php (Menu de Contadores de Item do Módulo Timeline):
+   - BxTimelineMenuItemCounters extends BxTimelineMenuItemActions: Classe para gerenciar contadores de itens no módulo timeline.
+   - __construct($aObject, $oTemplate = false): Construtor que define o modo como contadores e configura exibição de contadores.
+   - Métodos protegidos para personalizar itens de menu como comentários, votos e reações.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Contadores de Item):
+- GET /api/timeline/item-counters/{eventId}: Obtém contadores para um item específico da linha do tempo (criar serviço para retornar contadores de item).
+
+26. BxTimelineMenuItemManage.php (Menu de Gerenciamento de Item do Módulo Timeline):
+    - BxTimelineMenuItemManage extends BxTimelineMenuItemActions: Classe para gerenciar ações de gerenciamento de itens no módulo timeline.
+    - __construct($aObject, $oTemplate = false): Construtor que define o modo dinâmico, configura o evento e adiciona marcadores.
+    - initContentParams(): Método para inicializar parâmetros de conteúdo com ID do evento.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Gerenciamento de Item):
+- GET /api/timeline/item-manage/{eventId}: Obtém menu de gerenciamento para um item específico da linha do tempo (criar serviço para retornar menu de gerenciamento).
+- POST /api/timeline/item-manage/{eventId}/{action}: Realiza uma ação de gerenciamento em um item da linha do tempo (criar serviço para gerenciar ações).
+
+27. BxTimelineMenuPostAttachments.php (Menu de Anexos de Post do Módulo Timeline):
+   - BxTimelineMenuPostAttachments extends BxTemplMenu: Classe para gerenciar o menu de anexos de posts no módulo timeline.
+   - __construct($aObject, $oTemplate = false): Construtor que inicializa o módulo e adiciona marcadores para objetos JavaScript.
+   - setEventById($iEventId, $aBrowseParams = array()): Método para definir evento por ID.
+   - setUploadersInfo($aUploadersInfo): Método para definir informações sobre uploaders disponíveis.
+
+28. BxTimelineCmtsSearchResult.php (Resultados de Busca de Comentários do Módulo Timeline):
+    - BxTimelineCmtsSearchResult extends BxBaseModGeneralCmtsSearchResult: Classe para gerenciar resultados de busca de comentários no módulo timeline.
+    - __construct($sMode = '', $aParams = array()): Construtor que define o módulo, título e tabela de comentários.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Busca de Comentários):
+- GET /api/timeline/comments/search: Busca comentários na linha do tempo com base em critérios (criar serviço para retornar resultados de busca de comentários).
+
+29. BxTimelineCronClean.php (Cron de Limpeza do Módulo Timeline):
+   - BxTimelineCronClean extends BxDolCron: Classe para gerenciar tarefas cron de limpeza no módulo timeline.
+   - __construct(): Construtor que define o módulo e o limite de leituras a serem limpas.
+   - processing(): Método para executar a limpeza de leituras no banco de dados.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Limpeza):
+- POST /api/timeline/clean-reads: Executa limpeza de leituras na linha do tempo (criar serviço para gerenciar limpeza de leituras).
+
+30. BxTimelineCronPublishing.php (Cron de Publicação do Módulo Timeline):
+    - BxTimelineCronPublishing extends BxDolCron: Classe para gerenciar tarefas cron de publicação no módulo timeline.
+    - __construct(): Construtor que define o módulo.
+    - processing(): Método para publicar entradas e disparar eventos de publicação.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Publicação):
+- POST /api/timeline/publish-entries: Executa publicação de entradas na linha do tempo (criar serviço para gerenciar publicação de entradas).
+
+31. BxTimelineFormPoll.php (Formulário de Enquete do Módulo Timeline):
+   - BxTimelineFormPoll extends BxBaseModGeneralFormPoll: Classe para gerenciar formulários de enquete no módulo timeline.
+   - __construct($aInfo, $oTemplate = false): Construtor que define o módulo.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Formulário de Enquete):
+- GET /api/timeline/poll-form: Obtém formulário de enquete para a linha do tempo (criar serviço para retornar formulário de enquete).
+- POST /api/timeline/poll: Cria uma nova enquete na linha do tempo (criar serviço para gerenciar criação de enquetes).
+
+32. BxTimelineFormCheckerHelper.php (Auxiliar de Verificação de Formulário do Módulo Timeline):
+    - BxTimelineFormCheckerHelper extends BxDolStudioFormCheckerHelper: Classe auxiliar para verificação de formulários no módulo timeline.
+    - checkGreaterThan($sVal, $iLimit): Método para verificar se um valor é maior que um limite especificado.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Verificação de Formulário):
+- POST /api/timeline/form-validate: Valida dados de formulário na linha do tempo (criar serviço para gerenciar validação de formulários).
+
+33. BxTimelineVotePollAnswers.php (Votação de Respostas de Enquete do Módulo Timeline):
+    - BxTimelineVotePollAnswers extends BxBaseModGeneralVotePollAnswers: Classe para gerenciar votação de respostas de enquetes no módulo timeline.
+    - __construct($sSystem, $iId, $iInit = 1): Construtor que define o módulo.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Votação em Enquetes):
+- POST /api/timeline/poll-vote/{pollId}/{answerId}: Registra um voto em uma resposta de enquete na linha do tempo (criar serviço para gerenciar votação em enquetes).
+- GET /api/timeline/poll-results/{pollId}: Obtém resultados de votação de uma enquete na linha do tempo (criar serviço para retornar resultados de enquetes).
+
+34. BxTimelineUploaderRecordVideoAttach.php (Uploader de Vídeo Gravado do Módulo Timeline):
+   - BxTimelineUploaderRecordVideoAttach extends BxTemplUploaderRecordVideo: Classe para gerenciar upload de vídeos gravados no módulo timeline.
+   - __construct($aObject, $sStorageObject, $sUniqId, $oTemplate): Construtor que define o módulo e o template do botão de upload.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Upload de Vídeo Gravado):
+- POST /api/timeline/upload-video-attach: Realiza upload de vídeo gravado para a linha do tempo (criar serviço para gerenciar upload de vídeos gravados).
+
+35. BxTimelineReport.php (Denúncias do Módulo Timeline):
+    - BxTimelineReport extends BxTemplReport: Classe para gerenciar denúncias no módulo timeline.
+    - __construct($sSystem, $iId, $iInit = 1): Construtor que inicializa o sistema de denúncias.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Denúncias):
+- POST /api/timeline/report/{eventId}: Registra uma denúncia para um item da linha do tempo (criar serviço para gerenciar denúncias).
+- GET /api/timeline/reports: Obtém lista de denúncias na linha do tempo (criar serviço para retornar lista de denúncias).
+
+36. BxTimelineGridManageTools.php (Ferramentas de Gerenciamento de Grid do Módulo Timeline):
+   - BxTimelineGridManageTools extends BxBaseModGeneralGridAdministration: Classe para gerenciar ferramentas de administração de grid no módulo timeline.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa as opções e o template.
+   - performActionDelete($aParams = array()): Método para executar a ação de deletar eventos.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Gerenciamento de Grid):
+- GET /api/timeline/manage-tools/grid: Obtém grid de ferramentas de gerenciamento na linha do tempo (criar serviço para retornar grid de gerenciamento).
+- DELETE /api/timeline/manage-tools/event/{eventId}: Deleta um evento da linha do tempo (criar serviço para gerenciar deleção de eventos).
+
+37. BxTimelinePageBrowse.php (Página de Navegação do Módulo Timeline):
+    - BxTimelinePageBrowse extends BxBaseModTextPageBrowse: Classe para gerenciar páginas de navegação de entradas no módulo timeline.
+    - __construct($aObject, $oTemplate = false): Construtor que define o módulo.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Navegação):
+- GET /api/timeline/browse/{type}: Obtém página de navegação de entradas na linha do tempo por tipo (criar serviço para retornar páginas de navegação).
+
+38. BxTimelinePageView.php (Página de Visualização do Módulo Timeline):
+   - BxTimelinePageView extends BxBaseModTextPageAuthor: Classe para gerenciar página de visualização da linha do tempo de um perfil.
+   - __construct($aObject, $oTemplate = false): Construtor que inicializa a página de visualização.
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Visualização de Perfil):
+- GET /api/timeline/view/{profileId}: Obtém a linha do tempo de um perfil específico (criar serviço para retornar linha do tempo de perfil).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Ferramentas de Gerenciamento):
+- DELETE /api/timeline/manage/bulk-delete: Deleta múltiplos itens da linha do tempo (criar serviço para exclusão em massa de itens).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades Identificadas e de Configuração):
+- GET /api/timeline/config: Obtém configurações gerais do módulo timeline (criar serviço para retornar configurações específicas do módulo).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Banco de Dados):
+- GET /api/timeline/events: Lista todos os eventos da linha do tempo (criar serviço para retornar lista de eventos).
+- GET /api/timeline/events/{id}: Obtém detalhes de um evento específico (criar serviço para retornar detalhes de um evento).
+- POST /api/timeline/events: Cria um novo evento na linha do tempo (criar serviço para inserção de eventos).
+- PUT /api/timeline/events/{id}: Atualiza um evento existente (criar serviço para atualização de eventos).
+- DELETE /api/timeline/events/{id}: Deleta um evento da linha do tempo (criar serviço para exclusão de eventos).
+- GET /api/timeline/media: Lista mídias associadas a eventos (criar serviço para retornar mídias).
+- GET /api/timeline/reposts: Lista rastreamento de reposts (criar serviço para retornar dados de reposts).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades do Módulo Principal):
+- POST /api/timeline/post: Cria um novo post na linha do tempo (criar serviço para gerenciar postagens).
+- PUT /api/timeline/edit/{id}: Edita um post existente na linha do tempo (criar serviço para edição de posts).
+- POST /api/timeline/pin/{id}: Fixa um post na linha do tempo do perfil (criar serviço para fixação).
+- POST /api/timeline/stick/{id}: Fixa um post na linha do tempo pública para todos (criar serviço para fixação pública).
+- POST /api/timeline/promote/{id}: Promove um post na linha do tempo (criar serviço para promoção).
+- POST /api/timeline/mark-as-read: Marca eventos como lidos (criar serviço para gerenciar status de leitura).
+- POST /api/timeline/mute/{authorId}: Silencia um autor na linha do tempo (criar serviço para silenciar autores).
+- DELETE /api/timeline/delete/{id}: Exclui um post da linha do tempo (criar serviço para exclusão).
+- POST /api/timeline/repost/{id}: Reposta um evento da linha do tempo (criar serviço para repostagem).
+- GET /api/timeline/view: Obtém visualização da linha do tempo (criar serviço para retornar dados de visualização).
+- GET /api/timeline/post/{id}: Obtém detalhes de um post específico na linha do tempo (criar serviço para retornar dados de post).
+- GET /api/timeline/posts: Obtém lista de posts na linha do tempo com filtros (criar serviço para retornar lista de posts).
+- GET /api/timeline/comments/{eventId}: Obtém comentários de um evento na linha do tempo (criar serviço para retornar comentários).
+- GET /api/timeline/reposted-by/{eventId}: Obtém lista de usuários que repostaram um evento (criar serviço para retornar repostadores).
+- GET /api/timeline/item-brief/{id}: Obtém resumo de um item da linha do tempo (criar serviço para retornar resumo).
+- GET /api/timeline/jump-to: Obtém opções de navegação rápida na linha do tempo (criar serviço para navegação).
+- GET /api/timeline/rss: Obtém feed RSS da linha do tempo (criar serviço para retornar feed RSS).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Template):
+- GET /api/timeline/templates/item/{id}: Obtém template de item específico (criar serviço para retornar template de item).
+- GET /api/timeline/templates/timeline: Obtém template de visualização da linha do tempo (criar serviço para retornar template de timeline).
+- GET /api/timeline/templates/outline: Obtém template de visualização de esboço (criar serviço para retornar template de outline).
+- GET /api/timeline/templates/search: Obtém template de visualização de busca (criar serviço para retornar template de busca).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Formulário de Postagem):
+- GET /api/timeline/forms/post: Obtém formulário de postagem para criação (criar serviço para retornar estrutura do formulário de postagem).
+- GET /api/timeline/forms/post/{id}: Obtém formulário de postagem para edição de um post específico (criar serviço para retornar formulário preenchido para edição).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Grid de Administração):
+- GET /api/timeline/admin-grid: Obtém dados do grid de administração de posts da linha do tempo (criar serviço para retornar dados do grid com opções de filtro como status).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Grid Comum):
+- GET /api/timeline/common-grid: Obtém dados do grid comum de posts da linha do tempo (criar serviço para retornar dados do grid com opções de filtro).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Menu de Ações):
+- GET /api/timeline/item-actions/{id}: Obtém menu de ações para um item específico da linha do tempo (criar serviço para retornar opções de ações como votar, comentar, repostar, etc.).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Busca):
+- GET /api/timeline/search: Realiza busca de eventos na linha do tempo com base em critérios (criar serviço para retornar resultados de busca).
+- GET /api/timeline/comments-search: Realiza busca de comentários na linha do tempo (criar serviço para retornar resultados de busca de comentários).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Página de Estúdio):
+- GET /api/timeline/studio/page: Obtém dados da página de estúdio para timeline (criar serviço para retornar dados da página de estúdio).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Cron Hot):
+- GET /api/timeline/hot: Obtém lista de conteúdo hot da linha do tempo (criar serviço para retornar conteúdo hot baseado em critérios de popularidade).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Uploader de Anexos):
+- POST /api/timeline/attach-media: Faz upload de mídia anexada para posts da linha do tempo (criar serviço para gerenciar upload de anexos).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Votos Curtidas):
+- POST /api/timeline/vote-like/{id}: Registra um voto de curtida em um item da linha do tempo (criar serviço para gerenciar curtidas).
+- GET /api/timeline/vote-like-count/{id}: Obtém a contagem de curtidas para um item da linha do tempo (criar serviço para retornar contagem de curtidas).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Comentários):
+- POST /api/timeline/comment/{id}: Adiciona um comentário a um item da linha do tempo (criar serviço para gerenciar comentários).
+- GET /api/timeline/comments/{id}: Obtém comentários de um item da linha do tempo (criar serviço para retornar lista de comentários).
+- GET /api/timeline/comments/{eventId}: Obtém comentários de um evento na linha do tempo (criar serviço para retornar comentários).
+- POST /api/timeline/comments/{eventId}: Adiciona um comentário a um evento na linha do tempo (criar serviço para gerenciar criação de comentários).
+- DELETE /api/timeline/comments/{eventId}/{commentId}: Deleta um comentário de um evento na linha do tempo (criar serviço para exclusão de comentários).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Resposta a Alertas):
+- POST /api/timeline/alert-response: Registra uma resposta a um alerta na linha do tempo (criar serviço para processar alertas e atualizar eventos).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Privacidade):
+- GET /api/timeline/privacy-options: Obtém opções de privacidade disponíveis para posts na linha do tempo (criar serviço para retornar opções de privacidade).
+- POST /api/timeline/set-privacy/{id}: Define configurações de privacidade para um item da linha do tempo (criar serviço para atualizar privacidade).
+- GET /api/timeline/privacy/{eventId}: Obtém configurações de privacidade de um evento na linha do tempo (criar serviço para retornar dados de privacidade).
+- PUT /api/timeline/privacy/{eventId}: Atualiza configurações de privacidade de um evento na linha do tempo (criar serviço para atualizar privacidade).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Menu de Feeds):
+- GET /api/timeline/feeds-menu: Obtém opções do menu de feeds da linha do tempo (criar serviço para retornar opções de navegação de feeds).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Grid de Silenciamento):
+- GET /api/timeline/mute-grid: Obtém dados do grid de silenciamento da linha do tempo (criar serviço para retornar dados de itens silenciados).
+- POST /api/timeline/mute/{id}: Silencia um item ou perfil na linha do tempo (criar serviço para gerenciar silenciamento).
+- DELETE /api/timeline/unmute/{id}: Remove silenciamento de um item ou perfil na linha do tempo (criar serviço para remover silenciamento).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Menu de Compartilhamento):
+- GET /api/timeline/share-options/{id}: Obtém opções de compartilhamento para um item da linha do tempo (criar serviço para retornar opções de compartilhamento).
+- POST /api/timeline/share/{id}: Compartilha um item da linha do tempo (criar serviço para gerenciar compartilhamento).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Visualização de Item):
+- GET /api/timeline/item/{id}: Obtém dados detalhados de um item específico da linha do tempo (criar serviço para retornar dados do item).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Formulário de Repost):
+- GET /api/timeline/repost-form/{id}: Obtém formulário para repostar um item da linha do tempo (criar serviço para retornar formulário de repost).
+- POST /api/timeline/repost/{id}: Realiza o repost de um item da linha do tempo (criar serviço para gerenciar repost).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Menu de Visualização):
+- GET /api/timeline/view-menu: Obtém opções do menu de visualização da linha do tempo (criar serviço para retornar opções de visualização).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Menu de Metadados):
+- GET /api/timeline/snippet-meta/{id}: Obtém metadados de snippet para um item da linha do tempo (criar serviço para retornar metadados como data e informações de membresia).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Menu de Ações Completo):
+- GET /api/timeline/item-actions-all/{id}: Obtém todas as ações disponíveis para um item da linha do tempo (criar serviço para retornar todas as opções de ações).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Menu de Contadores):
+- GET /api/timeline/item-counters/{id}: Obtém contadores de ações para um item da linha do tempo (criar serviço para retornar contadores de votos, reações e comentários).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Menu de Gerenciamento):
+- GET /api/timeline/item-manage/{id}: Obtém opções de gerenciamento para um item da linha do tempo (criar serviço para retornar opções de gerenciamento como edição e exclusão).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Menu de Anexos):
+- GET /api/timeline/post-attachments-menu: Obtém opções do menu de anexos para posts da linha do tempo (criar serviço para retornar opções de anexos disponíveis).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Cron de Limpeza):
+- POST /api/timeline/clean-reads: Executa limpeza de leituras na linha do tempo (criar serviço para realizar limpeza manualmente, se necessário).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Cron de Publicação):
+- POST /api/timeline/publish-entries: Executa publicação de entradas na linha do tempo (criar serviço para realizar publicação manualmente, se necessário).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Formulário de Enquete):
+- GET /api/timeline/poll-form: Obtém formulário para criar uma enquete na linha do tempo (criar serviço para retornar formulário de enquete).
+- POST /api/timeline/create-poll: Cria uma enquete na linha do tempo (criar serviço para gerenciar criação de enquetes).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Verificação de Formulário):
+- POST /api/timeline/validate-form: Valida dados de formulário para posts ou enquetes na linha do tempo (criar serviço para realizar validações de formulário).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Votação de Enquete):
+- GET /api/timeline/poll-answers/{id}: Obtém respostas de uma enquete na linha do tempo (criar serviço para retornar respostas de enquete).
+- POST /api/timeline/vote-poll/{id}: Registra voto em uma enquete da linha do tempo (criar serviço para gerenciar votação em enquetes).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Upload de Vídeo):
+- POST /api/timeline/upload-video: Realiza upload de vídeo gravado para a linha do tempo (criar serviço para gerenciar upload de vídeos).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Denúncias):
+- POST /api/timeline/report/{eventId}: Registra uma denúncia para um evento na linha do tempo (criar serviço para gerenciar denúncias).
+- GET /api/timeline/reports: Obtém lista de denúncias na linha do tempo (criar serviço para retornar denúncias, com filtros de administrador).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Navegação):
+- GET /api/timeline/browse: Obtém página de navegação para entradas da linha do tempo (criar serviço para retornar dados de navegação).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Votação de Curtidas):
+- POST /api/timeline/like/{eventId}: Registra uma curtida em um evento na linha do tempo (criar serviço para gerenciar curtidas).
+- GET /api/timeline/likes/{eventId}: Obtém o número de curtidas de um evento na linha do tempo (criar serviço para retornar dados de curtidas).
+
+Mapeamento para Rotas RESTful (Baseado em Funcionalidades de Busca):
+- GET /api/timeline/search: Realiza busca por eventos na linha do tempo (criar serviço para retornar resultados de busca).
+
+Notas e Próximos Passos:
+- Analisar classes no diretório do módulo timeline (ex.: classes/) para identificar funcionalidades.
+- Documentar cada classe e método relevante.
+- Mapear funcionalidades para rotas RESTful.
