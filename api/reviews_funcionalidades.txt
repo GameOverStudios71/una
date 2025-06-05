@@ -1,0 +1,148 @@
+Mapeamento do Módulo Reviews para API RESTful
+
+Descrição Geral:
+O módulo 'reviews' gerencia funcionalidades relacionadas a avaliações ou comentários no sistema UNA. Permite a criação, gerenciamento e interação com avaliações, incluindo votação e anexos. É composto por classes como BxReviewsModule.php (lógica específica do módulo) e várias outras classes de suporte para configurações, banco de dados, formulários, grids, menus e páginas.
+
+Análise de Classes do Módulo Reviews:
+
+1. BxReviewsModule.php (Classe Principal do Módulo Reviews):
+   - BxReviewsModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo reviews.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceCreateReview($aData): Método para criar uma nova avaliação.
+   - serviceUpdateReview($iReviewId, $aData): Método para atualizar uma avaliação existente.
+   - serviceDeleteReview($iReviewId): Método para deletar uma avaliação.
+   - serviceGetReview($iReviewId): Método para obter detalhes de uma avaliação específica.
+   - serviceGetReviews($aParams = array()): Método para obter a lista de avaliações.
+   - serviceVote($iReviewId, $iValue): Método para votar em uma avaliação.
+   - serviceAddPoll($iReviewId, $aData): Método para adicionar uma enquete a uma avaliação.
+   - serviceGetPolls($iReviewId): Método para obter enquetes de uma avaliação.
+   - serviceVotePoll($iPollId, $iOptionId): Método para votar em uma opção de enquete.
+
+2. BxReviewsConfig.php:
+   - BxReviewsConfig extends BxDolConfig: Configurações específicas do módulo reviews.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxReviewsDb.php:
+   - BxReviewsDb extends BxDolDb: Banco de dados específico para reviews.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxReviewsTemplate.php:
+   - BxReviewsTemplate extends BxDolTemplate: Template para renderização de elementos de avaliações.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+5. BxReviewsAlertsResponse.php:
+   - BxReviewsAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para reviews.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de avaliações.
+
+6. BxReviewsFormEntry.php:
+   - BxReviewsFormEntry extends BxTemplFormView: Formulário para criação/edição de avaliações.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de entrada.
+
+7. BxReviewsFormPoll.php:
+   - BxReviewsFormPoll extends BxTemplFormView: Formulário para enquetes em avaliações.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de enquete.
+
+8. BxReviewsFormsEntryHelper.php:
+   - BxReviewsFormsEntryHelper extends BxDolFormHelper: Auxiliar para formulários de entrada em avaliações.
+   - __construct($oForm): Construtor que inicializa o auxiliar de formulário.
+
+9. BxReviewsGridAdministration.php:
+   - BxReviewsGridAdministration extends BxDolGrid: Grade para administração de avaliações.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de administração.
+
+10. BxReviewsGridCommon.php:
+    - BxReviewsGridCommon extends BxDolGrid: Grade para listagem comum de avaliações.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade comum.
+
+11. BxReviewsGridVotingOptions.php:
+    - BxReviewsGridVotingOptions extends BxDolGrid: Grade para opções de votação em avaliações.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de opções de votação.
+
+12. BxReviewsSearchResult.php:
+    - BxReviewsSearchResult extends BxDolSearchResult: Resultados de busca para avaliações.
+    - __construct($oModule = null): Construtor que inicializa os resultados de busca.
+
+13. BxReviewsCmtsSearchResult.php:
+    - BxReviewsCmtsSearchResult extends BxDolSearchResult: Resultados de busca para comentários em avaliações.
+    - __construct(): Construtor que inicializa os resultados de busca de comentários.
+
+14. BxReviewsVoteStars.php:
+    - BxReviewsVoteStars extends BxDolVote: Gerenciamento de votos por estrelas para avaliações.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa os votos por estrelas.
+
+15. BxReviewsVotePollAnswers.php:
+    - BxReviewsVotePollAnswers extends BxDolVote: Gerenciamento de votos em respostas de enquetes de avaliações.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa os votos em enquetes.
+
+16. BxReviewsMenu.php:
+    - BxReviewsMenu extends BxDolMenu: Menu base para avaliações.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu base.
+
+17. BxReviewsMenuManageTools.php:
+    - BxReviewsMenuManageTools extends BxDolMenu: Menu para ferramentas de gerenciamento de avaliações.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ferramentas.
+
+18. BxReviewsMenuSnippetMeta.php:
+    - BxReviewsMenuSnippetMeta extends BxDolMenu: Menu para metadados de snippet de avaliações.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de metadados.
+
+19. BxReviewsMenuView.php:
+    - BxReviewsMenuView extends BxDolMenu: Menu para visualização de avaliações.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+20. BxReviewsMenuViewActions.php:
+    - BxReviewsMenuViewActions extends BxDolMenu: Menu para ações de visualização de avaliações.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ações.
+
+21. BxReviewsMenuAttachments.php:
+    - BxReviewsMenuAttachments extends BxDolMenu: Menu para anexos em avaliações.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de anexos.
+
+22. BxReviewsPageBrowse.php:
+    - BxReviewsPageBrowse extends BxDolPage: Página para navegação de avaliações.
+    - __construct($oTemplate = false): Construtor que inicializa a página de navegação.
+
+23. BxReviewsPageEntry.php:
+    - BxReviewsPageEntry extends BxDolPage: Página de entrada para uma avaliação.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+24. BxReviewsPageListEntry.php:
+    - BxReviewsPageListEntry extends BxDolPage: Página para listagem de entradas de avaliações.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de listagem.
+
+25. BxReviewsPageAuthor.php:
+    - BxReviewsPageAuthor extends BxDolPage: Página para avaliações por autor.
+    - __construct($oTemplate = false): Construtor que inicializa a página de autor.
+
+26. BxReviewsStudioPage.php:
+    - BxReviewsStudioPage extends BxDolStudioPage: Página de estúdio para avaliações.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+27. BxReviewsUploaderHTML5.php:
+    - BxReviewsUploaderHTML5 extends BxDolUploader: Uploader HTML5 para avaliações.
+    - __construct(): Construtor que inicializa o uploader HTML5.
+
+28. BxReviewsUploaderHTML5Attach.php:
+    - BxReviewsUploaderHTML5Attach extends BxDolUploader: Uploader HTML5 para anexos em avaliações.
+    - __construct(): Construtor que inicializa o uploader de anexos HTML5.
+
+29. BxReviewsUploaderRecordVideo.php:
+    - BxReviewsUploaderRecordVideo extends BxDolUploader: Uploader para gravação de vídeo em avaliações.
+    - __construct(): Construtor que inicializa o uploader de gravação de vídeo.
+
+30. BxReviewsUploaderRecordVideoAttach.php:
+    - BxReviewsUploaderRecordVideoAttach extends BxDolUploader: Uploader para gravação de vídeo como anexo em avaliações.
+    - __construct(): Construtor que inicializa o uploader de gravação de vídeo como anexo.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/reviews: Cria uma nova avaliação.
+- PUT /api/reviews/{reviewId}: Atualiza uma avaliação existente.
+- DELETE /api/reviews/{reviewId}: Deleta uma avaliação.
+- GET /api/reviews/{reviewId}: Obtém detalhes de uma avaliação específica.
+- GET /api/reviews: Obtém a lista de avaliações.
+- POST /api/reviews/{reviewId}/vote: Vota em uma avaliação.
+- POST /api/reviews/{reviewId}/polls: Adiciona uma enquete a uma avaliação.
+- GET /api/reviews/{reviewId}/polls: Obtém a lista de enquetes de uma avaliação.
+- POST /api/reviews/polls/{pollId}/vote/{optionId}: Vota em uma opção de enquete.
+- GET /api/reviews/search: Busca avaliações por palavra-chave ou critérios.

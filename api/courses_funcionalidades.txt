@@ -1,0 +1,214 @@
+Mapeamento do Módulo Courses para API RESTful
+
+Descrição Geral:
+O módulo 'courses' gerencia funcionalidades de cursos ou educação no sistema UNA. Permite a criação, gerenciamento e participação em cursos, que podem ser usados para organizar conteúdo educacional ou treinamentos. É composto por classes como BxCoursesModule.php (lógica específica do módulo) e várias outras classes de suporte para configurações, banco de dados, formulários, grids, menus e páginas.
+
+Análise de Classes do Módulo Courses:
+
+1. BxCoursesModule.php (Classe Principal do Módulo Courses):
+   - BxCoursesModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo courses.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceCreateCourse($aData): Método para criar um novo curso.
+   - serviceUpdateCourse($iCourseId, $aData): Método para atualizar um curso existente.
+   - serviceDeleteCourse($iCourseId): Método para deletar um curso.
+   - serviceGetCourse($iCourseId): Método para obter detalhes de um curso específico.
+   - serviceGetCourses($aParams = array()): Método para obter a lista de cursos.
+   - serviceJoinCourse($iCourseId, $iProfileId = 0): Método para ingressar em um curso.
+   - serviceLeaveCourse($iCourseId, $iProfileId = 0): Método para sair de um curso.
+   - serviceInviteToCourse($iCourseId, $iProfileId): Método para convidar um usuário para um curso.
+   - serviceGetCourseMembers($iCourseId, $aParams = array()): Método para obter membros de um curso.
+   - serviceAddPrice($iCourseId, $aData): Método para adicionar um preço ou plano ao curso.
+   - serviceGetPrices($iCourseId): Método para obter preços ou planos de um curso.
+   - serviceAddContentNode($iCourseId, $aData): Método para adicionar um nó de conteúdo ao curso.
+   - serviceUpdateContentNode($iCourseId, $iNodeId, $aData): Método para atualizar um nó de conteúdo no curso.
+   - serviceDeleteContentNode($iCourseId, $iNodeId): Método para deletar um nó de conteúdo do curso.
+   - serviceGetContentNodes($iCourseId, $aParams = array()): Método para obter nós de conteúdo de um curso.
+
+2. BxCoursesConfig.php:
+   - BxCoursesConfig extends BxDolConfig: Configurações específicas do módulo courses.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxCoursesDb.php:
+   - BxCoursesDb extends BxDolDb: Banco de dados específico para courses.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - createCourse($aData): Método para criar um curso no banco de dados.
+   - updateCourse($iCourseId, $aData): Método para atualizar um curso no banco de dados.
+   - deleteCourse($iCourseId): Método para deletar um curso do banco de dados.
+   - getCourse($iCourseId): Método para obter detalhes de um curso.
+   - getCourses($aParams): Método para obter cursos.
+   - joinCourse($iCourseId, $iProfileId, $sRole = 'student'): Método para registrar ingresso em um curso.
+   - leaveCourse($iCourseId, $iProfileId): Método para registrar saída de um curso.
+   - getCourseMembers($iCourseId, $aParams): Método para obter membros de um curso.
+   - addPrice($iCourseId, $aData): Método para adicionar preço ao curso.
+   - getPrices($iCourseId): Método para obter preços do curso.
+   - addContentNode($iCourseId, $aData): Método para adicionar nó de conteúdo ao curso.
+   - updateContentNode($iCourseId, $iNodeId, $aData): Método para atualizar nó de conteúdo no curso.
+   - deleteContentNode($iCourseId, $iNodeId): Método para deletar nó de conteúdo do curso.
+   - getContentNodes($iCourseId, $aParams): Método para obter nós de conteúdo do curso.
+
+4. BxCoursesTemplate.php:
+   - BxCoursesTemplate extends BxDolTemplate: Template para renderização de elementos de cursos.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getCourseBlock($iCourseId, $aParams = array()): Método para obter bloco HTML de um curso.
+   - getCourseMemberItem($iProfileId, $aParams = array()): Método para obter item HTML de um membro de curso.
+   - getContentNodeItem($iNodeId, $aParams = array()): Método para obter item HTML de um nó de conteúdo.
+
+5. BxCoursesAlertsResponse.php:
+   - BxCoursesAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para courses.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de cursos.
+
+6. BxCoursesFormEntry.php:
+   - BxCoursesFormEntry extends BxTemplFormView: Formulário para criação/edição de cursos.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de entrada.
+
+7. BxCoursesFormPrice.php:
+   - BxCoursesFormPrice extends BxTemplFormView: Formulário para preços ou planos de cursos.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de preço.
+
+8. BxCoursesFormContentNode.php:
+   - BxCoursesFormContentNode extends BxTemplFormView: Formulário para nós de conteúdo de cursos.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de nó de conteúdo.
+
+9. BxCoursesFormsEntryHelper.php:
+   - BxCoursesFormsEntryHelper extends BxDolFormHelper: Auxiliar para formulários de entrada em cursos.
+   - __construct($oForm): Construtor que inicializa o auxiliar de formulário.
+
+10. BxCoursesGridAdministration.php:
+    - BxCoursesGridAdministration extends BxDolGrid: Grade para administração de cursos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de administração.
+
+11. BxCoursesGridCommon.php:
+    - BxCoursesGridCommon extends BxDolGrid: Grade para listagem comum de cursos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade comum.
+
+12. BxCoursesGridConnections.php:
+    - BxCoursesGridConnections extends BxDolGrid: Grade para conexões ou membros de cursos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de conexões.
+
+13. BxCoursesGridInvites.php:
+    - BxCoursesGridInvites extends BxDolGrid: Grade para convites de cursos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de convites.
+
+14. BxCoursesGridPricesManage.php:
+    - BxCoursesGridPricesManage extends BxDolGrid: Grade para gerenciamento de preços de cursos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de gerenciamento de preços.
+
+15. BxCoursesGridPricesView.php:
+    - BxCoursesGridPricesView extends BxDolGrid: Grade para visualização de preços de cursos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de visualização de preços.
+
+16. BxCoursesGridCntStructureManage.php:
+    - BxCoursesGridCntStructureManage extends BxDolGrid: Grade para gerenciamento de estrutura de conteúdo de cursos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de estrutura de conteúdo.
+
+17. BxCoursesGridCntDataManage.php:
+    - BxCoursesGridCntDataManage extends BxDolGrid: Grade para gerenciamento de dados de conteúdo de cursos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de dados de conteúdo.
+
+18. BxCoursesSearchResult.php:
+    - BxCoursesSearchResult extends BxDolSearchResult: Resultados de busca para cursos.
+    - __construct($oModule = null): Construtor que inicializa os resultados de busca.
+
+19. BxCoursesCmts.php:
+    - BxCoursesCmts extends BxDolCmts: Gerenciamento de comentários em cursos.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa os comentários.
+
+20. BxCoursesConnectionFans.php:
+    - BxCoursesConnectionFans extends BxDolConnection: Gerenciamento de conexões de fãs ou membros em cursos.
+    - __construct($aObject): Construtor que inicializa as conexões.
+
+21. BxCoursesCronPruning.php:
+    - BxCoursesCronPruning extends BxDolCron: Tarefa cron para poda ou limpeza de dados de cursos.
+    - __construct(): Construtor que inicializa a tarefa cron.
+    - process(): Método para executar a poda de dados.
+
+22. BxCoursesMenu.php:
+    - BxCoursesMenu extends BxDolMenu: Menu base para cursos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu base.
+
+23. BxCoursesMenuManageTools.php:
+    - BxCoursesMenuManageTools extends BxDolMenu: Menu para ferramentas de gerenciamento de cursos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ferramentas.
+
+24. BxCoursesMenuSnippetMeta.php:
+    - BxCoursesMenuSnippetMeta extends BxDolMenu: Menu para metadados de snippet de cursos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de metadados.
+
+25. BxCoursesMenuView.php:
+    - BxCoursesMenuView extends BxDolMenu: Menu para visualização de cursos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+26. BxCoursesMenuViewActions.php:
+    - BxCoursesMenuViewActions extends BxDolMenu: Menu para ações de visualização de cursos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ações.
+
+27. BxCoursesMenuViewActionsAll.php:
+    - BxCoursesMenuViewActionsAll extends BxDolMenu: Menu para todas as ações de visualização de cursos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de todas as ações.
+
+28. BxCoursesMenuViewMeta.php:
+    - BxCoursesMenuViewMeta extends BxDolMenu: Menu para metadados de visualização de cursos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de metadados de visualização.
+
+29. BxCoursesMenuContentAdd.php:
+    - BxCoursesMenuContentAdd extends BxDolMenu: Menu para adicionar conteúdo a cursos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de adicionar conteúdo.
+
+30. BxCoursesPageBrowse.php:
+    - BxCoursesPageBrowse extends BxDolPage: Página para navegação de cursos.
+    - __construct($oTemplate = false): Construtor que inicializa a página de navegação.
+
+31. BxCoursesPageEntry.php:
+    - BxCoursesPageEntry extends BxDolPage: Página de entrada para um curso.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+32. BxCoursesPageJoinedEntries.php:
+    - BxCoursesPageJoinedEntries extends BxDolPage: Página para entradas de cursos ingressados.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entradas ingressadas.
+
+33. BxCoursesPageListEntry.php:
+    - BxCoursesPageListEntry extends BxDolPage: Página para listagem de entradas de cursos.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de listagem.
+
+34. BxCoursesPageEntriesInContext.php:
+    - BxCoursesPageEntriesInContext extends BxDolPage: Página para entradas de cursos em um contexto específico.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de entradas em contexto.
+
+35. BxCoursesPrivacy.php:
+    - BxCoursesPrivacy extends BxDolPrivacy: Gerenciamento de privacidade para cursos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade.
+
+36. BxCoursesPrivacyNotifications.php:
+    - BxCoursesPrivacyNotifications extends BxDolPrivacy: Gerenciamento de privacidade para notificações de cursos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade de notificações.
+
+37. BxCoursesPrivacyPost.php:
+    - BxCoursesPrivacyPost extends BxDolPrivacy: Gerenciamento de privacidade para postagens em cursos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade de postagens.
+
+38. BxCoursesUploaderCoverCrop.php:
+    - BxCoursesUploaderCoverCrop extends BxDolUploader: Uploader para recorte de capa de cursos.
+    - __construct(): Construtor que inicializa o uploader de capa.
+
+39. BxCoursesUploaderPictureCrop.php:
+    - BxCoursesUploaderPictureCrop extends BxDolUploader: Uploader para recorte de imagem de cursos.
+    - __construct(): Construtor que inicializa o uploader de imagem.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/courses: Cria um novo curso.
+- PUT /api/courses/{courseId}: Atualiza um curso existente.
+- DELETE /api/courses/{courseId}: Deleta um curso.
+- GET /api/courses/{courseId}: Obtém detalhes de um curso específico.
+- GET /api/courses: Obtém a lista de cursos.
+- POST /api/courses/{courseId}/join: Ingressa em um curso.
+- POST /api/courses/{courseId}/leave: Sai de um curso.
+- POST /api/courses/{courseId}/invite: Convida um usuário para um curso.
+- GET /api/courses/{courseId}/members: Obtém a lista de membros de um curso.
+- POST /api/courses/{courseId}/prices: Adiciona um preço ou plano ao curso.
+- GET /api/courses/{courseId}/prices: Obtém a lista de preços ou planos de um curso.
+- POST /api/courses/{courseId}/content-nodes: Adiciona um nó de conteúdo ao curso.
+- PUT /api/courses/{courseId}/content-nodes/{nodeId}: Atualiza um nó de conteúdo no curso.
+- DELETE /api/courses/{courseId}/content-nodes/{nodeId}: Deleta um nó de conteúdo do curso.
+- GET /api/courses/{courseId}/content-nodes: Obtém a lista de nós de conteúdo de um curso.
+- GET /api/courses/search: Busca cursos por palavra-chave ou critérios.

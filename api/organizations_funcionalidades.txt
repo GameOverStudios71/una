@@ -1,0 +1,195 @@
+Mapeamento do Módulo Organizations para API RESTful
+
+Descrição Geral:
+O módulo 'organizations' gerencia funcionalidades relacionadas a organizações ou empresas no sistema UNA. Permite a criação, gerenciamento e interação com organizações, incluindo membros, preços e privacidade. É composto por classes como BxOrgsModule.php (lógica específica do módulo) e várias outras classes de suporte para configurações, banco de dados, formulários, grids, menus e páginas.
+
+Análise de Classes do Módulo Organizations:
+
+1. BxOrgsModule.php (Classe Principal do Módulo Organizations):
+   - BxOrgsModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo organizations.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceCreateOrganization($aData): Método para criar uma nova organização.
+   - serviceUpdateOrganization($iOrgId, $aData): Método para atualizar uma organização existente.
+   - serviceDeleteOrganization($iOrgId): Método para deletar uma organização.
+   - serviceGetOrganization($iOrgId): Método para obter detalhes de uma organização específica.
+   - serviceGetOrganizations($aParams = array()): Método para obter a lista de organizações.
+   - serviceJoinOrganization($iOrgId, $iProfileId = 0): Método para ingressar em uma organização.
+   - serviceLeaveOrganization($iOrgId, $iProfileId = 0): Método para sair de uma organização.
+   - serviceInviteToOrganization($iOrgId, $iProfileId): Método para convidar um usuário para uma organização.
+   - serviceGetOrganizationMembers($iOrgId, $aParams = array()): Método para obter membros de uma organização.
+   - serviceAddPrice($iOrgId, $aData): Método para adicionar um preço ou plano à organização.
+   - serviceGetPrices($iOrgId): Método para obter preços ou planos de uma organização.
+   - serviceReport($iOrgId, $aData): Método para reportar uma organização.
+   - serviceVote($iOrgId, $iValue): Método para votar em uma organização.
+   - serviceFavorite($iOrgId, $bAdd = true): Método para adicionar ou remover uma organização dos favoritos.
+
+2. BxOrgsConfig.php:
+   - BxOrgsConfig extends BxDolConfig: Configurações específicas do módulo organizations.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxOrgsDb.php:
+   - BxOrgsDb extends BxDolDb: Banco de dados específico para organizations.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxOrgsTemplate.php:
+   - BxOrgsTemplate extends BxDolTemplate: Template para renderização de elementos de organizações.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+5. BxOrgsAlertsResponse.php:
+   - BxOrgsAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para organizations.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de organizações.
+
+6. BxOrgsFormEntry.php:
+   - BxOrgsFormEntry extends BxTemplFormView: Formulário para criação/edição de organizações.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de entrada.
+
+7. BxOrgsFormPrice.php:
+   - BxOrgsFormPrice extends BxTemplFormView: Formulário para preços ou planos de organizações.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de preço.
+
+8. BxOrgsFormsEntryHelper.php:
+   - BxOrgsFormsEntryHelper extends BxDolFormHelper: Auxiliar para formulários de entrada em organizações.
+   - __construct($oForm): Construtor que inicializa o auxiliar de formulário.
+
+9. BxOrgsGridAdministration.php:
+   - BxOrgsGridAdministration extends BxDolGrid: Grade para administração de organizações.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de administração.
+
+10. BxOrgsGridCommon.php:
+    - BxOrgsGridCommon extends BxDolGrid: Grade para listagem comum de organizações.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade comum.
+
+11. BxOrgsGridConnections.php:
+    - BxOrgsGridConnections extends BxDolGrid: Grade para conexões ou membros de organizações.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de conexões.
+
+12. BxOrgsGridInvites.php:
+    - BxOrgsGridInvites extends BxDolGrid: Grade para convites de organizações.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de convites.
+
+13. BxOrgsGridPricesManage.php:
+    - BxOrgsGridPricesManage extends BxDolGrid: Grade para gerenciamento de preços de organizações.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de gerenciamento de preços.
+
+14. BxOrgsGridPricesView.php:
+    - BxOrgsGridPricesView extends BxDolGrid: Grade para visualização de preços de organizações.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de visualização de preços.
+
+15. BxOrgsSearchResult.php:
+    - BxOrgsSearchResult extends BxDolSearchResult: Resultados de busca para organizações.
+    - __construct($oModule = null): Construtor que inicializa os resultados de busca.
+
+16. BxOrgsCmts.php:
+    - BxOrgsCmts extends BxDolCmts: Gerenciamento de comentários em organizações.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa os comentários.
+
+17. BxOrgsCmtsSearchResult.php:
+    - BxOrgsCmtsSearchResult extends BxDolSearchResult: Resultados de busca para comentários em organizações.
+    - __construct(): Construtor que inicializa os resultados de busca de comentários.
+
+18. BxOrgsConnectionFans.php:
+    - BxOrgsConnectionFans extends BxDolConnection: Gerenciamento de conexões de fãs ou membros em organizações.
+    - __construct($aObject): Construtor que inicializa as conexões.
+
+19. BxOrgsFavorite.php:
+    - BxOrgsFavorite extends BxDolFavorite: Gerenciamento de favoritos para organizações.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa os favoritos.
+
+20. BxOrgsReport.php:
+    - BxOrgsReport extends BxDolReport: Gerenciamento de denúncias para organizações.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa as denúncias.
+
+21. BxOrgsVote.php:
+    - BxOrgsVote extends BxDolVote: Gerenciamento de votos para organizações.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa os votos.
+
+22. BxOrgsCronPruning.php:
+    - BxOrgsCronPruning extends BxDolCron: Tarefa cron para poda ou limpeza de dados de organizações.
+    - __construct(): Construtor que inicializa a tarefa cron.
+    - process(): Método para executar a poda de dados.
+
+23. BxOrgsMenu.php:
+    - BxOrgsMenu extends BxDolMenu: Menu base para organizações.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu base.
+
+24. BxOrgsMenuManageTools.php:
+    - BxOrgsMenuManageTools extends BxDolMenu: Menu para ferramentas de gerenciamento de organizações.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ferramentas.
+
+25. BxOrgsMenuSnippetMeta.php:
+    - BxOrgsMenuSnippetMeta extends BxDolMenu: Menu para metadados de snippet de organizações.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de metadados.
+
+26. BxOrgsMenuView.php:
+    - BxOrgsMenuView extends BxDolMenu: Menu para visualização de organizações.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+27. BxOrgsMenuViewActions.php:
+    - BxOrgsMenuViewActions extends BxDolMenu: Menu para ações de visualização de organizações.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ações.
+
+28. BxOrgsMenuViewActionsAll.php:
+    - BxOrgsMenuViewActionsAll extends BxDolMenu: Menu para todas as ações de visualização de organizações.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de todas as ações.
+
+29. BxOrgsMenuViewMeta.php:
+    - BxOrgsMenuViewMeta extends BxDolMenu: Menu para metadados de visualização de organizações.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de metadados de visualização.
+
+30. BxOrgsPageBrowse.php:
+    - BxOrgsPageBrowse extends BxDolPage: Página para navegação de organizações.
+    - __construct($oTemplate = false): Construtor que inicializa a página de navegação.
+
+31. BxOrgsPageEntry.php:
+    - BxOrgsPageEntry extends BxDolPage: Página de entrada para uma organização.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+32. BxOrgsPageJoinedEntries.php:
+    - BxOrgsPageJoinedEntries extends BxDolPage: Página para entradas de organizações ingressadas.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entradas ingressadas.
+
+33. BxOrgsPageListEntry.php:
+    - BxOrgsPageListEntry extends BxDolPage: Página para listagem de entradas de organizações.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de listagem.
+
+34. BxOrgsPrivacy.php:
+    - BxOrgsPrivacy extends BxDolPrivacy: Gerenciamento de privacidade para organizações.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade.
+
+35. BxOrgsPrivacyContact.php:
+    - BxOrgsPrivacyContact extends BxDolPrivacy: Gerenciamento de privacidade para contatos de organizações.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade de contatos.
+
+36. BxOrgsPrivacyNotifications.php:
+    - BxOrgsPrivacyNotifications extends BxDolPrivacy: Gerenciamento de privacidade para notificações de organizações.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade de notificações.
+
+37. BxOrgsPrivacyPost.php:
+    - BxOrgsPrivacyPost extends BxDolPrivacy: Gerenciamento de privacidade para postagens em organizações.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade de postagens.
+
+38. BxOrgsUploaderCoverCrop.php:
+    - BxOrgsUploaderCoverCrop extends BxDolUploader: Uploader para recorte de capa de organizações.
+    - __construct(): Construtor que inicializa o uploader de capa.
+
+39. BxOrgsUploaderPictureCrop.php:
+    - BxOrgsUploaderPictureCrop extends BxDolUploader: Uploader para recorte de imagem de organizações.
+    - __construct(): Construtor que inicializa o uploader de imagem.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/organizations: Cria uma nova organização.
+- PUT /api/organizations/{orgId}: Atualiza uma organização existente.
+- DELETE /api/organizations/{orgId}: Deleta uma organização.
+- GET /api/organizations/{orgId}: Obtém detalhes de uma organização específica.
+- GET /api/organizations: Obtém a lista de organizações.
+- POST /api/organizations/{orgId}/join: Ingressa em uma organização.
+- POST /api/organizations/{orgId}/leave: Sai de uma organização.
+- POST /api/organizations/{orgId}/invite: Convida um usuário para uma organização.
+- GET /api/organizations/{orgId}/members: Obtém a lista de membros de uma organização.
+- POST /api/organizations/{orgId}/prices: Adiciona um preço ou plano à organização.
+- GET /api/organizations/{orgId}/prices: Obtém a lista de preços ou planos de uma organização.
+- POST /api/organizations/{orgId}/report: Reporta uma organização.
+- POST /api/organizations/{orgId}/vote: Vota em uma organização.
+- POST /api/organizations/{orgId}/favorite: Adiciona ou remove uma organização dos favoritos.
+- GET /api/organizations/search: Busca organizações por palavra-chave ou critérios.

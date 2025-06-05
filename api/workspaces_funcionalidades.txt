@@ -1,0 +1,138 @@
+Mapeamento do Módulo Workspaces para API RESTful
+
+Descrição Geral:
+O módulo 'workspaces' gerencia funcionalidades relacionadas a espaços de trabalho no sistema UNA. Permite a criação, gerenciamento e interação com espaços de trabalho, que podem ser usados para organizar projetos ou equipes. É composto por classes como BxWorkspacesModule.php (lógica específica do módulo) e várias outras classes de suporte para configurações, banco de dados, formulários, grids, menus e páginas.
+
+Análise de Classes do Módulo Workspaces:
+
+1. BxWorkspacesModule.php (Classe Principal do Módulo Workspaces):
+   - BxWorkspacesModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo workspaces.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceCreateWorkspace($aData): Método para criar um novo espaço de trabalho.
+   - serviceUpdateWorkspace($iWorkspaceId, $aData): Método para atualizar um espaço de trabalho existente.
+   - serviceDeleteWorkspace($iWorkspaceId): Método para deletar um espaço de trabalho.
+   - serviceGetWorkspace($iWorkspaceId): Método para obter detalhes de um espaço de trabalho específico.
+   - serviceGetWorkspaces($aParams = array()): Método para obter a lista de espaços de trabalho.
+   - serviceJoinWorkspace($iWorkspaceId, $iProfileId = 0): Método para ingressar em um espaço de trabalho.
+   - serviceLeaveWorkspace($iWorkspaceId, $iProfileId = 0): Método para sair de um espaço de trabalho.
+   - serviceInviteToWorkspace($iWorkspaceId, $iProfileId): Método para convidar um usuário para um espaço de trabalho.
+   - serviceGetWorkspaceMembers($iWorkspaceId, $aParams = array()): Método para obter membros de um espaço de trabalho.
+   - serviceReport($iWorkspaceId, $aData): Método para reportar um espaço de trabalho.
+   - serviceVote($iWorkspaceId, $iValue): Método para votar em um espaço de trabalho.
+   - serviceFavorite($iWorkspaceId, $bAdd = true): Método para adicionar ou remover um espaço de trabalho dos favoritos.
+
+2. BxWorkspacesConfig.php:
+   - BxWorkspacesConfig extends BxDolConfig: Configurações específicas do módulo workspaces.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxWorkspacesDb.php:
+   - BxWorkspacesDb extends BxDolDb: Banco de dados específico para workspaces.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxWorkspacesTemplate.php:
+   - BxWorkspacesTemplate extends BxDolTemplate: Template para renderização de elementos de espaços de trabalho.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+5. BxWorkspacesAlertsResponse.php:
+   - BxWorkspacesAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para workspaces.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de espaços de trabalho.
+
+6. BxWorkspacesFormEntry.php:
+   - BxWorkspacesFormEntry extends BxTemplFormView: Formulário para criação/edição de espaços de trabalho.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de entrada.
+
+7. BxWorkspacesFormsEntryHelper.php:
+   - BxWorkspacesFormsEntryHelper extends BxDolFormHelper: Auxiliar para formulários de entrada em espaços de trabalho.
+   - __construct($oForm): Construtor que inicializa o auxiliar de formulário.
+
+8. BxWorkspacesGridAdministration.php:
+   - BxWorkspacesGridAdministration extends BxDolGrid: Grade para administração de espaços de trabalho.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de administração.
+
+9. BxWorkspacesGridCommon.php:
+   - BxWorkspacesGridCommon extends BxDolGrid: Grade para listagem comum de espaços de trabalho.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade comum.
+
+10. BxWorkspacesSearchResult.php:
+    - BxWorkspacesSearchResult extends BxDolSearchResult: Resultados de busca para espaços de trabalho.
+    - __construct($oModule = null): Construtor que inicializa os resultados de busca.
+
+11. BxWorkspacesCmts.php:
+    - BxWorkspacesCmts extends BxDolCmts: Gerenciamento de comentários em espaços de trabalho.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa os comentários.
+
+12. BxWorkspacesCmtsSearchResult.php:
+    - BxWorkspacesCmtsSearchResult extends BxDolSearchResult: Resultados de busca para comentários em espaços de trabalho.
+    - __construct(): Construtor que inicializa os resultados de busca de comentários.
+
+13. BxWorkspacesFavorite.php:
+    - BxWorkspacesFavorite extends BxDolFavorite: Gerenciamento de favoritos para espaços de trabalho.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa os favoritos.
+
+14. BxWorkspacesReport.php:
+    - BxWorkspacesReport extends BxDolReport: Gerenciamento de denúncias para espaços de trabalho.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa as denúncias.
+
+15. BxWorkspacesVote.php:
+    - BxWorkspacesVote extends BxDolVote: Gerenciamento de votos para espaços de trabalho.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa os votos.
+
+16. BxWorkspacesMenuManageTools.php:
+    - BxWorkspacesMenuManageTools extends BxDolMenu: Menu para ferramentas de gerenciamento de espaços de trabalho.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ferramentas.
+
+17. BxWorkspacesMenuSnippetMeta.php:
+    - BxWorkspacesMenuSnippetMeta extends BxDolMenu: Menu para metadados de snippet de espaços de trabalho.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de metadados.
+
+18. BxWorkspacesMenuView.php:
+    - BxWorkspacesMenuView extends BxDolMenu: Menu para visualização de espaços de trabalho.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+19. BxWorkspacesMenuViewActions.php:
+    - BxWorkspacesMenuViewActions extends BxDolMenu: Menu para ações de visualização de espaços de trabalho.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ações.
+
+20. BxWorkspacesMenuViewActionsAll.php:
+    - BxWorkspacesMenuViewActionsAll extends BxDolMenu: Menu para todas as ações de visualização de espaços de trabalho.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de todas as ações.
+
+21. BxWorkspacesMenuViewMeta.php:
+    - BxWorkspacesMenuViewMeta extends BxDolMenu: Menu para metadados de visualização de espaços de trabalho.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de metadados de visualização.
+
+22. BxWorkspacesPageBrowse.php:
+    - BxWorkspacesPageBrowse extends BxDolPage: Página para navegação de espaços de trabalho.
+    - __construct($oTemplate = false): Construtor que inicializa a página de navegação.
+
+23. BxWorkspacesPageEntry.php:
+    - BxWorkspacesPageEntry extends BxDolPage: Página de entrada para um espaço de trabalho.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+24. BxWorkspacesPrivacy.php:
+    - BxWorkspacesPrivacy extends BxDolPrivacy: Gerenciamento de privacidade para espaços de trabalho.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade.
+
+25. BxWorkspacesPrivacyContact.php:
+    - BxWorkspacesPrivacyContact extends BxDolPrivacy: Gerenciamento de privacidade para contatos de espaços de trabalho.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade de contatos.
+
+26. BxWorkspacesPrivacyPost.php:
+    - BxWorkspacesPrivacyPost extends BxDolPrivacy: Gerenciamento de privacidade para postagens em espaços de trabalho.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade de postagens.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/workspaces: Cria um novo espaço de trabalho.
+- PUT /api/workspaces/{workspaceId}: Atualiza um espaço de trabalho existente.
+- DELETE /api/workspaces/{workspaceId}: Deleta um espaço de trabalho.
+- GET /api/workspaces/{workspaceId}: Obtém detalhes de um espaço de trabalho específico.
+- GET /api/workspaces: Obtém a lista de espaços de trabalho.
+- POST /api/workspaces/{workspaceId}/join: Ingressa em um espaço de trabalho.
+- POST /api/workspaces/{workspaceId}/leave: Sai de um espaço de trabalho.
+- POST /api/workspaces/{workspaceId}/invite: Convida um usuário para um espaço de trabalho.
+- GET /api/workspaces/{workspaceId}/members: Obtém a lista de membros de um espaço de trabalho.
+- POST /api/workspaces/{workspaceId}/report: Reporta um espaço de trabalho.
+- POST /api/workspaces/{workspaceId}/vote: Vota em um espaço de trabalho.
+- POST /api/workspaces/{workspaceId}/favorite: Adiciona ou remove um espaço de trabalho dos favoritos.
+- GET /api/workspaces/search: Busca espaços de trabalho por palavra-chave ou critérios.

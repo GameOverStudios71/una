@@ -1,0 +1,83 @@
+Mapeamento do Módulo Donations para API RESTful
+
+Descrição Geral:
+O módulo 'donations' gerencia funcionalidades de doações no sistema UNA. Permite a criação, gerenciamento e recebimento de doações, que podem ser usadas para apoiar causas ou usuários. É composto por classes como BxDonationsModule.php (lógica específica do módulo) e várias outras classes de suporte para configurações, banco de dados, formulários, grids e páginas.
+
+Análise de Classes do Módulo Donations:
+
+1. BxDonationsModule.php (Classe Principal do Módulo Donations):
+   - BxDonationsModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo donations.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceMakeDonation($iTypeId, $fAmount, $sMessage = ''): Método para realizar uma doação.
+   - serviceGetDonationTypes($bActiveOnly = false): Método para obter tipos de doações disponíveis.
+   - serviceGetDonations($iTypeId = 0, $iStart = 0, $iPerPage = 10): Método para obter lista de doações.
+   - serviceGetDonationsTotal($iTypeId = 0): Método para obter total arrecadado por tipo de doação.
+   - serviceAddDonationType($aData): Método para adicionar um novo tipo de doação.
+   - serviceUpdateDonationType($iTypeId, $aData): Método para atualizar um tipo de doação existente.
+   - serviceDeleteDonationType($iTypeId): Método para deletar um tipo de doação.
+   - serviceGetDonationType($iTypeId): Método para obter detalhes de um tipo de doação específico.
+
+2. BxDonationsConfig.php:
+   - BxDonationsConfig extends BxDolConfig: Configurações específicas do módulo donations.
+   - __construct($aModule): Construtor que inicializa as configurações.
+   - getDefaultCurrency(): Método para obter a moeda padrão para doações.
+   - getMinAmount(): Método para obter o valor mínimo de doação.
+   - getMaxAmount(): Método para obter o valor máximo de doação.
+
+3. BxDonationsDb.php:
+   - BxDonationsDb extends BxDolDb: Banco de dados específico para donations.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - addDonation($iTypeId, $iDonorId, $fAmount, $sMessage, $sTransactionId): Método para registrar uma doação.
+   - getDonations($iTypeId, $iStart, $iPerPage): Método para obter doações.
+   - getDonationsTotal($iTypeId): Método para obter total arrecadado.
+   - addType($aData): Método para adicionar tipo de doação.
+   - updateType($iTypeId, $aData): Método para atualizar tipo de doação.
+   - deleteType($iTypeId): Método para deletar tipo de doação.
+   - getType($iTypeId): Método para obter tipo de doação.
+   - getTypes($bActiveOnly): Método para obter tipos de doação.
+
+4. BxDonationsTemplate.php:
+   - BxDonationsTemplate extends BxDolTemplate: Template para renderização de elementos de doações.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getDonationForm($iTypeId, $aParams = array()): Método para obter formulário HTML de doação.
+   - getDonationBlock($iTypeId, $aParams = array()): Método para obter bloco HTML de tipo de doação.
+   - getDonationsList($aDonations, $aParams = array()): Método para obter lista HTML de doações.
+
+5. BxDonationsAlertsResponse.php:
+   - BxDonationsAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para donations.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de doações.
+
+6. BxDonationsFormType.php:
+   - BxDonationsFormType extends BxTemplFormView: Formulário para criação/edição de tipos de doação.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de tipo.
+
+7. BxDonationsGridList.php:
+   - BxDonationsGridList extends BxDolGrid: Grade para listagem de doações.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de listagem.
+
+8. BxDonationsGridListAll.php:
+   - BxDonationsGridListAll extends BxDolGrid: Grade para listagem de todas as doações.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de listagem completa.
+
+9. BxDonationsGridTypes.php:
+   - BxDonationsGridTypes extends BxDolGrid: Grade para gerenciamento de tipos de doação.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de tipos.
+
+10. BxDonationsPageList.php:
+    - BxDonationsPageList extends BxDolPage: Página para listagem de doações.
+    - __construct($oTemplate = false): Construtor que inicializa a página de listagem.
+
+11. BxDonationsStudioPage.php:
+    - BxDonationsStudioPage extends BxDolStudioPage: Página de estúdio para doações.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/donations: Realiza uma doação.
+- GET /api/donations/types: Obtém a lista de tipos de doações disponíveis.
+- GET /api/donations: Obtém a lista de doações.
+- GET /api/donations/total: Obtém o total arrecadado por tipo de doação.
+- POST /api/donations/types: Adiciona um novo tipo de doação.
+- PUT /api/donations/types/{typeId}: Atualiza um tipo de doação existente.
+- DELETE /api/donations/types/{typeId}: Deleta um tipo de doação.
+- GET /api/donations/types/{typeId}: Obtém detalhes de um tipo de doação específico.

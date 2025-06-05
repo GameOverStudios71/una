@@ -1,0 +1,142 @@
+Mapeamento do Módulo Tasks para API RESTful
+
+Descrição Geral:
+O módulo 'tasks' gerencia funcionalidades de tarefas ou agendamentos no sistema UNA. Permite a criação, gerenciamento, atribuição e acompanhamento de tarefas, que podem ser usadas para organizar atividades ou projetos. É composto por classes como BxTasksModule.php (lógica específica do módulo) e várias outras classes de suporte para configurações, banco de dados, formulários, menus e páginas.
+
+Análise de Classes do Módulo Tasks:
+
+1. BxTasksModule.php (Classe Principal do Módulo Tasks):
+   - BxTasksModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo tasks.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceCreateTask($aData): Método para criar uma nova tarefa.
+   - serviceUpdateTask($iTaskId, $aData): Método para atualizar uma tarefa existente.
+   - serviceDeleteTask($iTaskId): Método para deletar uma tarefa.
+   - serviceGetTask($iTaskId): Método para obter detalhes de uma tarefa específica.
+   - serviceGetTasks($aParams = array()): Método para obter a lista de tarefas.
+   - serviceAssignTask($iTaskId, $iProfileId): Método para atribuir uma tarefa a um usuário.
+   - serviceUnassignTask($iTaskId, $iProfileId): Método para desatribuir uma tarefa de um usuário.
+   - serviceCompleteTask($iTaskId, $iProfileId = 0): Método para marcar uma tarefa como concluída.
+   - serviceReopenTask($iTaskId, $iProfileId = 0): Método para reabrir uma tarefa.
+   - serviceAddAttachment($iTaskId, $aAttachmentData): Método para adicionar um anexo a uma tarefa.
+   - serviceDeleteAttachment($iTaskId, $iAttachmentId): Método para deletar um anexo de uma tarefa.
+   - serviceGetAttachments($iTaskId): Método para obter anexos de uma tarefa.
+
+2. BxTasksConfig.php:
+   - BxTasksConfig extends BxDolConfig: Configurações específicas do módulo tasks.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxTasksDb.php:
+   - BxTasksDb extends BxDolDb: Banco de dados específico para tasks.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - createTask($aData): Método para criar uma tarefa no banco de dados.
+   - updateTask($iTaskId, $aData): Método para atualizar uma tarefa no banco de dados.
+   - deleteTask($iTaskId): Método para deletar uma tarefa do banco de dados.
+   - getTask($iTaskId): Método para obter detalhes de uma tarefa.
+   - getTasks($aParams): Método para obter tarefas.
+   - assignTask($iTaskId, $iProfileId): Método para registrar atribuição de uma tarefa.
+   - unassignTask($iTaskId, $iProfileId): Método para registrar desatribuição de uma tarefa.
+   - completeTask($iTaskId, $iProfileId): Método para marcar uma tarefa como concluída.
+   - reopenTask($iTaskId, $iProfileId): Método para reabrir uma tarefa.
+   - addAttachment($iTaskId, $aAttachmentData): Método para adicionar anexo a uma tarefa.
+   - deleteAttachment($iTaskId, $iAttachmentId): Método para deletar anexo de uma tarefa.
+   - getAttachments($iTaskId): Método para obter anexos de uma tarefa.
+
+4. BxTasksTemplate.php:
+   - BxTasksTemplate extends BxDolTemplate: Template para renderização de elementos de tarefas.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getTaskBlock($iTaskId, $aParams = array()): Método para obter bloco HTML de uma tarefa.
+   - getTaskAttachmentItem($iAttachmentId, $aParams = array()): Método para obter item HTML de um anexo de tarefa.
+
+5. BxTasksAlertsResponse.php:
+   - BxTasksAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para tasks.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de tarefas.
+
+6. BxTasksFormEntry.php:
+   - BxTasksFormEntry extends BxTemplFormView: Formulário para criação/edição de tarefas.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de entrada.
+
+7. BxTasksFormListEntry.php:
+   - BxTasksFormListEntry extends BxTemplFormView: Formulário para listagem de tarefas.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de listagem.
+
+8. BxTasksFormsEntryHelper.php:
+   - BxTasksFormsEntryHelper extends BxDolFormHelper: Auxiliar para formulários de entrada em tarefas.
+   - __construct($oForm): Construtor que inicializa o auxiliar de formulário.
+
+9. BxTasksSearchResult.php:
+   - BxTasksSearchResult extends BxDolSearchResult: Resultados de busca para tarefas.
+   - __construct($oModule = null): Construtor que inicializa os resultados de busca.
+
+10. BxTasksCmtsSearchResult.php:
+    - BxTasksCmtsSearchResult extends BxDolSearchResult: Resultados de busca para comentários em tarefas.
+    - __construct(): Construtor que inicializa os resultados de busca de comentários.
+
+11. BxTasksMenuView.php:
+    - BxTasksMenuView extends BxDolMenu: Menu para visualização de tarefas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+12. BxTasksMenuViewActions.php:
+    - BxTasksMenuViewActions extends BxDolMenu: Menu para ações de visualização de tarefas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ações.
+
+13. BxTasksMenuAttachments.php:
+    - BxTasksMenuAttachments extends BxDolMenu: Menu para anexos de tarefas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de anexos.
+
+14. BxTasksPageAuthor.php:
+    - BxTasksPageAuthor extends BxDolPage: Página para tarefas por autor.
+    - __construct($oTemplate = false): Construtor que inicializa a página de autor.
+
+15. BxTasksPageBrowse.php:
+    - BxTasksPageBrowse extends BxDolPage: Página para navegação de tarefas.
+    - __construct($oTemplate = false): Construtor que inicializa a página de navegação.
+
+16. BxTasksPageEntry.php:
+    - BxTasksPageEntry extends BxDolPage: Página de entrada para uma tarefa.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+17. BxTasksStudioPage.php:
+    - BxTasksStudioPage extends BxDolStudioPage: Página de estúdio para tarefas.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+18. BxTasksCronExpiring.php:
+    - BxTasksCronExpiring extends BxDolCron: Tarefa cron para tarefas expirando.
+    - __construct(): Construtor que inicializa a tarefa cron.
+    - process(): Método para executar a verificação de tarefas expirando.
+
+19. BxTasksCronPublishing.php:
+    - BxTasksCronPublishing extends BxDolCron: Tarefa cron para publicação de tarefas.
+    - __construct(): Construtor que inicializa a tarefa cron.
+    - process(): Método para executar a publicação de tarefas.
+
+20. BxTasksUploaderHTML5.php:
+    - BxTasksUploaderHTML5 extends BxDolUploader: Uploader HTML5 para tarefas.
+    - __construct(): Construtor que inicializa o uploader HTML5.
+
+21. BxTasksUploaderHTML5Attach.php:
+    - BxTasksUploaderHTML5Attach extends BxDolUploader: Uploader HTML5 para anexos de tarefas.
+    - __construct(): Construtor que inicializa o uploader HTML5 de anexos.
+
+22. BxTasksUploaderRecordVideo.php:
+    - BxTasksUploaderRecordVideo extends BxDolUploader: Uploader para gravação de vídeo em tarefas.
+    - __construct(): Construtor que inicializa o uploader de gravação de vídeo.
+
+23. BxTasksUploaderRecordVideoAttach.php:
+    - BxTasksUploaderRecordVideoAttach extends BxDolUploader: Uploader para gravação de vídeo como anexo em tarefas.
+    - __construct(): Construtor que inicializa o uploader de gravação de vídeo de anexos.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/tasks: Cria uma nova tarefa.
+- PUT /api/tasks/{taskId}: Atualiza uma tarefa existente.
+- DELETE /api/tasks/{taskId}: Deleta uma tarefa.
+- GET /api/tasks/{taskId}: Obtém detalhes de uma tarefa específica.
+- GET /api/tasks: Obtém a lista de tarefas.
+- POST /api/tasks/{taskId}/assign/{profileId}: Atribui uma tarefa a um usuário.
+- POST /api/tasks/{taskId}/unassign/{profileId}: Desatribui uma tarefa de um usuário.
+- POST /api/tasks/{taskId}/complete: Marca uma tarefa como concluída.
+- POST /api/tasks/{taskId}/reopen: Reabre uma tarefa.
+- POST /api/tasks/{taskId}/attachments: Adiciona um anexo a uma tarefa.
+- DELETE /api/tasks/{taskId}/attachments/{attachmentId}: Deleta um anexo de uma tarefa.
+- GET /api/tasks/{taskId}/attachments: Obtém a lista de anexos de uma tarefa.
+- GET /api/tasks/search: Busca tarefas por palavra-chave ou critérios.

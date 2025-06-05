@@ -1,0 +1,203 @@
+Mapeamento do Módulo Jobs para API RESTful
+
+Descrição Geral:
+O módulo 'jobs' gerencia funcionalidades relacionadas a empregos ou vagas no sistema UNA. Permite a criação, gerenciamento e aplicação a vagas de emprego, bem como a interação entre empregadores e candidatos. É composto por classes como BxJobsModule.php (lógica específica do módulo) e várias outras classes de suporte para configurações, banco de dados, formulários, grids, menus e páginas.
+
+Análise de Classes do Módulo Jobs:
+
+1. BxJobsModule.php (Classe Principal do Módulo Jobs):
+   - BxJobsModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo jobs.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceCreateJob($aData): Método para criar uma nova vaga de emprego.
+   - serviceUpdateJob($iJobId, $aData): Método para atualizar uma vaga de emprego existente.
+   - serviceDeleteJob($iJobId): Método para deletar uma vaga de emprego.
+   - serviceGetJob($iJobId): Método para obter detalhes de uma vaga de emprego específica.
+   - serviceGetJobs($aParams = array()): Método para obter a lista de vagas de emprego.
+   - serviceApplyToJob($iJobId, $iProfileId = 0): Método para se candidatar a uma vaga de emprego.
+   - serviceWithdrawApplication($iJobId, $iProfileId = 0): Método para retirar uma candidatura a uma vaga.
+   - serviceInviteToJob($iJobId, $iProfileId): Método para convidar um usuário para uma vaga de emprego.
+   - serviceGetJobApplicants($iJobId, $aParams = array()): Método para obter candidatos a uma vaga de emprego.
+   - serviceAddPrice($iJobId, $aData): Método para adicionar um preço ou pacote à vaga.
+   - serviceGetPrices($iJobId): Método para obter preços ou pacotes de uma vaga.
+   - serviceAddQuestion($iJobId, $aData): Método para adicionar uma pergunta ao processo de aplicação da vaga.
+   - serviceUpdateQuestion($iJobId, $iQuestionId, $aData): Método para atualizar uma pergunta da vaga.
+   - serviceDeleteQuestion($iJobId, $iQuestionId): Método para deletar uma pergunta da vaga.
+   - serviceGetQuestions($iJobId, $aParams = array()): Método para obter perguntas de uma vaga.
+   - serviceBanApplicant($iJobId, $iProfileId, $aData): Método para banir um candidato de uma vaga.
+   - serviceUnbanApplicant($iJobId, $iProfileId): Método para desbanir um candidato de uma vaga.
+   - serviceGetBannedApplicants($iJobId, $aParams = array()): Método para obter candidatos banidos de uma vaga.
+
+2. BxJobsConfig.php:
+   - BxJobsConfig extends BxDolConfig: Configurações específicas do módulo jobs.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxJobsDb.php:
+   - BxJobsDb extends BxDolDb: Banco de dados específico para jobs.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxJobsTemplate.php:
+   - BxJobsTemplate extends BxDolTemplate: Template para renderização de elementos de vagas de emprego.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+5. BxJobsAlertsResponse.php:
+   - BxJobsAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para jobs.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de vagas.
+
+6. BxJobsFormEntry.php:
+   - BxJobsFormEntry extends BxTemplFormView: Formulário para criação/edição de vagas de emprego.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de entrada.
+
+7. BxJobsFormPrice.php:
+   - BxJobsFormPrice extends BxTemplFormView: Formulário para preços ou pacotes de vagas.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de preço.
+
+8. BxJobsFormQuestion.php:
+   - BxJobsFormQuestion extends BxTemplFormView: Formulário para perguntas de aplicação a vagas.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de pergunta.
+
+9. BxJobsFormsEntryHelper.php:
+   - BxJobsFormsEntryHelper extends BxDolFormHelper: Auxiliar para formulários de entrada em vagas.
+   - __construct($oForm): Construtor que inicializa o auxiliar de formulário.
+
+10. BxJobsGridAdministration.php:
+    - BxJobsGridAdministration extends BxDolGrid: Grade para administração de vagas de emprego.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de administração.
+
+11. BxJobsGridCommon.php:
+    - BxJobsGridCommon extends BxDolGrid: Grade para listagem comum de vagas de emprego.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade comum.
+
+12. BxJobsGridConnections.php:
+    - BxJobsGridConnections extends BxDolGrid: Grade para conexões ou candidatos de vagas.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de conexões.
+
+13. BxJobsGridInvites.php:
+    - BxJobsGridInvites extends BxDolGrid: Grade para convites de vagas de emprego.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de convites.
+
+14. BxJobsGridPricesManage.php:
+    - BxJobsGridPricesManage extends BxDolGrid: Grade para gerenciamento de preços de vagas.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de gerenciamento de preços.
+
+15. BxJobsGridPricesView.php:
+    - BxJobsGridPricesView extends BxDolGrid: Grade para visualização de preços de vagas.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de visualização de preços.
+
+16. BxJobsGridQuestionsManage.php:
+    - BxJobsGridQuestionsManage extends BxDolGrid: Grade para gerenciamento de perguntas de vagas.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de gerenciamento de perguntas.
+
+17. BxJobsGridBans.php:
+    - BxJobsGridBans extends BxDolGrid: Grade para gerenciamento de banimentos de candidatos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de banimentos.
+
+18. BxJobsSearchResult.php:
+    - BxJobsSearchResult extends BxDolSearchResult: Resultados de busca para vagas de emprego.
+    - __construct($oModule = null): Construtor que inicializa os resultados de busca.
+
+19. BxJobsCmts.php:
+    - BxJobsCmts extends BxDolCmts: Gerenciamento de comentários em vagas de emprego.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa os comentários.
+
+20. BxJobsConnectionFans.php:
+    - BxJobsConnectionFans extends BxDolConnection: Gerenciamento de conexões de fãs ou candidatos em vagas.
+    - __construct($aObject): Construtor que inicializa as conexões.
+
+21. BxJobsRecommendationFans.php:
+    - BxJobsRecommendationFans extends BxDolRecommendation: Recomendações de candidatos ou conexões para vagas.
+    - __construct($aObject): Construtor que inicializa as recomendações.
+
+22. BxJobsCronPruning.php:
+    - BxJobsCronPruning extends BxDolCron: Tarefa cron para poda ou limpeza de dados de vagas.
+    - __construct(): Construtor que inicializa a tarefa cron.
+    - process(): Método para executar a poda de dados.
+
+23. BxJobsMenu.php:
+    - BxJobsMenu extends BxDolMenu: Menu base para vagas de emprego.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu base.
+
+24. BxJobsMenuManageTools.php:
+    - BxJobsMenuManageTools extends BxDolMenu: Menu para ferramentas de gerenciamento de vagas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ferramentas.
+
+25. BxJobsMenuSnippetMeta.php:
+    - BxJobsMenuSnippetMeta extends BxDolMenu: Menu para metadados de snippet de vagas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de metadados.
+
+26. BxJobsMenuView.php:
+    - BxJobsMenuView extends BxDolMenu: Menu para visualização de vagas de emprego.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+27. BxJobsMenuViewActions.php:
+    - BxJobsMenuViewActions extends BxDolMenu: Menu para ações de visualização de vagas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ações.
+
+28. BxJobsMenuViewActionsAll.php:
+    - BxJobsMenuViewActionsAll extends BxDolMenu: Menu para todas as ações de visualização de vagas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de todas as ações.
+
+29. BxJobsMenuViewMeta.php:
+    - BxJobsMenuViewMeta extends BxDolMenu: Menu para metadados de visualização de vagas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de metadados de visualização.
+
+30. BxJobsPageBrowse.php:
+    - BxJobsPageBrowse extends BxDolPage: Página para navegação de vagas de emprego.
+    - __construct($oTemplate = false): Construtor que inicializa a página de navegação.
+
+31. BxJobsPageEntry.php:
+    - BxJobsPageEntry extends BxDolPage: Página de entrada para uma vaga de emprego.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+32. BxJobsPageJoinedEntries.php:
+    - BxJobsPageJoinedEntries extends BxDolPage: Página para entradas de vagas aplicadas ou ingressadas.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entradas ingressadas.
+
+33. BxJobsPageListEntry.php:
+    - BxJobsPageListEntry extends BxDolPage: Página para listagem de entradas de vagas.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de listagem.
+
+34. BxJobsPageEntriesInContext.php:
+    - BxJobsPageEntriesInContext extends BxDolPage: Página para entradas de vagas em um contexto específico.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de entradas em contexto.
+
+35. BxJobsPrivacy.php:
+    - BxJobsPrivacy extends BxDolPrivacy: Gerenciamento de privacidade para vagas de emprego.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade.
+
+36. BxJobsPrivacyNotifications.php:
+    - BxJobsPrivacyNotifications extends BxDolPrivacy: Gerenciamento de privacidade para notificações de vagas.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade de notificações.
+
+37. BxJobsPrivacyPost.php:
+    - BxJobsPrivacyPost extends BxDolPrivacy: Gerenciamento de privacidade para postagens em vagas.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade de postagens.
+
+38. BxJobsUploaderCoverCrop.php:
+    - BxJobsUploaderCoverCrop extends BxDolUploader: Uploader para recorte de capa de vagas.
+    - __construct(): Construtor que inicializa o uploader de capa.
+
+39. BxJobsUploaderPictureCrop.php:
+    - BxJobsUploaderPictureCrop extends BxDolUploader: Uploader para recorte de imagem de vagas.
+    - __construct(): Construtor que inicializa o uploader de imagem.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/jobs: Cria uma nova vaga de emprego.
+- PUT /api/jobs/{jobId}: Atualiza uma vaga de emprego existente.
+- DELETE /api/jobs/{jobId}: Deleta uma vaga de emprego.
+- GET /api/jobs/{jobId}: Obtém detalhes de uma vaga de emprego específica.
+- GET /api/jobs: Obtém a lista de vagas de emprego.
+- POST /api/jobs/{jobId}/apply: Candidata-se a uma vaga de emprego.
+- POST /api/jobs/{jobId}/withdraw: Retira uma candidatura a uma vaga.
+- POST /api/jobs/{jobId}/invite: Convida um usuário para uma vaga de emprego.
+- GET /api/jobs/{jobId}/applicants: Obtém a lista de candidatos a uma vaga de emprego.
+- POST /api/jobs/{jobId}/prices: Adiciona um preço ou pacote à vaga.
+- GET /api/jobs/{jobId}/prices: Obtém a lista de preços ou pacotes de uma vaga.
+- POST /api/jobs/{jobId}/questions: Adiciona uma pergunta ao processo de aplicação da vaga.
+- PUT /api/jobs/{jobId}/questions/{questionId}: Atualiza uma pergunta da vaga.
+- DELETE /api/jobs/{jobId}/questions/{questionId}: Deleta uma pergunta da vaga.
+- GET /api/jobs/{jobId}/questions: Obtém a lista de perguntas de uma vaga.
+- POST /api/jobs/{jobId}/ban/{profileId}: Bane um candidato de uma vaga.
+- POST /api/jobs/{jobId}/unban/{profileId}: Desbane um candidato de uma vaga.
+- GET /api/jobs/{jobId}/banned: Obtém a lista de candidatos banidos de uma vaga.
+- GET /api/jobs/search: Busca vagas de emprego por palavra-chave ou critérios.

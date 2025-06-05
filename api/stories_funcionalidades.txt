@@ -1,0 +1,139 @@
+Mapeamento do Módulo Stories para API RESTful
+
+Descrição Geral:
+O módulo 'stories' gerencia funcionalidades de histórias ou publicações temporárias no sistema UNA. Permite a criação, gerenciamento e visualização de histórias, que são conteúdos efêmeros compartilhados por usuários. É composto por classes como BxStoriesModule.php (lógica específica do módulo) e várias outras classes de suporte para configurações, banco de dados, formulários, grids, menus e páginas.
+
+Análise de Classes do Módulo Stories:
+
+1. BxStoriesModule.php (Classe Principal do Módulo Stories):
+   - BxStoriesModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo stories.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceAddStory($aData): Método para adicionar uma nova história.
+   - serviceEditStory($iStoryId, $aData): Método para editar uma história existente.
+   - serviceDeleteStory($iStoryId): Método para deletar uma história.
+   - serviceGetStory($iStoryId): Método para obter detalhes de uma história específica.
+   - serviceGetStories($aParams = array()): Método para obter a lista de histórias.
+   - serviceAddMediaToStory($iStoryId, $aMediaData): Método para adicionar mídia a uma história.
+   - serviceDeleteMediaFromStory($iStoryId, $iMediaId): Método para deletar mídia de uma história.
+   - serviceGetStoryMedia($iStoryId): Método para obter mídia de uma história.
+   - serviceViewStory($iStoryId, $iProfileId = 0): Método para registrar visualização de uma história.
+   - serviceGetStoryViewers($iStoryId): Método para obter visualizadores de uma história.
+
+2. BxStoriesConfig.php:
+   - BxStoriesConfig extends BxDolConfig: Configurações específicas do módulo stories.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxStoriesDb.php:
+   - BxStoriesDb extends BxDolDb: Banco de dados específico para stories.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - addStory($aData): Método para adicionar uma história no banco de dados.
+   - editStory($iStoryId, $aData): Método para editar uma história no banco de dados.
+   - deleteStory($iStoryId): Método para deletar uma história do banco de dados.
+   - getStory($iStoryId): Método para obter detalhes de uma história.
+   - getStories($aParams): Método para obter histórias.
+   - addMedia($iStoryId, $aMediaData): Método para adicionar mídia a uma história.
+   - deleteMedia($iStoryId, $iMediaId): Método para deletar mídia de uma história.
+   - getMedia($iStoryId): Método para obter mídia de uma história.
+   - addView($iStoryId, $iProfileId): Método para registrar visualização de uma história.
+   - getViewers($iStoryId): Método para obter visualizadores de uma história.
+
+4. BxStoriesTemplate.php:
+   - BxStoriesTemplate extends BxDolTemplate: Template para renderização de elementos de histórias.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getStoryBlock($iStoryId, $aParams = array()): Método para obter bloco HTML de uma história.
+   - getStoryMediaItem($iMediaId, $aParams = array()): Método para obter item HTML de mídia de uma história.
+   - getStoryViewerItem($iProfileId, $aParams = array()): Método para obter item HTML de um visualizador de história.
+
+5. BxStoriesAlertsResponse.php:
+   - BxStoriesAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para stories.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de histórias.
+
+6. BxStoriesFormEntry.php:
+   - BxStoriesFormEntry extends BxTemplFormView: Formulário para criação/edição de histórias.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de entrada.
+
+7. BxStoriesFormMedia.php:
+   - BxStoriesFormMedia extends BxTemplFormView: Formulário para mídia de histórias.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de mídia.
+
+8. BxStoriesFormsEntryHelper.php:
+   - BxStoriesFormsEntryHelper extends BxDolFormHelper: Auxiliar para formulários de entrada em histórias.
+   - __construct($oForm): Construtor que inicializa o auxiliar de formulário.
+
+9. BxStoriesGridAdministration.php:
+   - BxStoriesGridAdministration extends BxDolGrid: Grade para administração de histórias.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de administração.
+
+10. BxStoriesGridCommon.php:
+    - BxStoriesGridCommon extends BxDolGrid: Grade para listagem comum de histórias.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade comum.
+
+11. BxStoriesSearchResult.php:
+    - BxStoriesSearchResult extends BxDolSearchResult: Resultados de busca para histórias.
+    - __construct($oModule = null): Construtor que inicializa os resultados de busca.
+
+12. BxStoriesSearchResultMedia.php:
+    - BxStoriesSearchResultMedia extends BxDolSearchResult: Resultados de busca para mídia de histórias.
+    - __construct($oModule = null): Construtor que inicializa os resultados de busca de mídia.
+
+13. BxStoriesCmtsSearchResult.php:
+    - BxStoriesCmtsSearchResult extends BxDolSearchResult: Resultados de busca para comentários em histórias.
+    - __construct(): Construtor que inicializa os resultados de busca de comentários.
+
+14. BxStoriesMenu.php:
+    - BxStoriesMenu extends BxDolMenu: Menu base para histórias.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu base.
+
+15. BxStoriesMenuManageTools.php:
+    - BxStoriesMenuManageTools extends BxDolMenu: Menu para ferramentas de gerenciamento de histórias.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ferramentas.
+
+16. BxStoriesMenuSnippetMeta.php:
+    - BxStoriesMenuSnippetMeta extends BxDolMenu: Menu para metadados de snippet de histórias.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de metadados.
+
+17. BxStoriesMenuView.php:
+    - BxStoriesMenuView extends BxDolMenu: Menu para visualização de histórias.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+18. BxStoriesMenuViewActions.php:
+    - BxStoriesMenuViewActions extends BxDolMenu: Menu para ações de visualização de histórias.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ações.
+
+19. BxStoriesPageAuthor.php:
+    - BxStoriesPageAuthor extends BxDolPage: Página para histórias por autor.
+    - __construct($oTemplate = false): Construtor que inicializa a página de autor.
+
+20. BxStoriesPageBrowse.php:
+    - BxStoriesPageBrowse extends BxDolPage: Página para navegação de histórias.
+    - __construct($oTemplate = false): Construtor que inicializa a página de navegação.
+
+21. BxStoriesPageEntry.php:
+    - BxStoriesPageEntry extends BxDolPage: Página de entrada para uma história.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+22. BxStoriesUploaderCrop.php:
+    - BxStoriesUploaderCrop extends BxDolUploader: Uploader para recorte de imagens de histórias.
+    - __construct(): Construtor que inicializa o uploader de recorte.
+
+23. BxStoriesUploaderHTML5.php:
+    - BxStoriesUploaderHTML5 extends BxDolUploader: Uploader HTML5 para histórias.
+    - __construct(): Construtor que inicializa o uploader HTML5.
+
+24. BxStoriesUploaderRecordVideo.php:
+    - BxStoriesUploaderRecordVideo extends BxDolUploader: Uploader para gravação de vídeo em histórias.
+    - __construct(): Construtor que inicializa o uploader de gravação de vídeo.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/stories: Adiciona uma nova história.
+- PUT /api/stories/{storyId}: Edita uma história existente.
+- DELETE /api/stories/{storyId}: Deleta uma história.
+- GET /api/stories/{storyId}: Obtém detalhes de uma história específica.
+- GET /api/stories: Obtém a lista de histórias.
+- POST /api/stories/{storyId}/media: Adiciona mídia a uma história.
+- DELETE /api/stories/{storyId}/media/{mediaId}: Deleta mídia de uma história.
+- GET /api/stories/{storyId}/media: Obtém a lista de mídia de uma história.
+- POST /api/stories/{storyId}/view: Registra visualização de uma história.
+- GET /api/stories/{storyId}/viewers: Obtém a lista de visualizadores de uma história.
+- GET /api/stories/search: Busca histórias por palavra-chave ou critérios.

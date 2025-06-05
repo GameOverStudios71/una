@@ -1,0 +1,51 @@
+Mapeamento do Módulo Wiki para API RESTful
+
+Descrição Geral:
+O módulo 'wiki' gerencia funcionalidades de documentação ou wiki no sistema UNA. Permite a criação, edição e visualização de páginas de wiki, que podem ser usadas para documentar informações ou criar bases de conhecimento. É composto por classes como BxWikiModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados, estúdio e templates.
+
+Análise de Classes do Módulo Wiki:
+
+1. BxWikiModule.php (Classe Principal do Módulo Wiki):
+   - BxWikiModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo wiki.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceCreatePage($aData): Método para criar uma nova página de wiki.
+   - serviceUpdatePage($iPageId, $aData): Método para atualizar uma página de wiki existente.
+   - serviceDeletePage($iPageId): Método para deletar uma página de wiki.
+   - serviceGetPage($iPageId): Método para obter detalhes de uma página de wiki específica.
+   - serviceGetPages($aParams = array()): Método para obter a lista de páginas de wiki.
+   - serviceGetPageRevisions($iPageId): Método para obter revisões de uma página de wiki.
+   - serviceRevertPageToRevision($iPageId, $iRevisionId): Método para reverter uma página de wiki para uma revisão específica.
+
+2. BxWikiConfig.php:
+   - BxWikiConfig extends BxDolConfig: Configurações específicas do módulo wiki.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxWikiDb.php:
+   - BxWikiDb extends BxDolDb: Banco de dados específico para wiki.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - createPage($aData): Método para criar uma página no banco de dados.
+   - updatePage($iPageId, $aData): Método para atualizar uma página no banco de dados.
+   - deletePage($iPageId): Método para deletar uma página do banco de dados.
+   - getPage($iPageId): Método para obter detalhes de uma página.
+   - getPages($aParams): Método para obter páginas.
+   - getPageRevisions($iPageId): Método para obter revisões de uma página.
+   - revertPageToRevision($iPageId, $iRevisionId): Método para reverter uma página para uma revisão.
+
+4. BxWikiTemplate.php:
+   - BxWikiTemplate extends BxDolTemplate: Template para renderização de elementos de wiki.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getPageBlock($iPageId, $aParams = array()): Método para obter bloco HTML de uma página de wiki.
+
+5. BxWikiStudioPage.php:
+   - BxWikiStudioPage extends BxDolStudioPage: Página de estúdio para wiki.
+   - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/wiki/pages: Cria uma nova página de wiki.
+- PUT /api/wiki/pages/{pageId}: Atualiza uma página de wiki existente.
+- DELETE /api/wiki/pages/{pageId}: Deleta uma página de wiki.
+- GET /api/wiki/pages/{pageId}: Obtém detalhes de uma página de wiki específica.
+- GET /api/wiki/pages: Obtém a lista de páginas de wiki.
+- GET /api/wiki/pages/{pageId}/revisions: Obtém a lista de revisões de uma página de wiki.
+- POST /api/wiki/pages/{pageId}/revert/{revisionId}: Reverte uma página de wiki para uma revisão específica.
+- GET /api/wiki/search: Busca páginas de wiki por palavra-chave ou critérios.
