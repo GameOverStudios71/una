@@ -1,0 +1,36 @@
+Mapeamento do Módulo Reminders para API RESTful
+
+Descrição Geral:
+O módulo 'reminders' gerencia funcionalidades relacionadas a lembretes no sistema UNA. Permite configurar e enviar notificações ou lembretes para usuários sobre eventos, tarefas ou outras atividades importantes. É composto por classes como BxRemindersModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados, tarefas cron e templates.
+
+Análise de Classes do Módulo Reminders:
+
+1. BxRemindersModule.php (Classe Principal do Módulo Reminders):
+   - BxRemindersModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo reminders.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetReminders($aParams = array()): Método para obter a lista de lembretes.
+   - serviceCreateReminder($aData): Método para criar um novo lembrete.
+   - serviceUpdateReminder($iReminderId, $aData): Método para atualizar um lembrete existente.
+   - serviceDeleteReminder($iReminderId): Método para excluir um lembrete.
+
+2. BxRemindersConfig.php:
+   - BxRemindersConfig extends BxDolConfig: Configurações específicas do módulo reminders.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxRemindersDb.php:
+   - BxRemindersDb extends BxDolDb: Banco de dados específico para reminders.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxRemindersCron.php:
+   - BxRemindersCron extends BxDolCron: Tarefa cron para processamento de lembretes.
+   - process(): Método para executar tarefas de envio de lembretes.
+
+5. BxRemindersTemplate.php:
+   - BxRemindersTemplate extends BxDolTemplate: Template para renderização de elementos de reminders.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/reminders/list: Obtém a lista de lembretes.
+- POST /api/reminders/create: Cria um novo lembrete.
+- PUT /api/reminders/{id}: Atualiza um lembrete existente.
+- DELETE /api/reminders/{id}: Exclui um lembrete.

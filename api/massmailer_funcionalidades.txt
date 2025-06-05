@@ -1,0 +1,67 @@
+Mapeamento do Módulo MassMailer para API RESTful
+
+Descrição Geral:
+O módulo 'massmailer' gerencia funcionalidades relacionadas ao envio de e-mails em massa no sistema UNA. Permite criar campanhas de e-mail, gerenciar listas de destinatários e enviar mensagens personalizadas para grupos de usuários. É composto por classes como BxMassMailerModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados, formulários, grids e templates.
+
+Análise de Classes do Módulo MassMailer:
+
+1. BxMassMailerModule.php (Classe Principal do Módulo MassMailer):
+   - BxMassMailerModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo massmailer.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetCampaigns($aParams = array()): Método para obter a lista de campanhas de e-mail.
+   - serviceGetCampaignInfo($iCampaignId): Método para obter detalhes de uma campanha específica.
+   - serviceCreateCampaign($aData): Método para criar uma nova campanha de e-mail.
+   - serviceUpdateCampaign($iCampaignId, $aData): Método para atualizar uma campanha existente.
+   - serviceDeleteCampaign($iCampaignId): Método para excluir uma campanha.
+   - serviceSendCampaign($iCampaignId): Método para enviar uma campanha de e-mail.
+   - serviceGetSubscribers($aParams = array()): Método para obter a lista de assinantes ou destinatários.
+
+2. BxMassMailerConfig.php:
+   - BxMassMailerConfig extends BxDolConfig: Configurações específicas do módulo massmailer.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxMassMailerDb.php:
+   - BxMassMailerDb extends BxDolDb: Banco de dados específico para massmailer.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxMassMailerCron.php:
+   - BxMassMailerCron extends BxDolCron: Tarefa cron para processamento de envios em massa.
+   - process(): Método para executar tarefas de envio em massa.
+
+5. BxMassMailerAlertsResponse.php:
+   - BxMassMailerAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para massmailer.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de massmailer.
+
+6. BxMassMailerFormEntry.php:
+   - BxMassMailerFormEntry extends BxDolForm: Formulário para entrada de dados de campanhas.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+7. BxMassMailerFormsEntryHelper.php:
+   - BxMassMailerFormsEntryHelper extends BxDolFormCheckerHelper: Auxiliar para validação de formulários.
+   - __construct(): Construtor que inicializa o auxiliar de formulários.
+
+8. BxMassMailerGridCampaigns.php:
+   - BxMassMailerGridCampaigns extends BxDolGrid: Grid para gerenciamento de campanhas de e-mail.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid de campanhas.
+
+9. BxMassMailerPageBrowse.php:
+   - BxMassMailerPageBrowse extends BxDolPage: Página para navegação nas campanhas.
+   - __construct($sPage, $oModule): Construtor que inicializa a página de navegação.
+
+10. BxMassMailerPageEntry.php:
+    - BxMassMailerPageEntry extends BxDolPage: Página para detalhes de uma campanha específica.
+    - __construct($sPage, $oModule): Construtor que inicializa a página de entrada.
+
+11. BxMassMailerTemplate.php:
+    - BxMassMailerTemplate extends BxDolTemplate: Template para renderização de elementos de massmailer.
+    - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/massmailer/campaigns: Obtém a lista de campanhas de e-mail.
+- GET /api/massmailer/campaigns/{id}: Obtém detalhes de uma campanha específica.
+- POST /api/massmailer/campaigns/create: Cria uma nova campanha de e-mail.
+- PUT /api/massmailer/campaigns/{id}: Atualiza uma campanha existente.
+- DELETE /api/massmailer/campaigns/{id}: Exclui uma campanha.
+- POST /api/massmailer/campaigns/{id}/send: Envia uma campanha de e-mail.
+- GET /api/massmailer/subscribers: Obtém a lista de assinantes ou destinatários.

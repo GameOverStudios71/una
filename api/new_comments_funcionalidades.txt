@@ -1,0 +1,30 @@
+Mapeamento do Módulo New Comments para API RESTful
+
+Descrição Geral:
+O módulo 'new_comments' gerencia funcionalidades relacionadas à notificação ou exibição de novos comentários no sistema UNA. Permite rastrear e exibir comentários recentes em conteúdos ou postagens. É composto por classes como BxNewCommentsModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados e templates.
+
+Análise de Classes do Módulo New Comments:
+
+1. BxNewCommentsModule.php (Classe Principal do Módulo New Comments):
+   - BxNewCommentsModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo new_comments.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+
+2. BxNewCommentsConfig.php:
+   - BxNewCommentsConfig extends BxDolConfig: Configurações específicas do módulo new_comments.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxNewCommentsDb.php:
+   - BxNewCommentsDb extends BxDolDb: Banco de dados específico para new_comments.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxNewCommentsAlertsResponse.php:
+   - BxNewCommentsAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para new_comments.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de novos comentários.
+
+5. BxNewCommentsTemplate.php:
+   - BxNewCommentsTemplate extends BxDolTemplate: Template para renderização de elementos de new_comments.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/new-comments/list: Obtém a lista de novos comentários.

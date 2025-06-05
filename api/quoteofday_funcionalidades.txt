@@ -1,0 +1,47 @@
+Mapeamento do Módulo Quote of the Day para API RESTful
+
+Descrição Geral:
+O módulo 'quoteofday' gerencia funcionalidades relacionadas à exibição de citações ou frases do dia no sistema UNA. Permite configurar, gerenciar e exibir citações inspiradoras ou mensagens diárias para os usuários. É composto por classes como BxQuoteOfDayModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados, grids e templates.
+
+Análise de Classes do Módulo Quote of the Day:
+
+1. BxQuoteOfDayModule.php (Classe Principal do Módulo Quote of the Day):
+   - BxQuoteOfDayModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo quoteofday.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetBlockQuote(): Método para obter o bloco de citação do dia.
+   - serviceGetQuotes($aParams = array()): Método para obter a lista de citações.
+   - serviceCreateQuote($aData): Método para criar uma nova citação.
+   - serviceUpdateQuote($iQuoteId, $aData): Método para atualizar uma citação existente.
+   - serviceDeleteQuote($iQuoteId): Método para excluir uma citação.
+
+2. BxQuoteOfDayConfig.php:
+   - BxQuoteOfDayConfig extends BxDolConfig: Configurações específicas do módulo quoteofday.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxQuoteOfDayDb.php:
+   - BxQuoteOfDayDb extends BxDolDb: Banco de dados específico para quoteofday.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxQuoteOfDayAlertsResponse.php:
+   - BxQuoteOfDayAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para quoteofday.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de quoteofday.
+
+5. BxQuoteOfDayGridInternal.php:
+   - BxQuoteOfDayGridInternal extends BxDolGrid: Grid para gerenciamento interno de citações.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid interno.
+
+6. BxQuoteOfDayStudioPage.php:
+   - BxQuoteOfDayStudioPage extends BxDolStudioPage: Página de estúdio para configurações e gerenciamento de citações.
+   - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+7. BxQuoteOfDayTemplate.php:
+   - BxQuoteOfDayTemplate extends BxDolTemplate: Template para renderização de elementos de quoteofday.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/quoteofday/block: Obtém o bloco de citação do dia.
+- GET /api/quoteofday/quotes: Obtém a lista de citações.
+- POST /api/quoteofday/quotes/create: Cria uma nova citação.
+- PUT /api/quoteofday/quotes/{id}: Atualiza uma citação existente.
+- DELETE /api/quoteofday/quotes/{id}: Exclui uma citação.

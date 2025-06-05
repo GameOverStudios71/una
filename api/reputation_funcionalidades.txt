@@ -1,0 +1,57 @@
+Mapeamento do Módulo Reputation para API RESTful
+
+Descrição Geral:
+O módulo 'reputation' gerencia funcionalidades relacionadas ao sistema de reputação no sistema UNA. Permite rastrear, gerenciar e exibir níveis de reputação de usuários com base em suas interações e atividades na plataforma. É composto por classes como BxReputationModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados, formulários, grids e templates.
+
+Análise de Classes do Módulo Reputation:
+
+1. BxReputationModule.php (Classe Principal do Módulo Reputation):
+   - BxReputationModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo reputation.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetReputation($iProfileId): Método para obter a reputação de um perfil específico.
+   - serviceGetLevels($aParams = array()): Método para obter a lista de níveis de reputação.
+   - serviceCreateLevel($aData): Método para criar um novo nível de reputação.
+   - serviceUpdateLevel($iLevelId, $aData): Método para atualizar um nível de reputação existente.
+   - serviceDeleteLevel($iLevelId): Método para excluir um nível de reputação.
+   - serviceGetHandlers($aParams = array()): Método para obter a lista de manipuladores de reputação.
+
+2. BxReputationConfig.php:
+   - BxReputationConfig extends BxDolConfig: Configurações específicas do módulo reputation.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxReputationDb.php:
+   - BxReputationDb extends BxDolDb: Banco de dados específico para reputation.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxReputationAlertsResponse.php:
+   - BxReputationAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para reputation.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de reputation.
+
+5. BxReputationFormLevel.php:
+   - BxReputationFormLevel extends BxDolForm: Formulário para entrada de dados de níveis de reputação.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+6. BxReputationGridHandlers.php:
+   - BxReputationGridHandlers extends BxDolGrid: Grid para gerenciamento de manipuladores de reputação.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid de manipuladores.
+
+7. BxReputationGridLevels.php:
+   - BxReputationGridLevels extends BxDolGrid: Grid para gerenciamento de níveis de reputação.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid de níveis.
+
+8. BxReputationStudioPage.php:
+   - BxReputationStudioPage extends BxDolStudioPage: Página de estúdio para configurações e gerenciamento de reputação.
+   - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+9. BxReputationTemplate.php:
+   - BxReputationTemplate extends BxDolTemplate: Template para renderização de elementos de reputation.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/reputation/profile/{id}: Obtém a reputação de um perfil específico.
+- GET /api/reputation/levels: Obtém a lista de níveis de reputação.
+- POST /api/reputation/levels/create: Cria um novo nível de reputação.
+- PUT /api/reputation/levels/{id}: Atualiza um nível de reputação existente.
+- DELETE /api/reputation/levels/{id}: Exclui um nível de reputação.
+- GET /api/reputation/handlers: Obtém a lista de manipuladores de reputação.

@@ -1,0 +1,46 @@
+Mapeamento do Módulo Help Tours para API RESTful
+
+Descrição Geral:
+O módulo 'help_tours' gerencia funcionalidades relacionadas a tutoriais guiados ou tours de ajuda no sistema UNA. Permite criar, gerenciar e exibir tours interativos para orientar os usuários sobre o uso da plataforma. É composto por classes como BxHelpToursModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados, grids e templates.
+
+Análise de Classes do Módulo Help Tours:
+
+1. BxHelpToursModule.php (Classe Principal do Módulo Help Tours):
+   - BxHelpToursModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo help_tours.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetTour($iTourId): Método para obter detalhes de um tour específico.
+   - serviceGetToursList(): Método para obter a lista de tours disponíveis.
+   - serviceCreateTour($aData): Método para criar um novo tour.
+   - serviceUpdateTour($iTourId, $aData): Método para atualizar um tour existente.
+   - serviceDeleteTour($iTourId): Método para excluir um tour.
+
+2. BxHelpToursConfig.php:
+   - BxHelpToursConfig extends BxDolConfig: Configurações específicas do módulo help_tours.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxHelpToursDb.php:
+   - BxHelpToursDb extends BxDolDb: Banco de dados específico para help_tours.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxHelpToursGridItems.php:
+   - BxHelpToursGridItems extends BxDolGrid: Grid para gerenciamento de itens dentro de um tour.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid de itens.
+
+5. BxHelpToursGridTours.php:
+   - BxHelpToursGridTours extends BxDolGrid: Grid para gerenciamento de tours.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid de tours.
+
+6. BxHelpToursStudioPage.php:
+   - BxHelpToursStudioPage extends BxDolStudioPage: Página de estúdio para configurações e gerenciamento de tours.
+   - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+7. BxHelpToursTemplate.php:
+   - BxHelpToursTemplate extends BxDolTemplate: Template para renderização de elementos de help_tours.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/help-tours/list: Obtém a lista de tours disponíveis.
+- GET /api/help-tours/{id}: Obtém detalhes de um tour específico.
+- POST /api/help-tours/create: Cria um novo tour.
+- PUT /api/help-tours/{id}: Atualiza um tour existente.
+- DELETE /api/help-tours/{id}: Exclui um tour.

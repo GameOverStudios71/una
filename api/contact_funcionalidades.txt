@@ -1,0 +1,28 @@
+Mapeamento do Módulo Contact para API RESTful
+
+Descrição Geral:
+O módulo 'contact' gerencia funcionalidades relacionadas ao formulário de contato no sistema UNA. Permite que usuários enviem mensagens para os administradores ou outros contatos específicos através de um formulário. É composto por classes como BxContactModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados e templates.
+
+Análise de Classes do Módulo Contact:
+
+1. BxContactModule.php (Classe Principal do Módulo Contact):
+   - BxContactModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo contact.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetBlockContact(): Método para obter o bloco de formulário de contato.
+   - serviceSendMessage($aData): Método para enviar uma mensagem através do formulário de contato.
+
+2. BxContactConfig.php:
+   - BxContactConfig extends BxDolConfig: Configurações específicas do módulo contact.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxContactDb.php:
+   - BxContactDb extends BxDolDb: Banco de dados específico para contact.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxContactTemplate.php:
+   - BxContactTemplate extends BxDolTemplate: Template para renderização de elementos de contact.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/contact/form: Obtém o formulário de contato.
+- POST /api/contact/send: Envia uma mensagem através do formulário de contato.
