@@ -1,0 +1,1 @@
+python "client terminal\terminal_client.py"
