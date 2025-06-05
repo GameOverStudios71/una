@@ -1,0 +1,44 @@
+Mapeamento do Módulo API para API RESTful
+
+Descrição Geral:
+O módulo 'api' gerencia as funcionalidades relacionadas à interface de API do sistema UNA. Ele fornece endpoints para interagir com o sistema de forma programática, permitindo que desenvolvedores criem integrações e aplicativos personalizados. É composto por classes como BxApiModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados e templates.
+
+Análise de Classes do Módulo API:
+
+1. BxApiModule.php (Classe Principal do Módulo API):
+   - BxApiModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo API.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetApiKey($iProfileId = 0): Método para obter a chave de API de um perfil.
+   - serviceGenerateApiKey($iProfileId = 0): Método para gerar uma nova chave de API.
+   - serviceRevokeApiKey($iProfileId = 0): Método para revogar uma chave de API.
+   - serviceGetDocumentation(): Método para obter a documentação da API.
+   - serviceExecuteEndpoint($sEndpoint, $aParams): Método genérico para executar endpoints da API.
+
+2. BxApiConfig.php:
+   - BxApiConfig extends BxDolConfig: Configurações específicas do módulo API.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxApiDb.php:
+   - BxApiDb extends BxDolDb: Banco de dados específico para API.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - getApiKey($iProfileId): Método para obter a chave de API de um perfil.
+   - saveApiKey($iProfileId, $sApiKey): Método para salvar uma chave de API.
+   - deleteApiKey($iProfileId): Método para deletar uma chave de API.
+
+4. BxApiTemplate.php:
+   - BxApiTemplate extends BxDolTemplate: Template para renderização de elementos da API.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+5. BxApiStudioPage.php:
+   - BxApiStudioPage extends BxDolStudioPage: Página de estúdio para API.
+   - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/keys: Obtém a chave de API do usuário logado.
+- POST /api/keys/generate: Gera uma nova chave de API para o usuário logado.
+- POST /api/keys/revoke: Revoga a chave de API do usuário logado.
+- GET /api/documentation: Obtém a documentação da API.
+- GET /api/endpoint/{endpoint}: Executa um endpoint GET da API.
+- POST /api/endpoint/{endpoint}: Executa um endpoint POST da API.
+- PUT /api/endpoint/{endpoint}: Executa um endpoint PUT da API.
+- DELETE /api/endpoint/{endpoint}: Executa um endpoint DELETE da API.

@@ -1,0 +1,94 @@
+Mapeamento do Módulo Convos para API RESTful
+
+Descrição Geral:
+O módulo 'convos' gerencia a criação, edição, exclusão e visualização de conversas no sistema UNA. É um componente central para funcionalidades de mensagens privadas, permitindo que usuários iniciem conversas, enviem mensagens e gerenciem pastas de conversas. É composto por classes como BxCnvModule.php (lógica específica do módulo) e outras classes de suporte para formulários, buscas, configurações e templates.
+
+Análise de Classes do Módulo Convos:
+
+1. BxCnvModule.php (Classe Principal do Módulo Convos):
+   - BxCnvModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo convos.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetUnreadConvosCount(): Método para obter a contagem de conversas não lidas.
+   - serviceGetConvo($iConvoId): Método para obter detalhes de uma conversa específica.
+   - serviceGetConvos($iProfileId = 0, $iStart = 0, $iPerPage = 10): Método para obter uma lista de conversas.
+   - serviceGetMessages($iConvoId, $iStart = 0, $iPerPage = 10): Método para obter mensagens de uma conversa.
+   - serviceSendMessage($iConvoId, $sText): Método para enviar uma mensagem em uma conversa.
+   - serviceMarkAsRead($iConvoId): Método para marcar uma conversa como lida.
+   - serviceDeleteConvo($iConvoId): Método para deletar uma conversa.
+   - serviceLeaveConvo($iConvoId): Método para sair de uma conversa.
+
+2. BxCnvConfig.php:
+   - BxCnvConfig extends BxDolConfig: Configurações específicas do módulo convos.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxCnvDb.php:
+   - BxCnvDb extends BxDolDb: Banco de dados específico para conversas.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - getConvos($aParams): Método para obter conversas com base em parâmetros.
+   - getMessages($aParams): Método para obter mensagens com base em parâmetros.
+   - addMessage($iConvoId, $iAuthorId, $sText): Método para adicionar uma mensagem a uma conversa.
+   - markAsRead($iConvoId, $iProfileId): Método para marcar mensagens como lidas.
+
+4. BxCnvTemplate.php:
+   - BxCnvTemplate extends BxDolTemplate: Template para renderização de conversas.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getConvoBlock($iConvoId, $aParams = array()): Método para obter HTML de bloco de conversa.
+   - getMessagesBlock($iConvoId, $aParams = array()): Método para obter HTML de bloco de mensagens.
+
+5. BxCnvAlertsResponse.php:
+   - BxCnvAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para conversas.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de conversas.
+
+6. BxCnvCmts.php:
+   - BxCnvCmts extends BxDolCmts: Gerenciamento de comentários (mensagens) para conversas.
+   - __construct($sSystem, $iId, $iInit = true, $oTemplate = false): Construtor que inicializa o gerenciamento de comentários.
+
+7. BxCnvFormEntry.php:
+   - BxCnvFormEntry extends BxDolForm: Formulário para entrada de dados de conversas.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+8. BxCnvFormsEntryHelper.php:
+   - BxCnvFormsEntryHelper extends BxDolFormsEntryHelper: Auxiliar para formulários de entrada de conversas.
+   - __construct($oForm): Construtor que inicializa o auxiliar de formulários.
+
+9. BxCnvGrid.php:
+   - BxCnvGrid extends BxDolGrid: Grade para listagem de conversas.
+   - __construct(): Construtor que inicializa a grade.
+
+10. BxCnvMenu.php:
+    - BxCnvMenu extends BxDolMenu: Menu principal para conversas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu.
+
+11. BxCnvMenuView.php:
+    - BxCnvMenuView extends BxDolMenu: Menu de visualização para conversas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+12. BxCnvPageBrowse.php:
+    - BxCnvPageBrowse extends BxDolPage: Página de navegação para conversas.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de navegação.
+
+13. BxCnvPageEntry.php:
+    - BxCnvPageEntry extends BxDolPage: Página de entrada para conversas.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+14. BxCnvPageFolder.php:
+    - BxCnvPageFolder extends BxDolPage: Página de pasta para conversas.
+    - __construct($oTemplate = false): Construtor que inicializa a página de pasta.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/convos/unread/count: Obtém a contagem de conversas não lidas.
+- GET /api/convos/list: Lista todas as conversas do usuário.
+- GET /api/convos/{id}: Obtém detalhes de uma conversa específica.
+- GET /api/convos/{id}/messages: Lista mensagens de uma conversa.
+- POST /api/convos/{id}/messages: Envia uma mensagem para uma conversa.
+- POST /api/convos/create: Cria uma nova conversa.
+- DELETE /api/convos/{id}: Deleta uma conversa.
+- POST /api/convos/{id}/leave: Sai de uma conversa.
+- POST /api/convos/{id}/mark-read: Marca uma conversa como lida.
+- GET /api/convos/browse: Navega pelas conversas disponíveis.
+- GET /api/convos/folders: Lista pastas de conversas.
+- POST /api/convos/folders: Cria uma nova pasta para conversas.
+- PUT /api/convos/folders/{folderId}: Edita uma pasta de conversas.
+- DELETE /api/convos/folders/{folderId}: Exclui uma pasta de conversas.
+- POST /api/convos/{id}/move/{folderId}: Move uma conversa para uma pasta específica.

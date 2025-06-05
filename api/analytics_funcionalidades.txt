@@ -1,0 +1,48 @@
+Mapeamento do Módulo Analytics para API RESTful
+
+Descrição Geral:
+O módulo 'analytics' gerencia a coleta, processamento e visualização de dados analíticos no sistema UNA. É um componente essencial para monitorar o desempenho, engajamento de usuários e outras métricas importantes. É composto por classes como BxAnalyticsModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados e templates.
+
+Análise de Classes do Módulo Analytics:
+
+1. BxAnalyticsModule.php (Classe Principal do Módulo Analytics):
+   - BxAnalyticsModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo analytics.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetData($sType, $iStartDate, $iEndDate): Método para obter dados analíticos por tipo e período.
+   - serviceGetUsersGrowth($iStartDate, $iEndDate): Método para obter dados de crescimento de usuários.
+   - serviceGetContentEngagement($iStartDate, $iEndDate): Método para obter dados de engajamento de conteúdo.
+   - serviceGetSystemPerformance($iStartDate, $iEndDate): Método para obter dados de desempenho do sistema.
+   - serviceExportData($sType, $iStartDate, $iEndDate): Método para exportar dados analíticos.
+
+2. BxAnalyticsConfig.php:
+   - BxAnalyticsConfig extends BxDolConfig: Configurações específicas do módulo analytics.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxAnalyticsDb.php:
+   - BxAnalyticsDb extends BxDolDb: Banco de dados específico para analytics.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - getAnalyticsData($sType, $iStartDate, $iEndDate): Método para obter dados analíticos do banco.
+   - getUsersGrowth($iStartDate, $iEndDate): Método para obter dados de crescimento de usuários.
+   - getContentEngagement($iStartDate, $iEndDate): Método para obter dados de engajamento de conteúdo.
+
+4. BxAnalyticsTemplate.php:
+   - BxAnalyticsTemplate extends BxDolTemplate: Template para renderização de dados analíticos.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getChartBlock($sType, $aData): Método para obter HTML de bloco de gráfico.
+   - getDashboardBlock($aData): Método para obter HTML de bloco de dashboard.
+
+5. BxAnalyticsPage.php:
+   - BxAnalyticsPage extends BxDolPage: Página para visualização de analytics.
+   - __construct($oTemplate = false): Construtor que inicializa a página de analytics.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/analytics/data/{type}: Obtém dados analíticos por tipo (ex.: users, content, performance).
+- GET /api/analytics/data/{type}/{startDate}/{endDate}: Obtém dados analíticos por tipo e período.
+- GET /api/analytics/users/growth: Obtém dados de crescimento de usuários.
+- GET /api/analytics/users/growth/{startDate}/{endDate}: Obtém dados de crescimento de usuários por período.
+- GET /api/analytics/content/engagement: Obtém dados de engajamento de conteúdo.
+- GET /api/analytics/content/engagement/{startDate}/{endDate}: Obtém dados de engajamento de conteúdo por período.
+- GET /api/analytics/system/performance: Obtém dados de desempenho do sistema.
+- GET /api/analytics/system/performance/{startDate}/{endDate}: Obtém dados de desempenho do sistema por período.
+- GET /api/analytics/export/{type}/{startDate}/{endDate}: Exporta dados analíticos em um formato específico.
+- GET /api/analytics/dashboard: Obtém dados para o dashboard analítico principal.

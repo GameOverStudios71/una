@@ -1,0 +1,53 @@
+Mapeamento do Módulo Anon Follow para API RESTful
+
+Descrição Geral:
+O módulo 'anon_follow' gerencia a funcionalidade de seguir perfis anonimamente no sistema UNA. Permite que usuários sigam outros perfis sem revelar sua identidade, mantendo a privacidade. É composto por classes como BxAnonFollowModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados, grids e templates.
+
+Análise de Classes do Módulo Anon Follow:
+
+1. BxAnonFollowModule.php (Classe Principal do Módulo Anon Follow):
+   - BxAnonFollowModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo anon_follow.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceFollow($iProfileId): Método para seguir um perfil anonimamente.
+   - serviceUnfollow($iProfileId): Método para deixar de seguir um perfil.
+   - serviceGetFollowers($iProfileId = 0): Método para obter a lista de seguidores anônimos de um perfil.
+   - serviceGetFollowing($iProfileId = 0): Método para obter a lista de perfis que o usuário está seguindo anonimamente.
+   - serviceGetFollowersCount($iProfileId): Método para obter o número de seguidores anônimos de um perfil.
+
+2. BxAnonFollowConfig.php:
+   - BxAnonFollowConfig extends BxDolConfig: Configurações específicas do módulo anon_follow.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxAnonFollowDb.php:
+   - BxAnonFollowDb extends BxDolDb: Banco de dados específico para seguir anonimamente.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - follow($iFollowerId, $iFollowedId): Método para registrar um seguidor anônimo.
+   - unfollow($iFollowerId, $iFollowedId): Método para remover um seguidor anônimo.
+   - getFollowers($iProfileId): Método para obter seguidores anônimos de um perfil.
+   - getFollowing($iProfileId): Método para obter perfis seguidos por um usuário.
+
+4. BxAnonFollowTemplate.php:
+   - BxAnonFollowTemplate extends BxDolTemplate: Template para renderização de elementos de seguir anonimamente.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+5. BxAnonFollowAlertsResponse.php:
+   - BxAnonFollowAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para seguir anonimamente.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de seguir anonimamente.
+
+6. BxAnonFollowGridSubscribedMe.php:
+   - BxAnonFollowGridSubscribedMe extends BxDolGrid: Grade para listagem de perfis que seguem o usuário anonimamente.
+   - __construct(): Construtor que inicializa a grade de seguidores.
+
+7. BxAnonFollowGridSubscriptions.php:
+   - BxAnonFollowGridSubscriptions extends BxDolGrid: Grade para listagem de perfis que o usuário segue anonimamente.
+   - __construct(): Construtor que inicializa a grade de seguidos.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/anon_follow/follow/{profileId}: Segue um perfil anonimamente.
+- POST /api/anon_follow/unfollow/{profileId}: Deixa de seguir um perfil anonimamente.
+- GET /api/anon_follow/followers/{profileId}: Obtém a lista de seguidores anônimos de um perfil.
+- GET /api/anon_follow/following/{profileId}: Obtém a lista de perfis que o usuário está seguindo anonimamente.
+- GET /api/anon_follow/followers/count/{profileId}: Obtém o número de seguidores anônimos de um perfil.
+- GET /api/anon_follow/followers/me: Obtém a lista de perfis que seguem o usuário logado anonimamente.
+- GET /api/anon_follow/following/me: Obtém a lista de perfis que o usuário logado segue anonimamente.

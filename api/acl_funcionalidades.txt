@@ -1,0 +1,76 @@
+Mapeamento do Módulo ACL para API RESTful
+
+Descrição Geral:
+O módulo 'acl' gerencia o controle de acesso no sistema UNA. É um componente essencial para definir níveis de acesso, permissões e preços associados a diferentes funcionalidades e conteúdos. É composto por classes como BxAclModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados, formulários, grids e templates.
+
+Análise de Classes do Módulo ACL:
+
+1. BxAclModule.php (Classe Principal do Módulo ACL):
+   - BxAclModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo ACL.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetLevels($bActiveOnly = false): Método para obter níveis de acesso.
+   - serviceGetLevel($iLevelId): Método para obter detalhes de um nível de acesso específico.
+   - serviceGetPrice($iLevelId, $sModule, $sAction): Método para obter o preço de uma ação em um módulo para um nível de acesso.
+   - serviceSetPrice($iLevelId, $sModule, $sAction, $fPrice): Método para definir o preço de uma ação.
+   - serviceDeleteLevel($iLevelId): Método para deletar um nível de acesso.
+   - serviceActivateLevel($iLevelId): Método para ativar um nível de acesso.
+   - serviceDeactivateLevel($iLevelId): Método para desativar um nível de acesso.
+
+2. BxAclConfig.php:
+   - BxAclConfig extends BxDolConfig: Configurações específicas do módulo ACL.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxAclDb.php:
+   - BxAclDb extends BxDolDb: Banco de dados específico para controle de acesso.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - getLevels($aParams = array()): Método para obter níveis de acesso com base em parâmetros.
+   - getPrices($aParams = array()): Método para obter preços com base em parâmetros.
+   - setPrice($iLevelId, $sModule, $sAction, $fPrice): Método para definir um preço.
+   - deleteLevel($iLevelId): Método para deletar um nível de acesso.
+
+4. BxAclTemplate.php:
+   - BxAclTemplate extends BxDolTemplate: Template para renderização de elementos ACL.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getLevelBlock($iLevelId, $aParams = array()): Método para obter HTML de bloco de nível de acesso.
+
+5. BxAclResponse.php:
+   - BxAclResponse extends BxDolAlertsResponse: Respostas a alertas específicos para ACL.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de ACL.
+
+6. BxAclFormPrice.php:
+   - BxAclFormPrice extends BxDolForm: Formulário para definição de preços.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+7. BxAclGridAdministration.php:
+   - BxAclGridAdministration extends BxDolGrid: Grade para administração de ACL.
+   - __construct(): Construtor que inicializa a grade de administração.
+
+8. BxAclGridLevels.php:
+   - BxAclGridLevels extends BxDolGrid: Grade para listagem de níveis de acesso.
+   - __construct(): Construtor que inicializa a grade de níveis.
+
+9. BxAclGridView.php:
+   - BxAclGridView extends BxDolGrid: Grade para visualização de ACL.
+   - __construct(): Construtor que inicializa a grade de visualização.
+
+10. BxAclPageView.php:
+    - BxAclPageView extends BxDolPage: Página de visualização para ACL.
+    - __construct($oTemplate = false): Construtor que inicializa a página de visualização.
+
+11. BxAclStudioPage.php:
+    - BxAclStudioPage extends BxDolStudioPage: Página de estúdio para ACL.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/acl/levels: Lista todos os níveis de acesso disponíveis.
+- GET /api/acl/levels/active: Lista apenas os níveis de acesso ativos.
+- GET /api/acl/levels/{id}: Obtém detalhes de um nível de acesso específico.
+- POST /api/acl/levels: Cria um novo nível de acesso.
+- PUT /api/acl/levels/{id}: Edita um nível de acesso existente.
+- DELETE /api/acl/levels/{id}: Deleta um nível de acesso.
+- POST /api/acl/levels/{id}/activate: Ativa um nível de acesso.
+- POST /api/acl/levels/{id}/deactivate: Desativa um nível de acesso.
+- GET /api/acl/prices: Lista preços associados a níveis de acesso, módulos e ações.
+- GET /api/acl/levels/{id}/prices/{module}/{action}: Obtém o preço de uma ação específica em um módulo para um nível de acesso.
+- POST /api/acl/levels/{id}/prices/{module}/{action}: Define o preço de uma ação específica em um módulo para um nível de acesso.

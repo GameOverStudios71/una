@@ -1,0 +1,228 @@
+Mapeamento do Módulo Ads para API RESTful
+
+Descrição Geral:
+O módulo 'ads' gerencia a criação, edição, exclusão e visualização de anúncios no sistema UNA. É um componente central para funcionalidades de publicidade, permitindo que usuários criem anúncios, gerenciem categorias, façam ofertas, e interajam com anúncios por meio de comentários, votos e compras. É composto por classes como BxAdsModule.php (lógica específica do módulo) e outras classes de suporte para formulários, buscas, configurações e templates.
+
+Análise de Classes do Módulo Ads:
+
+1. BxAdsModule.php (Classe Principal do Módulo Ads):
+   - BxAdsModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo ads.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetAds($iProfileId = 0, $iStart = 0, $iPerPage = 10): Método para obter uma lista de anúncios.
+   - serviceGetAd($iAdId): Método para obter detalhes de um anúncio específico.
+   - serviceCreateAd($aData): Método para criar um novo anúncio.
+   - serviceUpdateAd($iAdId, $aData): Método para atualizar um anúncio existente.
+   - serviceDeleteAd($iAdId): Método para deletar um anúncio.
+   - serviceGetCategories(): Método para obter categorias de anúncios.
+   - serviceGetOffers($iAdId): Método para obter ofertas relacionadas a um anúncio.
+   - serviceMakeOffer($iAdId, $fPrice, $sMessage): Método para fazer uma oferta em um anúncio.
+   - serviceAcceptOffer($iOfferId): Método para aceitar uma oferta.
+   - serviceDeclineOffer($iOfferId): Método para recusar uma oferta.
+   - serviceGetLicenses($iProfileId = 0): Método para obter licenças de compra de anúncios.
+
+2. BxAdsConfig.php:
+   - BxAdsConfig extends BxDolConfig: Configurações específicas do módulo ads.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxAdsDb.php:
+   - BxAdsDb extends BxDolDb: Banco de dados específico para anúncios.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - getAds($aParams): Método para obter anúncios com base em parâmetros.
+   - getCategories($aParams = array()): Método para obter categorias de anúncios.
+   - addAd($aData): Método para adicionar um novo anúncio.
+   - updateAd($iAdId, $aData): Método para atualizar um anúncio existente.
+   - deleteAd($iAdId): Método para deletar um anúncio.
+   - getOffers($aParams): Método para obter ofertas com base em parâmetros.
+   - addOffer($iAdId, $iAuthorId, $fPrice, $sMessage): Método para adicionar uma oferta.
+
+4. BxAdsTemplate.php:
+   - BxAdsTemplate extends BxDolTemplate: Template para renderização de anúncios.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getAdBlock($iAdId, $aParams = array()): Método para obter HTML de bloco de anúncio.
+   - getCategoryBlock($iCategoryId, $aParams = array()): Método para obter HTML de bloco de categoria.
+
+5. BxAdsAlertsResponse.php:
+   - BxAdsAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para anúncios.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de anúncios.
+
+6. BxAdsChartGrowth.php:
+   - BxAdsChartGrowth extends BxDolChartGrowth: Gráfico de crescimento para anúncios.
+   - __construct(): Construtor que inicializa o gráfico de crescimento.
+
+7. BxAdsChartGrowthSpeed.php:
+   - BxAdsChartGrowthSpeed extends BxDolChartGrowthSpeed: Gráfico de velocidade de crescimento para anúncios.
+   - __construct(): Construtor que inicializa o gráfico de velocidade de crescimento.
+
+8. BxAdsCmtsSearchResult.php:
+   - BxAdsCmtsSearchResult extends BxDolCmtsSearchResult: Resultados de busca para comentários em anúncios.
+   - __construct($oModule = null): Construtor que inicializa os resultados de busca.
+
+9. BxAdsCronOffers.php:
+   - BxAdsCronOffers extends BxDolCron: Tarefa cron para gerenciamento de ofertas em anúncios.
+   - __construct(): Construtor que inicializa a tarefa cron.
+
+10. BxAdsCronPruning.php:
+    - BxAdsCronPruning extends BxDolCron: Tarefa cron para limpeza de dados de anúncios.
+    - __construct(): Construtor que inicializa a tarefa cron.
+
+11. BxAdsFormCategory.php:
+    - BxAdsFormCategory extends BxDolForm: Formulário para categorias de anúncios.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+12. BxAdsFormEntry.php:
+    - BxAdsFormEntry extends BxDolForm: Formulário para entrada de dados de anúncios.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+13. BxAdsFormOffer.php:
+    - BxAdsFormOffer extends BxDolForm: Formulário para ofertas em anúncios.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+14. BxAdsFormPoll.php:
+    - BxAdsFormPoll extends BxDolForm: Formulário para enquetes relacionadas a anúncios.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+15. BxAdsFormSourcesDetails.php:
+    - BxAdsFormSourcesDetails extends BxDolForm: Formulário para detalhes de fontes de anúncios.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+16. BxAdsFormsEntryHelper.php:
+    - BxAdsFormsEntryHelper extends BxDolFormsEntryHelper: Auxiliar para formulários de entrada de anúncios.
+    - __construct($oForm): Construtor que inicializa o auxiliar de formulários.
+
+17. BxAdsGridAdministration.php:
+    - BxAdsGridAdministration extends BxDolGrid: Grade para administração de anúncios.
+    - __construct(): Construtor que inicializa a grade de administração.
+
+18. BxAdsGridCategories.php:
+    - BxAdsGridCategories extends BxDolGrid: Grade para listagem de categorias de anúncios.
+    - __construct(): Construtor que inicializa a grade de categorias.
+
+19. BxAdsGridCommon.php:
+    - BxAdsGridCommon extends BxDolGrid: Grade comum para anúncios.
+    - __construct(): Construtor que inicializa a grade comum.
+
+20. BxAdsGridLicenses.php:
+    - BxAdsGridLicenses extends BxDolGrid: Grade para listagem de licenças de anúncios.
+    - __construct(): Construtor que inicializa a grade de licenças.
+
+21. BxAdsGridLicensesAdministration.php:
+    - BxAdsGridLicensesAdministration extends BxDolGrid: Grade para administração de licenças de anúncios.
+    - __construct(): Construtor que inicializa a grade de administração de licenças.
+
+22. BxAdsGridOffers.php:
+    - BxAdsGridOffers extends BxDolGrid: Grade para listagem de ofertas em anúncios.
+    - __construct(): Construtor que inicializa a grade de ofertas.
+
+23. BxAdsGridOffersAll.php:
+    - BxAdsGridOffersAll extends BxDolGrid: Grade para listagem de todas as ofertas em anúncios.
+    - __construct(): Construtor que inicializa a grade de todas as ofertas.
+
+24. BxAdsMenu.php:
+    - BxAdsMenu extends BxDolMenu: Menu principal para anúncios.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu.
+
+25. BxAdsMenuAttachments.php:
+    - BxAdsMenuAttachments extends BxDolMenu: Menu para anexos em anúncios.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de anexos.
+
+26. BxAdsMenuManageTools.php:
+    - BxAdsMenuManageTools extends BxDolMenu: Menu para ferramentas de gerenciamento de anúncios.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ferramentas.
+
+27. BxAdsMenuSnippetMeta.php:
+    - BxAdsMenuSnippetMeta extends BxDolMenu: Menu para metadados de trechos de anúncios.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de metadados.
+
+28. BxAdsMenuView.php:
+    - BxAdsMenuView extends BxDolMenu: Menu de visualização para anúncios.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+29. BxAdsMenuViewActions.php:
+    - BxAdsMenuViewActions extends BxDolMenu: Menu de ações de visualização para anúncios.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ações.
+
+30. BxAdsPageAuthor.php:
+    - BxAdsPageAuthor extends BxDolPage: Página de autor para anúncios.
+    - __construct($oTemplate = false): Construtor que inicializa a página de autor.
+
+31. BxAdsPageBrowse.php:
+    - BxAdsPageBrowse extends BxDolPage: Página de navegação para anúncios.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de navegação.
+
+32. BxAdsPageEntry.php:
+    - BxAdsPageEntry extends BxDolPage: Página de entrada para anúncios.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+33. BxAdsPageLicenses.php:
+    - BxAdsPageLicenses extends BxDolPage: Página de licenças para anúncios.
+    - __construct($oTemplate = false): Construtor que inicializa a página de licenças.
+
+34. BxAdsPageListEntry.php:
+    - BxAdsPageListEntry extends BxDolPage: Página de listagem de entradas para anúncios.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de listagem.
+
+35. BxAdsPageOffers.php:
+    - BxAdsPageOffers extends BxDolPage: Página de ofertas para anúncios.
+    - __construct($oTemplate = false): Construtor que inicializa a página de ofertas.
+
+36. BxAdsSearchResult.php:
+    - BxAdsSearchResult extends BxDolSearchResult: Resultados de busca para anúncios.
+    - __construct($oModule = null): Construtor que inicializa os resultados de busca.
+
+37. BxAdsSource.php:
+    - BxAdsSource extends BxDol: Classe base para fontes de anúncios.
+    - __construct(): Construtor que inicializa a classe base.
+
+38. BxAdsSourceShopifyAdmin.php:
+    - BxAdsSourceShopifyAdmin extends BxAdsSource: Fonte de anúncios para administração Shopify.
+    - __construct(): Construtor que inicializa a fonte Shopify Admin.
+
+39. BxAdsSourceShopifyPartner.php:
+    - BxAdsSourceShopifyPartner extends BxAdsSource: Fonte de anúncios para parceiro Shopify.
+    - __construct(): Construtor que inicializa a fonte Shopify Partner.
+
+40. BxAdsStudioPage.php:
+    - BxAdsStudioPage extends BxDolStudioPage: Página de estúdio para anúncios.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+41. BxAdsUploaderHTML5.php:
+    - BxAdsUploaderHTML5 extends BxBaseModTextUploaderHTML5: Ferramenta de upload HTML5 para anúncios.
+    - __construct(): Construtor que inicializa a ferramenta de upload HTML5.
+
+42. BxAdsUploaderHTML5Attach.php:
+    - BxAdsUploaderHTML5Attach extends BxBaseModTextUploaderHTML5Attach: Ferramenta de upload de anexos HTML5 para anúncios.
+    - __construct(): Construtor que inicializa a ferramenta de upload de anexos.
+
+43. BxAdsUploaderRecordVideo.php:
+    - BxAdsUploaderRecordVideo extends BxBaseModTextUploaderRecordVideo: Ferramenta de gravação de vídeo para anúncios.
+    - __construct(): Construtor que inicializa a ferramenta de gravação de vídeo.
+
+44. BxAdsUploaderRecordVideoAttach.php:
+    - BxAdsUploaderRecordVideoAttach extends BxBaseModTextUploaderRecordVideoAttach: Ferramenta de gravação de vídeo de anexos para anúncios.
+    - __construct(): Construtor que inicializa a ferramenta de gravação de vídeo de anexos.
+
+45. BxAdsVotePollAnswers.php:
+    - BxAdsVotePollAnswers extends BxDolVote: Sistema de votação para respostas de enquetes em anúncios.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa o sistema de votação.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/ads/list: Lista todos os anúncios disponíveis.
+- GET /api/ads/{id}: Obtém detalhes de um anúncio específico.
+- POST /api/ads/create: Cria um novo anúncio.
+- PUT /api/ads/{id}: Edita um anúncio existente.
+- DELETE /api/ads/{id}: Deleta um anúncio.
+- GET /api/ads/categories: Lista categorias de anúncios.
+- GET /api/ads/{id}/offers: Lista ofertas relacionadas a um anúncio.
+- POST /api/ads/{id}/offers: Faz uma oferta em um anúncio.
+- POST /api/ads/offers/{offerId}/accept: Aceita uma oferta.
+- POST /api/ads/offers/{offerId}/decline: Recusa uma oferta.
+- GET /api/ads/licenses: Lista licenças de compra de anúncios do usuário.
+- GET /api/ads/author/{profileId}: Lista anúncios de um autor específico.
+- GET /api/ads/browse: Navega pelos anúncios disponíveis.
+- POST /api/ads/{id}/comments: Adiciona um comentário a um anúncio.
+- GET /api/ads/{id}/comments: Lista comentários de um anúncio.
+- POST /api/ads/{id}/vote: Vota em um anúncio.
+- GET /api/ads/search: Busca anúncios com base em critérios.
+- GET /api/ads/charts/growth: Obtém dados de crescimento de anúncios.
+- GET /api/ads/charts/growth-speed: Obtém dados de velocidade de crescimento de anúncios.

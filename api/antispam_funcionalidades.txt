@@ -1,0 +1,127 @@
+Mapeamento do Módulo Antispam para API RESTful
+
+Descrição Geral:
+O módulo 'antispam' gerencia a proteção contra spam e conteúdo indesejado no sistema UNA. Inclui funcionalidades como detecção de spam por meio de blacklists de DNS, filtros de profanity, moderação de conteúdo, verificação de domínios de e-mail descartáveis e integração com APIs externas como Akismet e Perspective API. É composto por classes como BxAntispamModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados, grids e integrações específicas.
+
+Análise de Classes do Módulo Antispam:
+
+1. BxAntispamModule.php (Classe Principal do Módulo Antispam):
+   - BxAntispamModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo antispam.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceCheckSpam($sContent, $iProfileId = 0): Método para verificar se um conteúdo é spam.
+   - serviceBlockIp($sIp): Método para bloquear um endereço IP.
+   - serviceUnblockIp($sIp): Método para desbloquear um endereço IP.
+   - serviceGetBlockedIps($iStart = 0, $iPerPage = 10): Método para obter a lista de IPs bloqueados.
+   - serviceGetSpamReports($iStart = 0, $iPerPage = 10): Método para obter relatórios de spam.
+   - serviceUpdateDisposableEmailDomains(): Método para atualizar a lista de domínios de e-mail descartáveis.
+
+2. BxAntispamConfig.php:
+   - BxAntispamConfig extends BxDolConfig: Configurações específicas do módulo antispam.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxAntispamDb.php:
+   - BxAntispamDb extends BxDolDb: Banco de dados específico para antispam.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - getBlockedIps($aParams): Método para obter IPs bloqueados com base em parâmetros.
+   - blockIp($sIp, $iExpiration): Método para registrar um IP bloqueado.
+   - unblockIp($sIp): Método para remover um IP da lista de bloqueados.
+
+4. BxAntispamTemplate.php:
+   - BxAntispamTemplate extends BxDolTemplate: Template para renderização de elementos antispam.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+5. BxAntispamAlertsResponse.php:
+   - BxAntispamAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para antispam.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de antispam.
+
+6. BxAntispamAkismet.php:
+   - BxAntispamAkismet extends BxDol: Integração com a API Akismet para detecção de spam.
+   - __construct(): Construtor que inicializa a integração com Akismet.
+   - checkSpam($sContent, $aParams): Método para verificar spam usando Akismet.
+
+7. BxAntispamDNSBlacklists.php:
+   - BxAntispamDNSBlacklists extends BxDol: Verificação de IPs em blacklists de DNS.
+   - __construct(): Construtor que inicializa a verificação de blacklists de DNS.
+   - isListed($sIp): Método para verificar se um IP está em uma blacklist de DNS.
+
+8. BxAntispamDNSURIBlacklists.php:
+   - BxAntispamDNSURIBlacklists extends BxDol: Verificação de URIs em blacklists de DNS.
+   - __construct(): Construtor que inicializa a verificação de URIs em blacklists.
+   - isListed($sUri): Método para verificar se uma URI está em uma blacklist de DNS.
+
+9. BxAntispamDisposableEmailDomains.php:
+   - BxAntispamDisposableEmailDomains extends BxDol: Verificação de domínios de e-mail descartáveis.
+   - __construct(): Construtor que inicializa a verificação de domínios descartáveis.
+   - isDisposable($sEmail): Método para verificar se um e-mail pertence a um domínio descartável.
+   - updateDomains(): Método para atualizar a lista de domínios descartáveis.
+
+10. BxAntispamProfanityFilter.php:
+    - BxAntispamProfanityFilter extends BxDol: Filtro de profanity para conteúdo.
+    - __construct(): Construtor que inicializa o filtro de profanity.
+    - check($sContent): Método para verificar se o conteúdo contém profanity.
+
+11. BxAntispamPerspectiveAPI.php:
+    - BxAntispamPerspectiveAPI extends BxDol: Integração com a Perspective API do Google para análise de toxicidade.
+    - __construct(): Construtor que inicializa a integração com Perspective API.
+    - analyze($sContent): Método para analisar o conteúdo quanto a toxicidade.
+
+12. BxAntispamStopForumSpam.php:
+    - BxAntispamStopForumSpam extends BxDol: Integração com Stop Forum Spam para detecção de spammers.
+    - __construct(): Construtor que inicializa a integração com Stop Forum Spam.
+    - check($sIp, $sEmail, $sUsername): Método para verificar se um usuário é um spammer conhecido.
+
+13. BxAntispamIP.php:
+    - BxAntispamIP extends BxDol: Gerenciamento de IPs para antispam.
+    - __construct(): Construtor que inicializa o gerenciamento de IPs.
+    - isBlocked($sIp): Método para verificar se um IP está bloqueado.
+
+14. BxAntispamLassoModeration.php:
+    - BxAntispamLassoModeration extends BxDol: Moderação de conteúdo com Lasso.
+    - __construct(): Construtor que inicializa a moderação com Lasso.
+    - moderate($sContent, $aParams): Método para moderar conteúdo.
+
+15. BxAntispamCronPruning.php:
+    - BxAntispamCronPruning extends BxDolCron: Tarefa cron para limpeza de dados de antispam.
+    - __construct(): Construtor que inicializa a tarefa cron.
+
+16. BxAntispamCronUpdateDisposableEmailDomains.php:
+    - BxAntispamCronUpdateDisposableEmailDomains extends BxDolCron: Tarefa cron para atualizar domínios de e-mail descartáveis.
+    - __construct(): Construtor que inicializa a tarefa cron de atualização.
+
+17. BxAntispamGridBlockLog.php:
+    - BxAntispamGridBlockLog extends BxDolGrid: Grade para log de bloqueios.
+    - __construct(): Construtor que inicializa a grade de log.
+
+18. BxAntispamGridDNSBL.php:
+    - BxAntispamGridDNSBL extends BxDolGrid: Grade para gerenciamento de blacklists de DNS.
+    - __construct(): Construtor que inicializa a grade de DNSBL.
+
+19. BxAntispamGridIpTable.php:
+    - BxAntispamGridIpTable extends BxDolGrid: Grade para tabela de IPs bloqueados.
+    - __construct(): Construtor que inicializa a grade de IPs.
+
+20. BxAntispamPage.php:
+    - BxAntispamPage extends BxDolPage: Página para visualização de antispam.
+    - __construct($oTemplate = false): Construtor que inicializa a página.
+
+21. BxAntispamStudioOptions.php:
+    - BxAntispamStudioOptions extends BxDolStudioOptions: Opções de estúdio para antispam.
+    - __construct($sType, $oTemplate = false): Construtor que inicializa as opções de estúdio.
+
+22. BxAntispamStudioPage.php:
+    - BxAntispamStudioPage extends BxDolStudioPage: Página de estúdio para antispam.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/antispam/check: Verifica se um conteúdo é spam.
+- GET /api/antispam/blocked-ips: Lista IPs bloqueados.
+- POST /api/antispam/block-ip/{ip}: Bloqueia um endereço IP.
+- POST /api/antispam/unblock-ip/{ip}: Desbloqueia um endereço IP.
+- GET /api/antispam/reports: Obtém relatórios de spam.
+- POST /api/antispam/update-disposable-domains: Atualiza a lista de domínios de e-mail descartáveis.
+- GET /api/antispam/dnsbl: Lista configurações de blacklists de DNS.
+- POST /api/antispam/check-ip/{ip}: Verifica se um IP está em blacklists ou bloqueado.
+- POST /api/antispam/check-email/{email}: Verifica se um e-mail pertence a um domínio descartável.
+- GET /api/antispam/settings: Obtém configurações de antispam (filtros ativos, integrações, etc.).
+- PUT /api/antispam/settings: Atualiza configurações de antispam.
