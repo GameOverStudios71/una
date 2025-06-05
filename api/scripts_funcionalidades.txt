@@ -1,0 +1,58 @@
+Análise de Funcionalidades do Diretório 'scripts' - Scripts Utilitários no Sistema UNA
+
+Esta documentação contém uma análise inicial do diretório 'scripts' localizado em 'c:\Users\zerocool\una\scripts'. O objetivo é mapear as funcionalidades dos arquivos PHP que servem como scripts utilitários para tarefas administrativas e de manutenção no sistema UNA e propor rotas RESTful para uma API, quando aplicável. Esta análise é preliminar, baseada nos nomes dos arquivos e no propósito provável do diretório. Uma inspeção mais detalhada do código-fonte será necessária para confirmar as funcionalidades.
+
+# Arquivos PHP Principais no Diretório 'scripts'
+
+## change_collation_sql.php
+- **Descrição Suposta**: Script para alterar a colação (collation) de tabelas ou campos no banco de dados, útil para ajustes de codificação de caracteres.
+- **Rotas RESTful Propostas**:
+  - POST /scripts/db/collation/change - Alterar colação de tabelas ou campos no banco de dados.
+  - GET /scripts/db/collation/status - Verificar a colação atual do banco de dados.
+
+## check_unused_lang.php
+- **Descrição Suposta**: Script para identificar chaves de idioma não utilizadas no sistema, ajudando na limpeza de traduções obsoletas.
+- **Rotas RESTful Propostas**:
+  - GET /scripts/lang/unused - Listar chaves de idioma não utilizadas no sistema.
+  - DELETE /scripts/lang/unused/remove - Remover chaves de idioma não utilizadas.
+
+## hooks.php
+- **Descrição Suposta**: Script para gerenciar ou listar ganchos (hooks) do sistema, que permitem a extensão de funcionalidades por módulos ou personalizações.
+- **Rotas RESTful Propostas**:
+  - GET /scripts/hooks/list - Listar ganchos disponíveis no sistema.
+  - POST /scripts/hooks/add - Adicionar um novo gancho ao sistema.
+  - DELETE /scripts/hooks/remove/{hookId} - Remover um gancho específico.
+
+## manage.php
+- **Descrição Suposta**: Script de gerenciamento geral, possivelmente para tarefas administrativas como configuração de módulos, atualizações ou backups.
+- **Rotas RESTful Propostas**:
+  - GET /scripts/manage/tasks - Listar tarefas administrativas disponíveis.
+  - POST /scripts/manage/execute/{taskId} - Executar uma tarefa administrativa específica.
+  - GET /scripts/manage/status - Verificar status de tarefas administrativas.
+
+## merge_lang.php
+- **Descrição Suposta**: Script para mesclar arquivos de idioma, útil para consolidar traduções de diferentes fontes.
+- **Rotas RESTful Propostas**:
+  - POST /scripts/lang/merge - Mesclar arquivos de idioma para consolidar traduções.
+  - GET /scripts/lang/merge/status - Verificar status de operações de mesclagem de idiomas.
+
+## service_functions.php
+- **Descrição Suposta**: Script contendo funções de serviço utilitárias, possivelmente usadas por outros scripts ou pelo sistema principal.
+- **Rotas RESTful Propostas**:
+  - GET /scripts/service/functions - Listar funções de serviço disponíveis.
+  - POST /scripts/service/execute/{functionId} - Executar uma função de serviço específica.
+
+# Outros Arquivos
+
+- **Doxyfile**, **code_clean_up.sh**, **git_export.sh**, **pharcommand.phar**: Arquivos de configuração ou scripts shell/PHAR que não são PHP e não diretamente relevantes para uma API RESTful.
+- **docker-compose**: Subdiretório que provavelmente contém configurações para ambientes Docker, não diretamente relacionado a scripts PHP.
+
+# Observações
+
+- Esta análise é baseada em suposições derivadas dos nomes dos arquivos e do propósito provável do diretório 'scripts'. Uma análise mais profunda do código-fonte de cada arquivo PHP é necessária para confirmar as funcionalidades reais e refinar as rotas RESTful propostas.
+- O diretório 'scripts' parece ser uma coleção de ferramentas administrativas e de manutenção para o sistema UNA. As rotas RESTful propostas podem ser úteis para administradores, mas algumas funcionalidades podem ser sensíveis e exigir autenticação e autorização adequadas.
+
+# Próximos Passos
+
+- Realizar uma análise detalhada do código-fonte de arquivos específicos, se necessário, para confirmar funcionalidades.
+- Aguardar feedback do usuário para priorizar a análise de outros diretórios ou aprofundar nesta área.

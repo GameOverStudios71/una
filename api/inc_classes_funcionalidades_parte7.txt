@@ -1,0 +1,166 @@
+Análise do Diretório 'inc/classes' - Parte 7 - Classes do Sistema UNA
+
+Esta documentação é a Parte 7 da análise das 194 classes PHP localizadas no subdiretório 'inc/classes' em 'c:\Users\zerocool\una\inc\classes'. O objetivo é mapear as funcionalidades das classes para facilitar o entendimento do sistema UNA e propor rotas RESTful para uma API. Nesta parte, cobrirei áreas de funcionalidade ainda não documentadas ou que requerem mais detalhes, organizadas por temas. As rotas propostas são baseadas em suposições sobre as funcionalidades das classes e podem ser refinadas com análise mais profunda do código.
+
+# Área de Funcionalidade: Gerenciamento de Sessões e Conexões em Tempo Real
+
+## BxDolSession.php
+- **Descrição**: Classe para gerenciamento de sessões de usuário no sistema UNA, controlando login, logout e dados de sessão.
+- **Funcionalidades Principais**:
+  - Inicia e destrói sessões de usuário.
+  - Armazena e recupera dados associados à sessão.
+  - Verifica o estado de login do usuário.
+- **Rotas RESTful Propostas**:
+  - POST /session/start - Inicia uma nova sessão para um usuário autenticado.
+  - POST /session/destroy - Encerra a sessão atual do usuário.
+  - GET /session/status - Verifica se o usuário está logado e retorna informações da sessão.
+
+## BxDolSessionQuery.php
+- **Descrição**: Classe de suporte para consultas relacionadas a sessões, interagindo com o banco de dados.
+- **Funcionalidades Principais**:
+  - Salva e recupera dados de sessão do banco de dados.
+  - Gerencia expiração de sessões.
+- **Rotas RESTful Propostas**:
+  - Não há rotas específicas, pois é uma classe de suporte interno.
+
+## BxDolSockets.php
+- **Descrição**: Classe base para suporte a conexões em tempo real usando sockets.
+- **Funcionalidades Principais**:
+  - Configura e gerencia conexões de socket para notificações ao vivo.
+- **Rotas RESTful Propostas**:
+  - GET /sockets/config - Retorna configurações de socket para conexões em tempo real.
+
+## BxDolSocketsSoketi.php
+- **Descrição**: Implementação específica de sockets usando o serviço Soketi para comunicação em tempo real.
+- **Funcionalidades Principais**:
+  - Integra com Soketi para envio de mensagens e eventos ao vivo.
+- **Rotas RESTful Propostas**:
+  - POST /sockets/soketi/send - Envia uma mensagem ou evento via Soketi para usuários conectados.
+
+# Área de Funcionalidade: Notificações e Atualizações em Tempo Real
+
+## BxDolLiveUpdates.php
+- **Descrição**: Classe para gerenciar atualizações ao vivo, como notificações em tempo real para usuários.
+- **Funcionalidades Principais**:
+  - Envia atualizações para usuários conectados sobre eventos (ex.: novas mensagens, curtidas).
+  - Suporta polling ou websockets para entrega de atualizações.
+- **Rotas RESTful Propostas**:
+  - GET /live-updates/check - Verifica se há novas atualizações para o usuário atual.
+  - POST /live-updates/subscribe - Inscreve o usuário em um canal de atualizações ao vivo.
+
+## BxDolLiveUpdatesQuery.php
+- **Descrição**: Classe de suporte para consultas relacionadas a atualizações ao vivo.
+- **Funcionalidades Principais**:
+  - Recupera dados de atualizações pendentes do banco de dados.
+- **Rotas RESTful Propostas**:
+  - Não há rotas específicas, pois é uma classe de suporte interno.
+
+## BxDolPush.php
+- **Descrição**: Classe base para envio de notificações push para dispositivos móveis ou navegadores.
+- **Funcionalidades Principais**:
+  - Gerencia o envio de notificações push para usuários.
+- **Rotas RESTful Propostas**:
+  - POST /push/send - Envia uma notificação push para um usuário ou grupo de usuários.
+  - GET /push/settings - Retorna as configurações de notificações push do usuário.
+
+## BxDolPushOneSignal.php
+- **Descrição**: Implementação de notificações push usando o serviço OneSignal.
+- **Funcionalidades Principais**:
+  - Integra com a API do OneSignal para envio de notificações.
+- **Rotas RESTful Propostas**:
+  - POST /push/onesignal/send - Envia uma notificação push via OneSignal.
+
+## BxDolPushQuery.php
+- **Descrição**: Classe de suporte para consultas relacionadas a notificações push.
+- **Funcionalidades Principais**:
+  - Gerencia registros de dispositivos para envio de notificações.
+- **Rotas RESTful Propostas**:
+  - Não há rotas específicas, pois é uma classe de suporte interno.
+
+# Área de Funcionalidade: Filas e Processamento Assíncrono
+
+## BxDolQueue.php
+- **Descrição**: Classe base para gerenciamento de filas de tarefas assíncronas no sistema UNA.
+- **Funcionalidades Principais**:
+  - Adiciona tarefas a uma fila para processamento em segundo plano.
+  - Suporta diferentes tipos de filas (e-mail, push, etc.).
+- **Rotas RESTful Propostas**:
+  - POST /queue/add - Adiciona uma nova tarefa à fila para processamento assíncrono.
+  - GET /queue/status - Verifica o status das tarefas na fila.
+
+## BxDolQueueEmail.php
+- **Descrição**: Classe para gerenciamento de fila de envio de e-mails.
+- **Funcionalidades Principais**:
+  - Enfileira e-mails para envio assíncrono, evitando atrasos no carregamento de páginas.
+- **Rotas RESTful Propostas**:
+  - POST /queue/email/add - Adiciona um e-mail à fila de envio.
+
+## BxDolQueueEmailQuery.php
+- **Descrição**: Classe de suporte para consultas relacionadas à fila de e-mails.
+- **Funcionalidades Principais**:
+  - Gerencia registros de e-mails na fila no banco de dados.
+- **Rotas RESTful Propostas**:
+  - Não há rotas específicas, pois é uma classe de suporte interno.
+
+## BxDolQueuePush.php
+- **Descrição**: Classe para gerenciamento de fila de notificações push.
+- **Funcionalidades Principais**:
+  - Enfileira notificações push para envio assíncrono.
+- **Rotas RESTful Propostas**:
+  - POST /queue/push/add - Adiciona uma notificação push à fila de envio.
+
+## BxDolQueuePushQuery.php
+- **Descrição**: Classe de suporte para consultas relacionadas à fila de notificações push.
+- **Funcionalidades Principais**:
+  - Gerencia registros de notificações push na fila no banco de dados.
+- **Rotas RESTful Propostas**:
+  - Não há rotas específicas, pois é uma classe de suporte interno.
+
+## BxDolQueueQuery.php
+- **Descrição**: Classe de suporte genérica para consultas relacionadas a filas.
+- **Funcionalidades Principais**:
+  - Fornece métodos comuns para manipulação de filas no banco de dados.
+- **Rotas RESTful Propostas**:
+  - Não há rotas específicas, pois é uma classe de suporte interno.
+
+# Área de Funcionalidade: SMS e Comunicação por Texto
+
+## BxDolSms.php
+- **Descrição**: Classe base para envio de mensagens SMS no sistema UNA.
+- **Funcionalidades Principais**:
+  - Gerencia o envio de SMS para usuários, como códigos de verificação.
+- **Rotas RESTful Propostas**:
+  - POST /sms/send - Envia uma mensagem SMS para um número de telefone específico.
+
+## BxDolSmsQuery.php
+- **Descrição**: Classe de suporte para consultas relacionadas a SMS.
+- **Funcionalidades Principais**:
+  - Registra logs de envio de SMS no banco de dados.
+- **Rotas RESTful Propostas**:
+  - Não há rotas específicas, pois é uma classe de suporte interno.
+
+## BxDolSmsSmsRu.php
+- **Descrição**: Implementação de envio de SMS usando o serviço SMS.ru.
+- **Funcionalidades Principais**:
+  - Integra com a API do SMS.ru para envio de mensagens.
+- **Rotas RESTful Propostas**:
+  - POST /sms/smsru/send - Envia SMS via SMS.ru.
+
+## BxDolSmsTwilio.php
+- **Descrição**: Implementação de envio de SMS usando o serviço Twilio.
+- **Funcionalidades Principais**:
+  - Integra com a API do Twilio para envio de mensagens.
+- **Rotas RESTful Propostas**:
+  - POST /sms/twilio/send - Envia SMS via Twilio.
+
+# Observações
+
+- Esta Parte 7 da análise cobre classes relacionadas a sessões, conexões em tempo real, notificações, filas de processamento assíncrono e envio de SMS. As rotas RESTful propostas são baseadas em suposições sobre as funcionalidades das classes e podem ser ajustadas após uma análise mais profunda do código-fonte.
+- As classes de suporte (geralmente com sufixo `Query`) não possuem rotas RESTful diretas, pois servem como utilitários internos para outras classes.
+- A exposição de funcionalidades sensíveis, como envio de notificações ou SMS, deve incluir autenticação robusta e controle de acesso em uma API.
+
+# Próximos Passos
+
+- Continuar a análise das classes restantes no diretório 'inc/classes' em partes futuras, caso necessário.
+- Aguardar feedback do usuário para ajustar o foco da análise ou revisar partes específicas.
+- Considerar a análise detalhada de classes específicas com base no código-fonte, se solicitado.

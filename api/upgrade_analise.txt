@@ -1,0 +1,93 @@
+Análise do Diretório 'upgrade' - Sistema de Atualização no UNA
+
+Esta documentação contém uma análise dos arquivos PHP no diretório 'upgrade' localizado em 'c:\Users\zerocool\una\upgrade'. O objetivo é mapear as funcionalidades relacionadas ao processo de atualização do sistema UNA, com base na inspeção do código-fonte. Rotas RESTful são propostas para uma API, quando aplicável.
+
+# Arquivos PHP no Diretório 'upgrade'
+
+## BxDolUpgradeCron.php
+- **Descrição**: Script de cron para automatizar o processo de atualização do sistema UNA. Ele gerencia a execução de atualizações disponíveis, ativa o modo de manutenção durante o processo e notifica sobre o sucesso ou falha da atualização.
+- **Funcionalidades Principais**:
+  - Verifica e executa atualizações disponíveis no diretório de upgrades.
+  - Ativa o modo de manutenção durante a atualização para evitar interferências.
+  - Registra logs de atualização e envia notificações por e-mail sobre o sucesso da operação.
+  - Agenda a próxima atualização via cron se houver upgrades adicionais disponíveis (atualização em massa).
+- **Métodos Principais**:
+  - `processing()`: Função principal que coordena o processo de atualização, incluindo modo de manutenção, execução da atualização, logging e notificações.
+- **Exemplo de Uso**:
+  - Este script é executado automaticamente pelo sistema de cron do UNA para aplicar atualizações sem intervenção manual.
+- **Rotas RESTful Propostas**:
+  - GET /upgrade/cron/status - Verifica se há uma atualização agendada ou em andamento via cron.
+  - POST /upgrade/cron/trigger - Dispara manualmente o processo de atualização via cron, se disponível.
+
+## classes/BxDolUpgradeController.php
+- **Descrição**: Classe controladora central para gerenciar o processo de atualização do sistema UNA, coordenando verificações, execução de scripts de atualização e logging.
+- **Funcionalidades Principais**:
+  - Verifica a disponibilidade de atualizações no diretório de upgrades.
+  - Executa scripts de atualização para o sistema e módulos, lidando com dependências e ordem de aplicação.
+  - Ativa e desativa o modo de manutenção durante atualizações.
+  - Registra mensagens de log e conclusões para auditoria.
+  - Trata erros e fornece mensagens detalhadas sobre falhas.
+- **Métodos Principais**:
+  - `__construct()`: Inicializa a classe com instâncias de banco de dados e utilitários.
+  - `getAvailableUpgrade()`: Retorna a pasta da próxima atualização disponível com base na versão atual.
+  - `runUpgrade($sFolder)`: Executa o processo de atualização para uma pasta específica, incluindo verificações, scripts e atualizações de módulos.
+  - `setMaintenanceMode($bEnable)`: Ativa ou desativa o modo de manutenção.
+  - `writeLog()`: Escreve mensagens de log em um arquivo para auditoria.
+  - `getErrorMsg()`, `getLogMessages()`, `getConclusion()`: Métodos para acessar mensagens de erro, logs e conclusões do processo.
+- **Exemplo de Uso**:
+  - Utilizado pelo script de cron ou interface administrativa para aplicar atualizações ao sistema.
+- **Rotas RESTful Propostas**:
+  - GET /upgrade/available - Lista atualizações disponíveis para o sistema e módulos.
+  - POST /upgrade/run?folder={folder} - Executa uma atualização específica, aplicando scripts e atualizando versões.
+  - GET /upgrade/log - Retorna os logs das últimas atualizações realizadas.
+  - POST /upgrade/maintenance?enable={true|false} - Ativa ou desativa o modo de manutenção durante atualizações.
+
+## classes/BxDolUpgradeDb.php
+- **Descrição**: Classe de banco de dados específica para o processo de atualização, gerenciando conexões, consultas e manipulação de dados durante upgrades.
+- **Funcionalidades Principais**:
+  - Estabelece conexão com o banco de dados com configurações específicas para atualizações.
+  - Executa consultas SQL para modificações de esquema e dados durante o processo de upgrade.
+  - Suporta modos de depuração e processamento visual para logs detalhados.
+  - Gerencia cache de parâmetros do sistema para otimização.
+  - Trata erros de conexão e consulta com mensagens específicas.
+- **Métodos Principais**:
+  - `__construct()`: Inicializa a conexão com o banco de dados com parâmetros configuráveis.
+  - `query($sQuery)`: Executa uma consulta SQL, com suporte a logging detalhado em modo de depuração.
+  - `getParam($sName)`: Recupera parâmetros do sistema do cache ou banco de dados.
+  - `setParam($sName, $mixedValue)`: Atualiza parâmetros do sistema no banco de dados.
+  - Diversos métodos para operações de banco de dados como `getRow()`, `getAll()`, `res()`, etc.
+- **Exemplo de Uso**:
+  - Utilizado pelo controlador de atualização para executar alterações no banco de dados necessárias para novas versões.
+- **Rotas RESTful Propostas**:
+  - Não há rotas específicas propostas, pois esta classe é um utilitário interno para o processo de atualização.
+
+## classes/BxDolUpgradeUtil.php
+- **Descrição**: Classe utilitária para suporte ao processo de atualização, fornecendo métodos para verificação, execução de scripts e manipulação de arquivos.
+- **Funcionalidades Principais**:
+  - Verifica a existência e executa scripts de verificação (`check.php`) e atualização (`script.php`) para sistema e módulos.
+  - Lê arquivos de conclusão (`conclusion.html`) para mensagens pós-atualização.
+  - Gerencia cópia de arquivos e diretórios durante o processo de atualização.
+  - Manipula versões de módulos e sistema, comparando-as para determinar a necessidade de atualizações.
+  - Trata operações de banco de dados como backups e atualizações de parâmetros.
+- **Métodos Principais**:
+  - `executeCheck($sModule = '')`: Executa script de verificação para um módulo ou sistema.
+  - `executeConclusion($sModule = '')`: Lê arquivo de conclusão para exibição pós-atualização.
+  - `isExecuteScriptAvail($sModule = '')`: Verifica se um script de atualização está disponível.
+  - `executeScript($sModule = '')`: Executa script de atualização para um módulo ou sistema.
+  - `copyFiles($sModule = '')`: Copia arquivos de atualização para os diretórios apropriados.
+  - `compareVersions($sVer1, $sVer2)`: Compara duas versões para determinar qual é mais recente.
+- **Exemplo de Uso**:
+  - Utilizado pelo controlador de atualização para executar tarefas específicas durante o processo de upgrade.
+- **Rotas RESTful Propostas**:
+  - Não há rotas específicas propostas, pois esta classe é um utilitário interno para o processo de atualização.
+
+# Observações
+
+- Esta análise é baseada na inspeção do código-fonte dos arquivos PHP no diretório 'upgrade'. As funcionalidades refletem o propósito real dos scripts conforme identificado no código.
+- O diretório 'upgrade' é essencial para o gerenciamento de atualizações do sistema UNA, incluindo atualizações automáticas via cron, modo de manutenção e manipulação de arquivos e banco de dados.
+- As rotas RESTful propostas para o controlador e cron de atualização visam expor essas funcionalidades de forma segura para administradores, considerando a sensibilidade das operações.
+
+# Próximos Passos
+
+- Aguardar feedback do usuário para priorizar a análise de outros diretórios ou implementação de uma API baseada nestas funcionalidades.
+- Considerar a análise de módulos específicos ou outros diretórios como 'inc/classes' para uma visão mais ampla do sistema.

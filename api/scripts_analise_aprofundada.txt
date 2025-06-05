@@ -1,0 +1,207 @@
+Análise Aprofundada do Diretório 'scripts' - Scripts Utilitários no Sistema UNA
+
+Esta documentação contém uma análise aprofundada dos arquivos PHP no diretório 'scripts' localizado em 'c:\Users\zerocool\una\scripts'. O objetivo é mapear detalhadamente as funcionalidades dos scripts utilitários para tarefas administrativas e de manutenção no sistema UNA, com base na inspeção exaustiva do código-fonte, incluindo métodos, parâmetros e exemplos de uso. Rotas RESTful são propostas para uma API, quando aplicável.
+
+# Arquivos PHP Principais no Diretório 'scripts'
+
+## change_collation_sql.php
+- **Descrição Confirmada**: Script de interface de linha de comando para gerar comandos SQL que alteram a colação de tabelas e campos de texto no banco de dados para `utf8mb4_unicode_ci`, suportando caracteres Unicode completos, como emojis.
+- **Funcionalidades Principais**:
+  - Gera comandos SQL para converter todas as tabelas com um prefixo especificado para a colação `utf8mb4_unicode_ci`.
+  - Converte campos de texto (char, varchar, tinytext, text, mediumtext, longtext) individualmente para a mesma colação.
+  - Adiciona comandos para reparar (`REPAIR TABLE`) e otimizar (`OPTIMIZE TABLE`) cada tabela após a conversão.
+- **Parâmetros de Linha de Comando**:
+  - `-h`: Exibe ajuda sobre o uso do script.
+  - `-p <prefix>`: Prefixo das tabelas a serem processadas (obrigatório).
+- **Métodos Principais**:
+  - `main()`: Função principal que processa opções de linha de comando e inicia o processo de geração de SQL.
+  - `process()`: Gera os comandos SQL para cada tabela e campo com base no prefixo fornecido.
+  - `isTextField($sType)`: Verifica se um tipo de campo é de texto para conversão de colação.
+  - `getHelp()`: Retorna texto de ajuda com instruções de uso.
+  - `finish($iCode, $sMsg = null, $bAddLn = true)`: Finaliza o script com um código de saída e mensagem opcional.
+- **Exemplo de Uso**:
+  - `php change_collation_sql.php -p bx_`: Gera SQL para todas as tabelas com prefixo `bx_`, convertendo-as para `utf8mb4_unicode_ci`.
+- **Rotas RESTful Propostas**:
+  - POST /scripts/db/collation/change?prefix={prefix} - Gera e aplica alterações de colação no banco de dados para tabelas com o prefixo especificado.
+  - GET /scripts/db/collation/preview?prefix={prefix} - Previsualiza comandos SQL para alteração de colação sem aplicá-los.
+
+## check_unused_lang.php
+- **Descrição Confirmada**: Script de interface de linha de comando para identificar chaves de idioma não utilizadas no sistema, auxiliando na manutenção e limpeza de traduções obsoletas.
+- **Funcionalidades Principais**:
+  - Lê um arquivo XML de idioma de entrada e verifica quais chaves de idioma são referenciadas no código-fonte.
+  - Escaneia diretórios específicos do sistema ou de um módulo para encontrar referências às chaves de idioma em arquivos PHP, JS, HTML e SQL.
+  - Classifica chaves em 'encontradas' (referenciadas no código) e 'não utilizadas' (sem referências).
+  - Suporta saída ordenada e exportação para arquivos XML separados para chaves encontradas e não utilizadas.
+  - Inclui uma lista de expressões regulares para chaves que devem ser sempre consideradas 'encontradas', mesmo sem referências explícitas (ex.: `_are you sure?`, `_mma_`, padrões de sistema).
+  - Permite limitar o número de strings processadas para estimar o tempo total de execução.
+- **Parâmetros de Linha de Comando**:
+  - `-h`: Exibe ajuda sobre o uso do script.
+  - `-q`: Modo silencioso, sem saída no console.
+  - `-s`: Ordena a saída alfabeticamente por chave de idioma.
+  - `-m <vendor/module>`: Processa como arquivo de idioma de um módulo específico (ex.: `boonex/forum`).
+  - `-l <number>`: Limita o número de strings processadas (útil para estimativa de tempo).
+  - `-i <input_file>`: Arquivo XML de idioma de entrada (obrigatório).
+  - `-f <output_file>`: Arquivo XML de saída para chaves encontradas.
+  - `-u <output_file>`: Arquivo XML de saída para chaves não utilizadas.
+- **Métodos Principais**:
+  - `__construct()`: Inicializa o script com uma lista de expressões regulares para chaves sempre consideradas válidas e configurações de diretórios para sistema e módulos.
+  - `main()`: Função principal que processa opções, lê o arquivo de entrada e identifica chaves usadas/não usadas.
+  - `findLangKey($sKey, $aOptions)`: Busca uma chave de idioma no código-fonte usando `grep` em diretórios configurados.
+  - `xmlExport($a, $sRoot = 'resources', $bCData = true)`: Exporta um array de chaves de idioma para formato XML.
+  - `prepareModuleConfig($a)`: Ajusta configurações de diretórios para um módulo específico.
+  - `getHelp()`: Retorna texto de ajuda com instruções de uso e códigos de retorno.
+  - `finish($iCode, $sMsg = null, $bAddLn = true)`: Finaliza o script com um código de saída e mensagem opcional.
+  - `output($sMsg, $bAddLn = true)`: Exibe mensagens no console, respeitando o modo silencioso.
+- **Exemplo de Uso**:
+  - `php check_unused_lang.php -i lang.xml -f found.xml -u unused.xml -s`: Processa o arquivo `lang.xml`, ordena as chaves e exporta chaves encontradas para `found.xml` e não utilizadas para `unused.xml`.
+  - `php check_unused_lang.php -i lang.xml -m boonex/forum -l 100`: Processa apenas as primeiras 100 chaves do arquivo de idioma de um módulo específico.
+- **Códigos de Retorno**:
+  - `0`: Sucesso, nenhuma chave de idioma não utilizada encontrada.
+  - `1`: Chaves de idioma não utilizadas foram encontradas.
+  - `2`: Erro ocorrido durante a execução.
+- **Rotas RESTful Propostas**:
+  - GET /scripts/lang/unused?inputFile={path}&module={vendor/module} - Lista chaves de idioma não utilizadas no sistema ou em um módulo específico.
+  - POST /scripts/lang/unused/export?inputFile={path}&foundFile={path}&unusedFile={path} - Exporta chaves encontradas e não utilizadas para arquivos XML.
+
+## hooks.php
+- **Descrição Confirmada**: Script para processar um arquivo XML de ganchos (hooks) gerado por Doxygen, criando uma documentação formatada (opcionalmente em Markdown) com URLs para descrições detalhadas.
+- **Funcionalidades Principais**:
+  - Lê um arquivo XML (`hook.xml`) contendo informações de ganchos do sistema a partir do diretório `xml/`.
+  - Extrai referências a ganchos e gera URLs para a documentação online hospedada em `https://ci.una.io/docs/`.
+  - Faz o download do conteúdo das páginas de documentação e extrai trechos (snippets) relevantes para cada gancho.
+  - Corrige links nos trechos para apontar para URLs locais ou absolutas, dependendo do formato de saída.
+  - Suporta saída em HTML ou Markdown (requer a biblioteca `league/html-to-markdown` para conversão).
+  - Ordena os ganchos alfabeticamente e exibe uma lista consolidada com um cabeçalho indicando a quantidade total de ganchos processados.
+- **Parâmetros Configuráveis**:
+  - `$bMarkdown`: Booleano que determina se a saída será em formato Markdown (requer biblioteca externa).
+  - `$sBaseUrl`: URL base para links de ganchos na documentação gerada (padrão: `wiki/alerts-hooks`).
+  - `$sBaseDocUrl`: URL base para a documentação online (padrão: `https://ci.una.io/docs/`).
+- **Exemplo de Uso**:
+  - Execute o script diretamente para gerar documentação HTML a partir de `xml/hook.xml`: `php hooks.php`.
+  - Modifique `$bMarkdown = true;` e instale a biblioteca necessária para saída em Markdown.
+- **Rotas RESTful Propostas**:
+  - GET /scripts/hooks/list?format={html|markdown} - Lista ganchos do sistema com links para documentação no formato especificado.
+  - GET /scripts/hooks/export?format={html|markdown}&outputFile={path} - Exporta documentação de ganchos para um arquivo no formato especificado.
+
+## manage.php
+- **Descrição Confirmada**: Script de interface de linha de comando para gerenciar diversas tarefas administrativas do UNA, como atualizações de sistema, gerenciamento de módulos, backups de banco de dados e verificações de integridade.
+- **Funcionalidades Principais**:
+  - **Atualização do Sistema**: Verifica e aplica atualizações ao núcleo do sistema UNA, com opções para ignorar verificações de versão e pular operações de arquivo.
+  - **Gerenciamento de Módulos**: Suporta verificação de atualizações de módulos, instalação, desinstalação, ativação e desativação de módulos específicos ou em lote.
+  - **Conexão com Banco de Dados**: Permite especificar parâmetros personalizados de conexão ao banco de dados, substituindo as configurações padrão do UNA.
+  - **Modo Silencioso e Operações de Arquivo**: Suporta modo silencioso para execução sem saída no console e opção para pular operações de arquivo (útil em sistemas com controle de versão).
+  - **Códigos de Retorno**: Retorna códigos específicos para diferentes cenários de sucesso e erro, facilitando automação.
+- **Parâmetros de Linha de Comando**:
+  - `-h`: Exibe ajuda sobre o uso do script.
+  - `-v`: Exibe a versão do script.
+  - `-q`: Modo silencioso, sem saída no console.
+  - `-i`: Pula operações de arquivo, como cópia e exclusão, durante comandos de atualização.
+  - `-u <path>`: Caminho para a instalação do UNA.
+  - `-c <command>`: Comando a ser executado (ex.: `update`, `check_update`, `update_modules`, `install_modules`).
+  - `-o <options>`: Opções específicas do comando, como lista de módulos ou parâmetros adicionais (ex.: `ignore_version_check`).
+  - `--db_host=<value>`, `--db_port=<value>`, `--db_sock=<value>`, `--db_name=<value>`, `--db_user=<value>`, `--db_password=<value>`: Parâmetros de conexão personalizados ao banco de dados.
+- **Comandos Suportados**:
+  - `update`: Atualiza o sistema, com opção `ignore_version_check` para ignorar verificação de versão.
+  - `check_update`: Verifica se há atualizações disponíveis para o sistema.
+  - `update_modules`: Atualiza módulos específicos, aceitando uma lista separada por vírgulas (ex.: `bx_nexus,bx_albums`).
+  - `check_modules_updates`: Verifica atualizações disponíveis para módulos.
+  - `install_modules`: Instala módulos a partir de caminhos especificados (ex.: `boonex/ads,boonex/wiki`).
+  - `uninstall_modules`: Desinstala módulos especificados.
+  - `enable_modules`: Ativa módulos especificados.
+  - `disable_modules`: Desativa módulos especificados.
+- **Métodos Principais**:
+  - `__construct()`: Inicializa o script com configurações padrão de banco de dados e códigos de retorno.
+  - `main()`: Função principal que processa opções de linha de comando e executa o comando especificado.
+  - `init()`: Inicializa o ambiente, configurando o caminho do UNA e conexão com o banco de dados.
+  - `cmdCheckUpdate()`, `cmdUpdate()`: Gerenciam verificação e aplicação de atualizações do sistema.
+  - `cmdCheckModulesUpdates()`, `cmdUpdateModules()`: Gerenciam verificação e atualização de módulos.
+  - `cmdInstallModules()`, `cmdUninstallModules()`, `cmdEnableModules()`, `cmdDisableModules()`: Gerenciam operações de instalação, desinstalação, ativação e desativação de módulos.
+  - `_parseOptions($s)`: Analisa opções de comando separadas por vírgula.
+  - `_cmdModules($sOperation, $aOptions = [])`: Executa operações genéricas em módulos (instalar, desinstalar, etc.).
+  - `getHelp()`: Retorna texto de ajuda detalhado com exemplos de uso.
+  - `finish($iCode, $sMsg)`: Finaliza o script com um código de saída e mensagem.
+- **Exemplo de Uso**:
+  - `php manage.php -u ../../unafolder -c check_update`: Verifica se há atualizações disponíveis para o sistema.
+  - `php manage.php -u ../../unafolder -c update -i -o ignore_version_check`: Atualiza o sistema ignorando verificação de versão e operações de arquivo.
+  - `php manage.php -u ../../unafolder -c update_modules -o bx_nexus,bx_albums`: Atualiza os módulos Nexus e Albums.
+  - `php manage.php -u ../../unafolder -c install_modules -o boonex/ads,boonex/albums`: Instala os módulos Ads e Albums.
+- **Códigos de Retorno**:
+  - `0`: Sucesso.
+  - `1`: UNA não encontrado no caminho especificado.
+  - `2`: Comando desconhecido.
+  - `3`: Falha na conexão com o banco de dados.
+  - `4`: Falha na atualização do sistema.
+  - `5`: Falha na operação com módulos.
+  - `9`: Erro genérico.
+- **Rotas RESTful Propostas**:
+  - GET /scripts/manage/tasks - Lista tarefas administrativas disponíveis.
+  - POST /scripts/manage/execute?command={command}&options={options} - Executa uma tarefa administrativa específica (ex.: atualização, backup).
+  - GET /scripts/manage/status?command={command} - Verifica o status de tarefas administrativas em execução.
+  - POST /scripts/manage/modules?operation={operation}&modules={moduleList} - Gerencia operações de módulos (instalar, desinstalar, atualizar), aceitando uma lista de módulos.
+
+## merge_lang.php
+- **Descrição Confirmada**: Script de interface de linha de comando para mesclar dois arquivos de idioma XML, identificando chaves adicionadas, alteradas e removidas entre uma versão antiga e uma nova.
+- **Funcionalidades Principais**:
+  - Lê dois arquivos XML de idioma (antigo e novo) e compara as chaves e valores.
+  - Identifica chaves adicionadas (presentes apenas no novo), alteradas (valores diferentes) e removidas (presentes apenas no antigo).
+  - Gera saída XML formatada com seções separadas para cada tipo de alteração (`string_add`, `string_upd`, `string_del`).
+  - Suporta ordenação alfabética das chaves na saída para melhor organização.
+  - Corrige valores nulos para strings vazias durante o processamento.
+- **Parâmetros de Linha de Comando**:
+  - `-h`: Exibe ajuda sobre o uso do script.
+  - `-s`: Ordena a saída alfabeticamente por chave de idioma.
+  - `-o <input_file>`: Arquivo XML de idioma antigo (obrigatório).
+  - `-n <input_file>`: Arquivo XML de idioma novo (obrigatório).
+- **Métodos Principais**:
+  - `__construct()`: Inicializa o script com variáveis para opções e arquivos de entrada.
+  - `main()`: Função principal que processa opções, lê arquivos e identifica alterações.
+  - `fixEmptyValues(&$a)`: Converte valores nulos para strings vazias em um array de idioma.
+  - `findAddedKeys($aLangNew, $aLangOld)`: Identifica chaves adicionadas no arquivo novo.
+  - `findChangedKeys($aLangNew, $aLangOld)`: Identifica chaves com valores alterados.
+  - `findDeletedKeys($aLangNew, $aLangOld)`: Identifica chaves removidas do arquivo novo.
+  - `xmlExport($a, $sTag = 'string', $sRoot = 'resources', $bCData = true)`: Exporta um array de chaves de idioma para formato XML com tags personalizáveis.
+  - `getHelp()`: Retorna texto de ajuda com instruções de uso e códigos de retorno.
+  - `finish($iCode, $sMsg = null, $bAddLn = true)`: Finaliza o script com um código de saída e mensagem opcional.
+  - `output($sMsg, $bAddLn = true)`: Exibe mensagens no console, respeitando o modo silencioso.
+- **Exemplo de Uso**:
+  - `php merge_lang.php -o old_lang.xml -n new_lang.xml -s`: Mescla dois arquivos de idioma, exibindo alterações com saída ordenada.
+- **Códigos de Retorno**:
+  - `0`: Sucesso, nenhuma diferença encontrada entre os arquivos.
+  - `1`: Alterações foram encontradas (adicionadas, alteradas ou removidas).
+  - `2`: Erro ocorrido, como arquivo de entrada inexistente.
+- **Rotas RESTful Propostas**:
+  - POST /scripts/lang/merge?oldFile={path}&newFile={path}&sort={true|false} - Mescla arquivos de idioma, retornando XML com chaves adicionadas, alteradas e removidas.
+  - GET /scripts/lang/merge/preview?oldFile={path}&newFile={path} - Previsualiza o resultado da mesclagem sem salvar.
+
+## service_functions.php
+- **Descrição Confirmada**: Script de interface de linha de comando para gerar uma lista de funções de serviço disponíveis no sistema, organizadas por categorias como sistema, módulos base e módulos individuais.
+- **Funcionalidades Principais**:
+  - Lê um arquivo de entrada contendo referências a funções de serviço (geralmente gerado por um comando `grep`).
+  - Organiza funções em grupos predefinidos, como 'System', 'General content modules', 'Groups based modules', 'Payments based modules', 'Studio related functionality', entre outros.
+  - Extrai nome da classe e função de cada linha do arquivo de entrada, associando-as a um grupo com base na classe.
+  - Gera uma saída formatada no console com funções agrupadas por categoria.
+- **Parâmetros de Linha de Comando**:
+  - `-h`: Exibe ajuda sobre o uso do script.
+  - `-i <input_file>`: Arquivo de entrada contendo referências a funções de serviço (obrigatório).
+- **Métodos Principais**:
+  - `main()`: Função principal que processa opções, lê o arquivo de entrada e inicia o processamento.
+  - `process($a)`: Processa as linhas do arquivo de entrada, agrupando funções por categoria e gerando saída formatada.
+  - `getHelp()`: Retorna texto de ajuda com instruções de uso e um exemplo de comando `grep` para gerar o arquivo de entrada.
+  - `finish($iCode, $sMsg = null, $bAddLn = true)`: Finaliza o script com um código de saída e mensagem opcional.
+- **Exemplo de Uso**:
+  - Primeiro, gere o arquivo de entrada: `grep -r 'function service' * | grep -v updates | grep -v upgrade | grep -v BxDol.php | grep -v hosting_api | grep -v BxBaseModConnectModule | grep -v -i ^bin | grep -v '/vendor/' > scripts/service_functions.txt`
+  - Em seguida, processe: `php service_functions.php -i scripts/service_functions.txt`
+- **Rotas RESTful Propostas**:
+  - GET /scripts/service/functions - Lista funções de serviço disponíveis no sistema, organizadas por categoria.
+  - GET /scripts/service/functions/export?inputFile={path}&outputFile={path} - Exporta lista de funções de serviço para um arquivo de referência.
+
+# Observações
+
+- Esta análise aprofundada é baseada na inspeção exaustiva do código-fonte dos arquivos PHP no diretório 'scripts'. As funcionalidades, parâmetros, métodos e exemplos de uso refletem o propósito real dos scripts conforme identificado no código.
+- Os scripts neste diretório são ferramentas de linha de comando essenciais para tarefas administrativas, de manutenção e desenvolvimento no UNA. As rotas RESTful propostas visam expor essas funcionalidades de forma segura e controlada para administradores do sistema.
+- Algumas funcionalidades são sensíveis (ex.: atualizações de sistema, operações de banco de dados), exigindo autenticação robusta, controle de acesso e auditoria em uma API.
+
+# Próximos Passos
+
+- Aguardar feedback do usuário para priorizar a análise de outros diretórios, scripts específicos ou implementação de uma API baseada nestas funcionalidades.
+- Considerar a documentação de exemplos de automação usando esses scripts em pipelines CI/CD ou sistemas de gerenciamento.

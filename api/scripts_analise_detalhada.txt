@@ -1,0 +1,77 @@
+Análise Detalhada do Diretório 'scripts' - Scripts Utilitários no Sistema UNA
+
+Esta documentação contém uma análise detalhada dos arquivos PHP no diretório 'scripts' localizado em 'c:\Users\zerocool\una\scripts'. O objetivo é mapear as funcionalidades dos scripts utilitários para tarefas administrativas e de manutenção no sistema UNA, com base na inspeção do código-fonte, e propor rotas RESTful para uma API, quando aplicável.
+
+# Arquivos PHP Principais no Diretório 'scripts'
+
+## change_collation_sql.php
+- **Descrição Confirmada**: Script de interface de linha de comando para gerar SQL que altera a colação de tabelas e campos de texto no banco de dados para `utf8mb4_unicode_ci`, suportando caracteres Unicode completos como emojis.
+- **Funcionalidades Principais**:
+  - Gera comandos SQL para converter tabelas e campos de texto para a colação especificada.
+  - Requer um prefixo de tabela como parâmetro para filtrar as tabelas a serem alteradas.
+- **Rotas RESTful Propostas**:
+  - POST /scripts/db/collation/change - Gera e aplica alterações de colação no banco de dados.
+  - GET /scripts/db/collation/preview - Previsualiza comandos SQL para alteração de colação sem aplicá-los.
+
+## check_unused_lang.php
+- **Descrição Confirmada**: Script de interface de linha de comando para verificar chaves de idioma não utilizadas no sistema, ajudando na manutenção de traduções.
+- **Funcionalidades Principais**:
+  - Escaneia arquivos de código-fonte em busca de chaves de idioma referenciadas.
+  - Compara com chaves de idioma definidas em arquivos de tradução para identificar as não utilizadas.
+  - Suporta opções para limitar a verificação a módulos específicos ou quantidades de chaves.
+  - Pode gerar arquivos de saída com chaves encontradas e não utilizadas.
+- **Rotas RESTful Propostas**:
+  - GET /scripts/lang/unused - Lista chaves de idioma não utilizadas no sistema.
+  - POST /scripts/lang/unused/export - Exporta chaves não utilizadas para um arquivo.
+
+## hooks.php
+- **Descrição Confirmada**: Script para processar um arquivo XML de ganchos (hooks) gerado por Doxygen, criando uma documentação organizada (em formato Markdown opcional) com URLs para descrições detalhadas.
+- **Funcionalidades Principais**:
+  - Lê um arquivo XML contendo informações de ganchos do sistema.
+  - Gera uma saída formatada com links para documentação online.
+- **Rotas RESTful Propostas**:
+  - GET /scripts/hooks/list - Lista ganchos do sistema com links para documentação.
+  - GET /scripts/hooks/export - Exporta documentação de ganchos em formato estruturado.
+
+## manage.php
+- **Descrição Confirmada**: Script de interface de linha de comando para gerenciar várias tarefas administrativas do UNA, como atualizações de sistema, gerenciamento de módulos, backups de banco de dados e verificações de integridade.
+- **Funcionalidades Principais**:
+  - Suporta comandos para atualizar o núcleo do sistema e módulos.
+  - Gerencia instalação, desinstalação e outras operações de módulos.
+  - Realiza backups do banco de dados.
+  - Verifica e repara a integridade do banco de dados.
+  - Pode operar em modo silencioso ou pular operações de arquivo.
+- **Rotas RESTful Propostas**:
+  - GET /scripts/manage/tasks - Lista tarefas administrativas disponíveis.
+  - POST /scripts/manage/execute - Executa uma tarefa administrativa específica (ex.: atualização, backup).
+  - GET /scripts/manage/status - Verifica o status de tarefas administrativas em execução.
+  - POST /scripts/manage/modules - Gerencia operações de módulos (instalar, desinstalar, atualizar).
+
+## merge_lang.php
+- **Descrição Confirmada**: Script de interface de linha de comando para mesclar dois arquivos de idioma, combinando traduções novas com as existentes.
+- **Funcionalidades Principais**:
+  - Lê um arquivo de idioma antigo e um novo para mesclar traduções.
+  - Suporta ordenação da saída para melhor organização.
+- **Rotas RESTful Propostas**:
+  - POST /scripts/lang/merge - Mescla arquivos de idioma, combinando traduções novas com existentes.
+  - GET /scripts/lang/merge/preview - Previsualiza o resultado da mesclagem sem salvar.
+
+## service_functions.php
+- **Descrição Confirmada**: Script de interface de linha de comando para gerar uma lista de funções de serviço disponíveis no sistema, organizadas por categoria (sistema, módulos base, módulos adicionais).
+- **Funcionalidades Principais**:
+  - Lê um arquivo de entrada contendo referências a funções de serviço.
+  - Organiza funções em categorias para documentação ou referência.
+- **Rotas RESTful Propostas**:
+  - GET /scripts/service/functions - Lista funções de serviço disponíveis no sistema, organizadas por categoria.
+  - GET /scripts/service/functions/export - Exporta lista de funções de serviço para referência.
+
+# Observações
+
+- Esta análise é baseada na inspeção direta do código-fonte dos arquivos PHP no diretório 'scripts'. As funcionalidades descritas refletem o propósito real dos scripts conforme identificado no código.
+- Os scripts neste diretório são ferramentas de linha de comando destinadas a tarefas administrativas e de manutenção. As rotas RESTful propostas visam expor essas funcionalidades de forma segura e controlada para administradores do sistema.
+- Algumas funcionalidades podem ser sensíveis (ex.: alterações no banco de dados, backups), exigindo autenticação robusta e controle de acesso em uma API.
+
+# Próximos Passos
+
+- Aguardar feedback do usuário para priorizar a análise detalhada de outros diretórios ou scripts específicos.
+- Considerar a criação de uma API RESTful para administradores com base nas funcionalidades desses scripts, garantindo segurança e controle de acesso.

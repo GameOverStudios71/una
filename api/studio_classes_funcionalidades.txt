@@ -1,0 +1,284 @@
+Análise do Diretório 'studio' e Subdiretório 'classes' - Ferramentas de Desenvolvimento e Personalização no Sistema UNA
+
+Esta documentação contém uma análise detalhada dos arquivos PHP no diretório 'studio' e, especificamente, no subdiretório 'classes' localizado em 'c:\Users\zerocool\una\studio\classes'. O objetivo é mapear as funcionalidades relacionadas ao ambiente de desenvolvimento, personalização e administração do sistema UNA, com base na inspeção dos arquivos. Rotas RESTful são propostas para uma API, quando aplicável. Este arquivo foi atualizado para incluir a análise detalhada das 105 classes PHP no subdiretório 'classes'.
+
+# Visão Geral do Diretório 'studio'
+
+O diretório 'studio' parece ser o núcleo do ambiente de desenvolvimento e personalização do UNA, oferecendo ferramentas para administradores e desenvolvedores criarem, modificarem e gerenciarem diversos aspectos do sistema, como design, formulários, menus, permissões, módulos e configurações.
+
+# Análise Detalhada do Subdiretório 'classes'
+
+Organizei as 105 classes PHP por áreas de funcionalidade para melhor compreensão. Abaixo, listo as principais classes por área, com descrições e rotas RESTful propostas baseadas em suposições. Uma análise mais profunda do código-fonte é necessária para confirmação.
+
+## Área de Funcionalidade: API e Integração
+
+- **BxDolStudioAPI.php**: Classe base para APIs no ambiente Studio, possivelmente gerenciando endpoints internos.
+  - **Rotas Propostas**: GET /studio/api/endpoints - Lista endpoints de API disponíveis no Studio.
+- **BxDolStudioApiKeys.php**: Gerencia chaves de API para autenticação e acesso a serviços externos ou internos.
+  - **Rotas Propostas**: POST /studio/api/keys/create - Cria uma nova chave de API; GET /studio/api/keys - Lista chaves de API ativas.
+- **BxDolStudioApiOrigins.php**: Controla origens permitidas para chamadas de API, garantindo segurança.
+  - **Rotas Propostas**: POST /studio/api/origins/add - Adiciona uma nova origem permitida; GET /studio/api/origins - Lista origens permitidas.
+
+## Área de Funcionalidade: Agentes e Automação (Inteligência Artificial)
+
+- **BxDolStudioAgents.php**: Classe base para gerenciamento de agentes, possivelmente bots ou assistentes de IA.
+  - **Rotas Propostas**: GET /studio/agents/list - Lista agentes disponíveis.
+- **BxDolStudioAgentsAssistants.php**: Gerencia assistentes de IA específicos dentro do Studio.
+  - **Rotas Propostas**: POST /studio/agents/assistants/create - Cria um novo assistente; GET /studio/agents/assistants - Lista assistentes.
+- **BxDolStudioAgentsAsstChats.php**: Controla chats ou interações com assistentes de IA.
+  - **Rotas Propostas**: POST /studio/agents/chats/start - Inicia um novo chat com um assistente.
+- **BxDolStudioAgentsAsstChatsCmts.php**: Gerencia comentários ou mensagens dentro de chats com assistentes.
+  - **Rotas Propostas**: POST /studio/agents/chats/comments/add - Adiciona um comentário a um chat.
+- **BxDolStudioAgentsAsstFiles.php**: Manipula arquivos associados a assistentes de IA.
+  - **Rotas Propostas**: POST /studio/agents/files/upload - Faz upload de um arquivo para um assistente.
+- **BxDolStudioAgentsAutomators.php**: Gerencia automações ou scripts executados por agentes.
+  - **Rotas Propostas**: POST /studio/agents/automators/create - Cria uma nova automação.
+- **BxDolStudioAgentsAutomatorsCmts.php**: Controla comentários ou logs associados a automações.
+  - **Rotas Propostas**: GET /studio/agents/automators/comments - Lista comentários de uma automação.
+- **BxDolStudioAgentsHelpers.php**: Fornece funções de suporte para agentes de IA.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioAgentsProviders.php**: Gerencia provedores de serviços de IA (ex.: OpenAI, Google AI).
+  - **Rotas Propostas**: GET /studio/agents/providers - Lista provedores de IA configurados.
+
+## Área de Funcionalidade: Auditoria e Monitoramento
+
+- **BxDolStudioAudit.php**: Ferramenta para auditoria de atividades ou logs no sistema.
+  - **Rotas Propostas**: GET /studio/audit/logs - Lista logs de auditoria do sistema.
+- **BxDolStudioToolsAudit.php**: Ferramenta avançada de auditoria com funcionalidades detalhadas.
+  - **Rotas Propostas**: GET /studio/tools/audit/details - Retorna detalhes de auditoria avançados.
+
+## Área de Funcionalidade: Badges e Reconhecimento
+
+- **BxDolStudioBadges.php**: Gerencia badges ou distintivos para gamificação no sistema.
+  - **Rotas Propostas**: POST /studio/badges/create - Cria um novo badge; GET /studio/badges/list - Lista badges disponíveis.
+- **BxDolStudioBadgesGrid.php**: Interface de grade para visualização e gerenciamento de badges.
+  - **Rotas Propostas**: GET /studio/badges/grid - Retorna dados de badges em formato de grade.
+
+## Área de Funcionalidade: Construção de Páginas e Layouts
+
+- **BxDolStudioBuilderPage.php**: Ferramenta de construção de páginas no Studio, permitindo personalização de layouts.
+  - **Rotas Propostas**: POST /studio/pages/create - Cria uma nova página; GET /studio/pages/list - Lista páginas criadas.
+- **BxDolStudioBuilderPageQuery.php**: Suporte para consultas relacionadas à construção de páginas.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioPage.php**: Gerencia páginas personalizadas no ambiente Studio.
+  - **Rotas Propostas**: GET /studio/pages/details/{id} - Retorna detalhes de uma página específica.
+- **BxDolStudioPageQuery.php**: Suporte para consultas relacionadas a páginas.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+
+## Área de Funcionalidade: Design e Temas
+
+- **BxDolStudioDesign.php**: Gerencia designs ou temas visuais no Studio.
+  - **Rotas Propostas**: POST /studio/designs/upload - Faz upload de um novo design; GET /studio/designs/list - Lista designs disponíveis.
+- **BxDolStudioDesigner.php**: Ferramenta de design para personalização de temas ou estilos.
+  - **Rotas Propostas**: POST /studio/designer/save - Salva alterações de design personalizadas.
+- **BxDolStudioDesignerQuery.php**: Suporte para consultas relacionadas ao designer.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioDesigns.php**: Classe base para gerenciamento de múltiplos designs.
+  - **Rotas Propostas**: GET /studio/designs/active - Retorna o design ativo atual.
+- **BxDolStudioDesignsQuery.php**: Suporte para consultas relacionadas a designs.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+
+## Área de Funcionalidade: Formulários e Campos Personalizados
+
+- **BxDolStudioForm.php**: Classe base para criação e gerenciamento de formulários no Studio.
+  - **Rotas Propostas**: POST /studio/forms/create - Cria um novo formulário; GET /studio/forms/list - Lista formulários disponíveis.
+- **BxDolStudioForms.php**: Interface para gerenciamento de múltiplos formulários.
+  - **Rotas Propostas**: GET /studio/forms/overview - Retorna uma visão geral dos formulários criados.
+- **BxDolStudioFormsCategories.php**: Gerencia categorias de formulários.
+  - **Rotas Propostas**: POST /studio/forms/categories/add - Adiciona uma nova categoria de formulário.
+- **BxDolStudioFormsDisplays.php**: Controla exibições ou layouts de formulários.
+  - **Rotas Propostas**: POST /studio/forms/displays/add - Adiciona uma nova exibição de formulário.
+- **BxDolStudioFormsField.php**: Gerencia campos individuais de formulários.
+  - **Rotas Propostas**: POST /studio/forms/fields/add - Adiciona um novo campo a um formulário.
+- **BxDolStudioFormsFields.php**: Interface para gerenciamento de múltiplos campos de formulários.
+  - **Rotas Propostas**: GET /studio/forms/fields/list/{formId} - Lista campos de um formulário específico.
+- **BxDolStudioFormsForms.php**: Gerencia formulários específicos dentro do Studio.
+  - **Rotas Propostas**: GET /studio/forms/details/{id} - Retorna detalhes de um formulário específico.
+- **BxDolStudioFormsGroupsRoles.php**: Controla grupos e papéis associados a formulários.
+  - **Rotas Propostas**: POST /studio/forms/roles/assign - Associa um papel ou grupo a um formulário.
+- **BxDolStudioFormsLabels.php**: Gerencia rótulos ou textos de formulários.
+  - **Rotas Propostas**: POST /studio/forms/labels/add - Adiciona um novo rótulo a um formulário.
+- **BxDolStudioFormsPreLists.php**: Gerencia listas pré-definidas para campos de formulários.
+  - **Rotas Propostas**: POST /studio/forms/prelists/add - Adiciona uma nova lista pré-definida.
+- **BxDolStudioFormsPreValues.php**: Gerencia valores pré-definidos para campos de formulários.
+  - **Rotas Propostas**: POST /studio/forms/prevalues/add - Adiciona novos valores pré-definidos.
+- **BxDolStudioFormsQuery.php**: Suporte para consultas relacionadas a formulários.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioFormsSearchFields.php**: Gerencia campos de busca em formulários.
+  - **Rotas Propostas**: POST /studio/forms/searchfields/add - Adiciona um campo de busca a um formulário.
+- **BxDolStudioFormsSearchForms.php**: Gerencia formulários de busca no Studio.
+  - **Rotas Propostas**: GET /studio/forms/search/list - Lista formulários de busca disponíveis.
+
+## Área de Funcionalidade: Navegação e Menus
+
+- **BxDolStudioNavigation.php**: Classe base para gerenciamento de navegação no Studio.
+  - **Rotas Propostas**: GET /studio/navigation/list - Lista menus de navegação disponíveis.
+- **BxDolStudioNavigationImport.php**: Ferramenta para importar configurações de navegação.
+  - **Rotas Propostas**: POST /studio/navigation/import - Importa um arquivo de configuração de navegação.
+- **BxDolStudioNavigationItems.php**: Gerencia itens individuais de menus de navegação.
+  - **Rotas Propostas**: POST /studio/navigation/items/add - Adiciona um novo item a um menu.
+- **BxDolStudioNavigationMenus.php**: Gerencia menus de navegação completos.
+  - **Rotas Propostas**: POST /studio/navigation/menus/create - Cria um novo menu de navegação.
+- **BxDolStudioNavigationQuery.php**: Suporte para consultas relacionadas a navegação.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioNavigationSets.php**: Gerencia conjuntos de navegação ou grupos de menus.
+  - **Rotas Propostas**: POST /studio/navigation/sets/create - Cria um novo conjunto de navegação.
+
+## Área de Funcionalidade: Permissões e Papéis
+
+- **BxDolStudioPermissions.php**: Classe base para gerenciamento de permissões no Studio.
+  - **Rotas Propostas**: GET /studio/permissions/list - Lista configurações de permissões.
+- **BxDolStudioPermissionsActions.php**: Gerencia ações específicas associadas a permissões.
+  - **Rotas Propostas**: POST /studio/permissions/actions/add - Adiciona uma nova ação de permissão.
+- **BxDolStudioPermissionsLevels.php**: Controla níveis ou hierarquias de permissões.
+  - **Rotas Propostas**: POST /studio/permissions/levels/create - Cria um novo nível de permissão.
+- **BxDolStudioPermissionsQuery.php**: Suporte para consultas relacionadas a permissões.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioRoles.php**: Gerencia papéis de usuário no sistema.
+  - **Rotas Propostas**: POST /studio/roles/create - Cria um novo papel de usuário.
+- **BxDolStudioRolesActions.php**: Gerencia ações associadas a papéis.
+  - **Rotas Propostas**: POST /studio/roles/actions/assign - Associa uma ação a um papel.
+- **BxDolStudioRolesLevels.php**: Controla níveis de papéis ou hierarquias.
+  - **Rotas Propostas**: POST /studio/roles/levels/create - Cria um novo nível de papel.
+- **BxDolStudioRolesQuery.php**: Suporte para consultas relacionadas a papéis.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioRolesUtils.php**: Ferramentas utilitárias para gerenciamento de papéis.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+
+## Área de Funcionalidade: Idiomas e Tradução
+
+- **BxDolStudioLanguage.php**: Gerencia idiomas individuais no Studio.
+  - **Rotas Propostas**: POST /studio/languages/add - Adiciona um novo idioma ao sistema.
+- **BxDolStudioLanguages.php**: Interface para gerenciamento de múltiplos idiomas.
+  - **Rotas Propostas**: GET /studio/languages/list - Lista idiomas disponíveis.
+- **BxDolStudioLanguagesQuery.php**: Suporte para consultas relacionadas a idiomas.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioLanguagesUtils.php**: Ferramentas utilitárias para manipulação de idiomas e traduções.
+  - **Rotas Propostas**: POST /studio/languages/utils/export - Exporta traduções para um idioma.
+- **BxDolStudioLanguagesUtilsQuery.php**: Suporte para consultas utilitárias de idiomas.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioPolyglot.php**: Ferramenta de tradução ou gerenciamento multilíngue no Studio.
+  - **Rotas Propostas**: POST /studio/polyglot/translate - Solicita tradução para um texto específico.
+- **BxDolStudioPolyglotEtemplates.php**: Gerencia templates de e-mail em múltiplos idiomas.
+  - **Rotas Propostas**: POST /studio/polyglot/etemplates/add - Adiciona um novo template de e-mail multilíngue.
+- **BxDolStudioPolyglotKeys.php**: Gerencia chaves de tradução ou strings específicas.
+  - **Rotas Propostas**: POST /studio/polyglot/keys/add - Adiciona uma nova chave de tradução.
+- **BxDolStudioPolyglotQuery.php**: Suporte para consultas relacionadas a traduções.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+
+## Área de Funcionalidade: Módulos e Instalação
+
+- **BxDolStudioModule.php**: Gerencia módulos individuais no ambiente Studio.
+  - **Rotas Propostas**: POST /studio/modules/install - Instala um novo módulo; GET /studio/modules/list - Lista módulos instalados.
+- **BxDolStudioModules.php**: Interface para gerenciamento de múltiplos módulos.
+  - **Rotas Propostas**: GET /studio/modules/overview - Retorna uma visão geral dos módulos disponíveis.
+- **BxDolStudioModulesQuery.php**: Suporte para consultas relacionadas a módulos.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioInstaller.php**: Ferramenta de instalação para módulos, temas ou atualizações.
+  - **Rotas Propostas**: POST /studio/installer/run - Executa o processo de instalação de um pacote.
+- **BxDolStudioInstallerQuery.php**: Suporte para consultas relacionadas ao instalador.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioInstallerUtils.php**: Ferramentas utilitárias para o processo de instalação.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioUpdater.php**: Gerencia atualizações de módulos ou do sistema via Studio.
+  - **Rotas Propostas**: POST /studio/updater/run - Executa atualizações disponíveis.
+
+## Área de Funcionalidade: Loja e Compras
+
+- **BxDolStudioCart.php**: Gerencia carrinho de compras ou transações na loja do Studio.
+  - **Rotas Propostas**: GET /studio/cart/items - Lista itens no carrinho; POST /studio/cart/checkout - Finaliza compra.
+- **BxDolStudioStore.php**: Interface da loja no Studio para compra de módulos, temas, etc.
+  - **Rotas Propostas**: GET /studio/store/products - Lista produtos disponíveis na loja.
+- **BxDolStudioStoreQuery.php**: Suporte para consultas relacionadas à loja.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+
+## Área de Funcionalidade: Configurações e Administração
+
+- **BxDolStudioOptions.php**: Gerencia opções ou configurações globais no Studio.
+  - **Rotas Propostas**: POST /studio/options/save - Salva alterações nas configurações do sistema.
+- **BxDolStudioOptionsApi.php**: Gerencia configurações específicas para APIs.
+  - **Rotas Propostas**: POST /studio/options/api/save - Salva configurações de API.
+- **BxDolStudioOptionsQuery.php**: Suporte para consultas relacionadas a opções.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioSettings.php**: Interface para ajustes de configurações no Studio.
+  - **Rotas Propostas**: GET /studio/settings/list - Lista categorias de configurações disponíveis.
+- **BxDolStudioSettingsQuery.php**: Suporte para consultas relacionadas a configurações.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioDashboard.php**: Painel de controle principal do Studio com estatísticas e acessos rápidos.
+  - **Rotas Propostas**: GET /studio/dashboard/data - Retorna dados para o painel de controle.
+- **BxDolStudioDashboardQuery.php**: Suporte para consultas relacionadas ao dashboard.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+
+## Área de Funcionalidade: Armazenamento e Arquivos
+
+- **BxDolStudioStorages.php**: Classe base para gerenciamento de armazenamentos no Studio.
+  - **Rotas Propostas**: GET /studio/storages/list - Lista configurações de armazenamento disponíveis.
+- **BxDolStudioStoragesFiles.php**: Gerencia armazenamento de arquivos genéricos.
+  - **Rotas Propostas**: GET /studio/storages/files/config - Retorna configurações de armazenamento de arquivos.
+- **BxDolStudioStoragesImages.php**: Gerencia armazenamento de imagens.
+  - **Rotas Propostas**: GET /studio/storages/images/config - Retorna configurações de armazenamento de imagens.
+- **BxDolStudioStoragesQuery.php**: Suporte para consultas relacionadas a armazenamentos.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioGridStorages.php**: Interface de grade para visualização de armazenamentos.
+  - **Rotas Propostas**: GET /studio/storages/grid - Retorna dados de armazenamento em formato de grade.
+
+## Área de Funcionalidade: Ferramentas e Utilitários
+
+- **BxDolStudioTools.php**: Conjunto de ferramentas administrativas no Studio.
+  - **Rotas Propostas**: GET /studio/tools/list - Lista ferramentas administrativas disponíveis.
+- **BxDolStudioJson.php**: Ferramenta para manipulação ou validação de JSON.
+  - **Rotas Propostas**: POST /studio/tools/json/validate - Valida uma string JSON.
+- **BxDolStudioUtils.php**: Utilitários gerais para o ambiente Studio.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioLauncher.php**: Ferramenta de lançamento ou inicialização do ambiente Studio.
+  - **Rotas Propostas**: GET /studio/launcher/init - Inicializa o ambiente Studio.
+- **BxDolStudioWidget.php**: Gerencia widgets ou componentes reutilizáveis no Studio.
+  - **Rotas Propostas**: POST /studio/widgets/create - Cria um novo widget.
+- **BxDolStudioWidgets.php**: Interface para gerenciamento de múltiplos widgets.
+  - **Rotas Propostas**: GET /studio/widgets/list - Lista widgets disponíveis.
+- **BxDolStudioWidgetsQuery.php**: Suporte para consultas relacionadas a widgets.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioGrid.php**: Classe base para grades de dados no Studio.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte genérica.
+
+## Área de Funcionalidade: Interface e Templates
+
+- **BxDolStudioTemplate.php**: Gerencia templates ou temas no ambiente Studio.
+  - **Rotas Propostas**: POST /studio/templates/upload - Faz upload de um novo template.
+- **BxDolStudioMenu.php**: Classe base para menus no ambiente Studio.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioMenuAccountPopup.php**: Menu popup para contas de usuário no Studio.
+  - **Rotas Propostas**: GET /studio/menu/account - Retorna opções do menu de conta.
+- **BxDolStudioMenuTop.php**: Menu superior do ambiente Studio.
+  - **Rotas Propostas**: GET /studio/menu/top - Retorna itens do menu superior.
+
+## Área de Funcionalidade: Autenticação Avançada
+
+- **BxDolStudioOAuth.php**: Gerencia autenticação OAuth no Studio.
+  - **Rotas Propostas**: POST /studio/oauth/config - Configura parâmetros de OAuth.
+- **BxDolStudioOAuthLib.php**: Biblioteca de suporte para OAuth.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioOAuthOAuth1.php**: Suporte para OAuth 1.0.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioOAuthOAuth2.php**: Suporte para OAuth 2.0.
+  - **Rotas Propostas**: Não há rotas específicas, pois é uma classe de suporte.
+- **BxDolStudioOAuthPlugin.php**: Plugin para integração de OAuth no Studio.
+  - **Rotas Propostas**: POST /studio/oauth/plugin/install - Instala um plugin OAuth.
+
+## Área de Funcionalidade: Ajuda e Documentação
+
+- **BxDolStudioRssModuleHelp.php**: Fornece ajuda ou documentação para módulos via RSS.
+  - **Rotas Propostas**: GET /studio/help/module/{id} - Retorna documentação de um módulo.
+- **BxDolStudioRssPageHelp.php**: Fornece ajuda ou documentação para páginas via RSS.
+  - **Rotas Propostas**: GET /studio/help/page/{id} - Retorna documentação de uma página.
+
+# Observações
+
+- Esta análise detalhada do subdiretório 'classes' dentro de 'studio' é baseada em suposições sobre as funcionalidades das classes, inferidas pelos nomes dos arquivos e estrutura. Uma inspeção mais profunda do código-fonte é necessária para confirmar as funcionalidades exatas e refinar as rotas RESTful propostas.
+- O ambiente Studio é uma ferramenta poderosa para desenvolvedores e administradores personalizarem o sistema UNA, cobrindo desde design até automação com IA.
+- Muitas classes são de suporte (ex.: sufixo `Query`), não possuindo rotas RESTful diretas, pois servem como utilitários internos.
+
+# Próximos Passos
+
+- Aguardar feedback do usuário para priorizar a análise de outras áreas ou realizar uma inspeção mais detalhada do código-fonte de classes específicas no diretório 'studio/classes'.
+- Considerar a documentação de exemplos de uso ou tutoriais para personalização via Studio.
