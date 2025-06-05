@@ -1,0 +1,294 @@
+Mapeamento do Módulo Payment para API RESTful
+
+Descrição Geral:
+O módulo 'payment' gerencia funcionalidades de pagamento no sistema UNA. Permite processar transações, gerenciar carrinhos de compra, faturas, assinaturas, comissões e provedores de pagamento variados. É composto por classes como BxPaymentModule.php (lógica específica do módulo) e várias outras classes de suporte para configurações, banco de dados, grids, páginas, formulários e provedores de pagamento.
+
+Análise de Classes do Módulo Payment:
+
+1. BxPaymentModule.php (Classe Principal do Módulo Payment):
+   - BxPaymentModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo payment.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceAddToCart($iItemId, $iItemCount = 1, $iModuleId = 0, $iBuyerId = 0): Método para adicionar itens ao carrinho.
+   - serviceGetCartItems($iBuyerId = 0): Método para obter itens do carrinho.
+   - serviceRemoveFromCart($iItemId, $iBuyerId = 0): Método para remover itens do carrinho.
+   - serviceProcessPayment($iBuyerId, $sProvider, $aCartItems): Método para processar um pagamento.
+   - serviceGetPaymentProviders($bActiveOnly = true): Método para obter lista de provedores de pagamento.
+   - serviceGetSubscriptions($iBuyerId = 0): Método para obter lista de assinaturas do usuário.
+   - serviceCancelSubscription($iSubscriptionId, $iBuyerId = 0): Método para cancelar uma assinatura.
+   - serviceGetInvoices($iBuyerId = 0): Método para obter lista de faturas.
+   - serviceGetOrders($iBuyerId = 0, $sType = 'pending'): Método para obter lista de pedidos.
+   - serviceGetPaymentDetails($iBuyerId = 0): Método para obter detalhes de pagamento do usuário.
+   - serviceUpdatePaymentDetails($iBuyerId, $aDetails): Método para atualizar detalhes de pagamento.
+   - serviceGetCommissions($iBuyerId = 0): Método para obter informações sobre comissões.
+
+2. BxPaymentConfig.php:
+   - BxPaymentConfig extends BxDolConfig: Configurações específicas do módulo payment.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxPaymentDb.php:
+   - BxPaymentDb extends BxDolDb: Banco de dados específico para payment.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - addToCart($iBuyerId, $iModuleId, $iItemId, $iItemCount): Método para adicionar item ao carrinho no banco de dados.
+   - getCartItems($iBuyerId): Método para obter itens do carrinho.
+   - removeFromCart($iBuyerId, $iItemId): Método para remover item do carrinho.
+   - addOrder($iBuyerId, $sProvider, $aCartItems, $sStatus): Método para criar um pedido.
+   - updateOrder($iOrderId, $sStatus, $aParams = array()): Método para atualizar status de um pedido.
+   - getOrders($iBuyerId, $sType): Método para obter pedidos.
+   - addSubscription($iBuyerId, $iModuleId, $iItemId, $sProvider, $sSubscriptionId): Método para criar uma assinatura.
+   - cancelSubscription($iSubscriptionId): Método para cancelar uma assinatura.
+   - getSubscriptions($iBuyerId): Método para obter assinaturas.
+   - addInvoice($iBuyerId, $iOrderId, $sProvider, $aItems): Método para criar uma fatura.
+   - getInvoices($iBuyerId): Método para obter faturas.
+   - updatePaymentDetails($iBuyerId, $aDetails): Método para atualizar detalhes de pagamento.
+   - getPaymentDetails($iBuyerId): Método para obter detalhes de pagamento.
+
+4. BxPaymentTemplate.php:
+   - BxPaymentTemplate extends BxDolTemplate: Template para renderização de elementos de pagamento.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getCartItems($aItems): Método para obter HTML dos itens do carrinho.
+   - getPaymentForm($sProvider, $aParams = array()): Método para obter formulário HTML de pagamento.
+   - getSubscriptionItem($aSubscription): Método para obter item HTML de uma assinatura.
+
+5. BxPaymentResponse.php:
+   - BxPaymentResponse extends BxDolAlertsResponse: Respostas a alertas específicos para payment.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de pagamento.
+
+6. BxPaymentCart.php:
+   - BxPaymentCart extends BxDol: Gerenciamento de carrinho de compras.
+   - __construct($oModule): Construtor que inicializa o carrinho.
+   - add($iModuleId, $iItemId, $iItemCount = 1): Método para adicionar item ao carrinho.
+   - remove($iItemId): Método para remover item do carrinho.
+   - getItems($iBuyerId = 0): Método para obter itens do carrinho.
+
+7. BxPaymentOrders.php:
+   - BxPaymentOrders extends BxDol: Gerenciamento de pedidos.
+   - __construct($oModule): Construtor que inicializa os pedidos.
+   - add($sProvider, $aItems, $sStatus = 'pending'): Método para adicionar um pedido.
+   - update($iOrderId, $sStatus, $aParams = array()): Método para atualizar um pedido.
+   - getPending($iBuyerId = 0): Método para obter pedidos pendentes.
+   - getProcessed($iBuyerId = 0): Método para obter pedidos processados.
+
+8. BxPaymentSubscriptions.php:
+   - BxPaymentSubscriptions extends BxDol: Gerenciamento de assinaturas.
+   - __construct($oModule): Construtor que inicializa as assinaturas.
+   - add($iModuleId, $iItemId, $sProvider, $sSubscriptionId): Método para adicionar uma assinatura.
+   - cancel($iSubscriptionId): Método para cancelar uma assinatura.
+   - get($iBuyerId = 0): Método para obter assinaturas.
+
+9. BxPaymentCommissions.php:
+   - BxPaymentCommissions extends BxDol: Gerenciamento de comissões.
+   - __construct($oModule): Construtor que inicializa as comissões.
+   - get($iBuyerId = 0): Método para obter informações sobre comissões.
+
+10. BxPaymentDetails.php:
+    - BxPaymentDetails extends BxDol: Gerenciamento de detalhes de pagamento.
+    - __construct($oModule): Construtor que inicializa os detalhes.
+    - get($iBuyerId = 0): Método para obter detalhes de pagamento.
+    - update($iBuyerId, $aDetails): Método para atualizar detalhes de pagamento.
+
+11. BxPaymentJoin.php:
+    - BxPaymentJoin extends BxDol: Gerenciamento de pagamento para adesão.
+    - __construct($oModule): Construtor que inicializa a lógica de adesão.
+    - process($iProfileId, $iItemId, $sProvider): Método para processar pagamento de adesão.
+
+12. BxPaymentCronCommissions.php:
+    - BxPaymentCronCommissions extends BxDolCron: Tarefa cron para processar comissões.
+    - __construct(): Construtor que inicializa a tarefa cron.
+    - process(): Método para processar comissões pendentes.
+
+13. BxPaymentCronCurrency.php:
+    - BxPaymentCronCurrency extends BxDolCron: Tarefa cron para atualizar taxas de câmbio.
+    - __construct(): Construtor que inicializa a tarefa cron.
+    - process(): Método para atualizar taxas de câmbio.
+
+14. BxPaymentCronTimeTracker.php:
+    - BxPaymentCronTimeTracker extends BxDolCron: Tarefa cron para rastrear tempo de assinaturas.
+    - __construct(): Construtor que inicializa a tarefa cron.
+    - process(): Método para rastrear e atualizar tempo de assinaturas.
+
+15. BxPaymentFormDetails.php:
+    - BxPaymentFormDetails extends BxTemplFormView: Formulário para detalhes de pagamento.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de detalhes.
+
+16. BxPaymentFormCommissions.php:
+    - BxPaymentFormCommissions extends BxTemplFormView: Formulário para comissões.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de comissões.
+
+17. BxPaymentFormInvoices.php:
+    - BxPaymentFormInvoices extends BxTemplFormView: Formulário para faturas.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de faturas.
+
+18. BxPaymentFormView.php:
+    - BxPaymentFormView extends BxTemplFormView: Formulário para visualização de pagamento.
+    - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de visualização.
+
+19. BxPaymentGridCart.php:
+    - BxPaymentGridCart extends BxDolGrid: Grade para carrinho de compras.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade do carrinho.
+
+20. BxPaymentGridCarts.php:
+    - BxPaymentGridCarts extends BxDolGrid: Grade para lista de carrinhos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de carrinhos.
+
+21. BxPaymentGridCommissions.php:
+    - BxPaymentGridCommissions extends BxDolGrid: Grade para comissões.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de comissões.
+
+22. BxPaymentGridHistory.php:
+    - BxPaymentGridHistory extends BxDolGrid: Grade para histórico de pagamentos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de histórico.
+
+23. BxPaymentGridInvoices.php:
+    - BxPaymentGridInvoices extends BxDolGrid: Grade para faturas.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de faturas.
+
+24. BxPaymentGridPending.php:
+    - BxPaymentGridPending extends BxDolGrid: Grade para pedidos pendentes.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de pendentes.
+
+25. BxPaymentGridProcessed.php:
+    - BxPaymentGridProcessed extends BxDolGrid: Grade para pedidos processados.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de processados.
+
+26. BxPaymentGridProviders.php:
+    - BxPaymentGridProviders extends BxDolGrid: Grade para provedores de pagamento.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de provedores.
+
+27. BxPaymentGridSbsAdministration.php:
+    - BxPaymentGridSbsAdministration extends BxDolGrid: Grade para administração de assinaturas.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de administração de assinaturas.
+
+28. BxPaymentGridSbsHistory.php:
+    - BxPaymentGridSbsHistory extends BxDolGrid: Grade para histórico de assinaturas.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de histórico de assinaturas.
+
+29. BxPaymentGridSbsList.php:
+    - BxPaymentGridSbsList extends BxDolGrid: Grade para lista de assinaturas.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de lista de assinaturas.
+
+30. BxPaymentMenuSbsActions.php:
+    - BxPaymentMenuSbsActions extends BxDolMenu: Menu para ações de assinaturas.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ações.
+
+31. BxPaymentPageCart.php:
+    - BxPaymentPageCart extends BxDolPage: Página para carrinho de compras.
+    - __construct($oTemplate = false): Construtor que inicializa a página do carrinho.
+
+32. BxPaymentPageDetails.php:
+    - BxPaymentPageDetails extends BxDolPage: Página para detalhes de pagamento.
+    - __construct($oTemplate = false): Construtor que inicializa a página de detalhes.
+
+33. BxPaymentPageHistory.php:
+    - BxPaymentPageHistory extends BxDolPage: Página para histórico de pagamentos.
+    - __construct($oTemplate = false): Construtor que inicializa a página de histórico.
+
+34. BxPaymentPageInvoices.php:
+    - BxPaymentPageInvoices extends BxDolPage: Página para faturas.
+    - __construct($oTemplate = false): Construtor que inicializa a página de faturas.
+
+35. BxPaymentPageJoin.php:
+    - BxPaymentPageJoin extends BxDolPage: Página para pagamento de adesão.
+    - __construct($oTemplate = false): Construtor que inicializa a página de adesão.
+
+36. BxPaymentPageOrders.php:
+    - BxPaymentPageOrders extends BxDolPage: Página para pedidos.
+    - __construct($oTemplate = false): Construtor que inicializa a página de pedidos.
+
+37. BxPaymentPageSubscriptions.php:
+    - BxPaymentPageSubscriptions extends BxDolPage: Página para assinaturas.
+    - __construct($oTemplate = false): Construtor que inicializa a página de assinaturas.
+
+38. BxPaymentStudioPage.php:
+    - BxPaymentStudioPage extends BxDolStudioPage: Página de estúdio para payment.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+39. BxPaymentProviderGeneric.php:
+    - BxPaymentProviderGeneric extends BxDol: Provedor genérico de pagamento.
+    - __construct($oModule, $aProviderParams): Construtor que inicializa o provedor genérico.
+
+40. BxPaymentProviderOffline.php:
+    - BxPaymentProviderOffline extends BxPaymentProviderGeneric: Provedor de pagamento offline.
+    - __construct($oModule, $aProviderParams): Construtor que inicializa o provedor offline.
+    - processPayment($aOrder): Método para processar pagamento offline.
+
+41. BxPaymentProviderCredits.php:
+    - BxPaymentProviderCredits extends BxPaymentProviderGeneric: Provedor de pagamento com créditos.
+    - __construct($oModule, $aProviderParams): Construtor que inicializa o provedor de créditos.
+    - processPayment($aOrder): Método para processar pagamento com créditos.
+
+42. BxPaymentProviderPayPal.php:
+    - BxPaymentProviderPayPal extends BxPaymentProviderGeneric: Provedor de pagamento PayPal.
+    - __construct($oModule, $aProviderParams): Construtor que inicializa o provedor PayPal.
+    - processPayment($aOrder): Método para processar pagamento via PayPal.
+    - handleIpn(): Método para processar notificações IPN do PayPal.
+
+43. BxPaymentProviderPayPalApi.php:
+    - BxPaymentProviderPayPalApi extends BxPaymentProviderGeneric: Provedor de pagamento PayPal API.
+    - __construct($oModule, $aProviderParams): Construtor que inicializa o provedor PayPal API.
+    - processPayment($aOrder): Método para processar pagamento via PayPal API.
+    - createSubscription($aItem, $iBuyerId): Método para criar assinatura via PayPal API.
+    - cancelSubscription($sSubscriptionId): Método para cancelar assinatura via PayPal API.
+
+44. BxPaymentProviderStripe.php:
+    - BxPaymentProviderStripe extends BxPaymentProviderGeneric: Provedor de pagamento Stripe.
+    - __construct($oModule, $aProviderParams): Construtor que inicializa o provedor Stripe.
+    - processPayment($aOrder): Método para processar pagamento via Stripe.
+    - createSubscription($aItem, $iBuyerId): Método para criar assinatura via Stripe.
+    - cancelSubscription($sSubscriptionId): Método para cancelar assinatura via Stripe.
+
+45. BxPaymentProviderStripeBasic.php:
+    - BxPaymentProviderStripeBasic extends BxPaymentProviderGeneric: Provedor de pagamento Stripe básico.
+    - __construct($oModule, $aProviderParams): Construtor que inicializa o provedor Stripe básico.
+    - processPayment($aOrder): Método para processar pagamento via Stripe básico.
+
+46. BxPaymentProviderStripeConnect.php:
+    - BxPaymentProviderStripeConnect extends BxPaymentProviderGeneric: Provedor de pagamento Stripe Connect.
+    - __construct($oModule, $aProviderParams): Construtor que inicializa o provedor Stripe Connect.
+    - processPayment($aOrder): Método para processar pagamento via Stripe Connect.
+    - createSubscription($aItem, $iBuyerId): Método para criar assinatura via Stripe Connect.
+    - cancelSubscription($sSubscriptionId): Método para cancelar assinatura via Stripe Connect.
+    - connectAccount($iProfileId): Método para conectar conta Stripe a um perfil.
+
+47. BxPaymentProviderStripeV3.php:
+    - BxPaymentProviderStripeV3 extends BxPaymentProviderGeneric: Provedor de pagamento Stripe V3.
+    - __construct($oModule, $aProviderParams): Construtor que inicializa o provedor Stripe V3.
+    - processPayment($aOrder): Método para processar pagamento via Stripe V3.
+    - createSubscription($aItem, $iBuyerId): Método para criar assinatura via Stripe V3.
+    - cancelSubscription($sSubscriptionId): Método para cancelar assinatura via Stripe V3.
+
+48. BxPaymentProviderChargebee.php:
+    - BxPaymentProviderChargebee extends BxPaymentProviderGeneric: Provedor de pagamento Chargebee.
+    - __construct($oModule, $aProviderParams): Construtor que inicializa o provedor Chargebee.
+    - processPayment($aOrder): Método para processar pagamento via Chargebee.
+    - createSubscription($aItem, $iBuyerId): Método para criar assinatura via Chargebee.
+    - cancelSubscription($sSubscriptionId): Método para cancelar assinatura via Chargebee.
+
+49. BxPaymentProviderChargebeeV3.php:
+    - BxPaymentProviderChargebeeV3 extends BxPaymentProviderGeneric: Provedor de pagamento Chargebee V3.
+    - __construct($oModule, $aProviderParams): Construtor que inicializa o provedor Chargebee V3.
+    - processPayment($aOrder): Método para processar pagamento via Chargebee V3.
+    - createSubscription($aItem, $iBuyerId): Método para criar assinatura via Chargebee V3.
+    - cancelSubscription($sSubscriptionId): Método para cancelar assinatura via Chargebee V3.
+
+50. BxPaymentProviderAppleInApp.php:
+    - BxPaymentProviderAppleInApp extends BxPaymentProviderGeneric: Provedor de pagamento Apple In-App.
+    - __construct($oModule, $aProviderParams): Construtor que inicializa o provedor Apple In-App.
+    - processPayment($aOrder): Método para processar pagamento via Apple In-App.
+    - validateReceipt($sReceiptData): Método para validar recibo de compra Apple.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/payment/cart/add: Adiciona um item ao carrinho de compras.
+- GET /api/payment/cart/items: Obtém a lista de itens no carrinho do usuário logado.
+- DELETE /api/payment/cart/items/{itemId}: Remove um item do carrinho.
+- POST /api/payment/process: Processa um pagamento para os itens no carrinho.
+- GET /api/payment/providers: Obtém a lista de provedores de pagamento disponíveis.
+- GET /api/payment/subscriptions: Obtém a lista de assinaturas do usuário logado.
+- POST /api/payment/subscriptions/{subscriptionId}/cancel: Cancela uma assinatura.
+- GET /api/payment/invoices: Obtém a lista de faturas do usuário logado.
+- GET /api/payment/orders/pending: Obtém a lista de pedidos pendentes do usuário logado.
+- GET /api/payment/orders/processed: Obtém a lista de pedidos processados do usuário logado.
+- GET /api/payment/details: Obtém os detalhes de pagamento do usuário logado.
+- PUT /api/payment/details: Atualiza os detalhes de pagamento do usuário logado.
+- GET /api/payment/commissions: Obtém informações sobre comissões do usuário logado.
+- POST /api/payment/join: Processa pagamento para adesão a um plano ou grupo.

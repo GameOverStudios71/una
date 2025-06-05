@@ -1,0 +1,185 @@
+Mapeamento do Módulo Spaces para API RESTful
+
+Descrição Geral:
+O módulo 'spaces' gerencia funcionalidades de espaços ou áreas no sistema UNA. Permite a criação, gerenciamento e interação com espaços, que podem ser usados para organizar conteúdo ou grupos de usuários. É composto por classes como BxSpacesModule.php (lógica específica do módulo) e várias outras classes de suporte para configurações, banco de dados, formulários, grids, menus e páginas.
+
+Análise de Classes do Módulo Spaces:
+
+1. BxSpacesModule.php (Classe Principal do Módulo Spaces):
+   - BxSpacesModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo spaces.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceCreateSpace($aData): Método para criar um novo espaço.
+   - serviceUpdateSpace($iSpaceId, $aData): Método para atualizar um espaço existente.
+   - serviceDeleteSpace($iSpaceId): Método para deletar um espaço.
+   - serviceGetSpace($iSpaceId): Método para obter detalhes de um espaço específico.
+   - serviceGetSpaces($aParams = array()): Método para obter a lista de espaços.
+   - serviceJoinSpace($iSpaceId, $iProfileId = 0): Método para ingressar em um espaço.
+   - serviceLeaveSpace($iSpaceId, $iProfileId = 0): Método para sair de um espaço.
+   - serviceInviteToSpace($iSpaceId, $iProfileId): Método para convidar um usuário para um espaço.
+   - serviceGetSpaceMembers($iSpaceId, $aParams = array()): Método para obter membros de um espaço.
+   - serviceAddPrice($iSpaceId, $aData): Método para adicionar um preço ou plano ao espaço.
+   - serviceGetPrices($iSpaceId): Método para obter preços ou planos de um espaço.
+
+2. BxSpacesConfig.php:
+   - BxSpacesConfig extends BxDolConfig: Configurações específicas do módulo spaces.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxSpacesDb.php:
+   - BxSpacesDb extends BxDolDb: Banco de dados específico para spaces.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - createSpace($aData): Método para criar um espaço no banco de dados.
+   - updateSpace($iSpaceId, $aData): Método para atualizar um espaço no banco de dados.
+   - deleteSpace($iSpaceId): Método para deletar um espaço do banco de dados.
+   - getSpace($iSpaceId): Método para obter detalhes de um espaço.
+   - getSpaces($aParams): Método para obter espaços.
+   - joinSpace($iSpaceId, $iProfileId, $sRole = 'member'): Método para registrar ingresso em um espaço.
+   - leaveSpace($iSpaceId, $iProfileId): Método para registrar saída de um espaço.
+   - getSpaceMembers($iSpaceId, $aParams): Método para obter membros de um espaço.
+   - addPrice($iSpaceId, $aData): Método para adicionar preço ao espaço.
+   - getPrices($iSpaceId): Método para obter preços do espaço.
+
+4. BxSpacesTemplate.php:
+   - BxSpacesTemplate extends BxDolTemplate: Template para renderização de elementos de espaços.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getSpaceBlock($iSpaceId, $aParams = array()): Método para obter bloco HTML de um espaço.
+   - getSpaceMemberItem($iProfileId, $aParams = array()): Método para obter item HTML de um membro de espaço.
+
+5. BxSpacesAlertsResponse.php:
+   - BxSpacesAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para spaces.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de espaços.
+
+6. BxSpacesFormEntry.php:
+   - BxSpacesFormEntry extends BxTemplFormView: Formulário para criação/edição de espaços.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de entrada.
+
+7. BxSpacesFormPrice.php:
+   - BxSpacesFormPrice extends BxTemplFormView: Formulário para preços ou planos de espaços.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de preço.
+
+8. BxSpacesFormsEntryHelper.php:
+   - BxSpacesFormsEntryHelper extends BxDolFormHelper: Auxiliar para formulários de entrada em espaços.
+   - __construct($oForm): Construtor que inicializa o auxiliar de formulário.
+
+9. BxSpacesGridAdministration.php:
+   - BxSpacesGridAdministration extends BxDolGrid: Grade para administração de espaços.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de administração.
+
+10. BxSpacesGridCommon.php:
+    - BxSpacesGridCommon extends BxDolGrid: Grade para listagem comum de espaços.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade comum.
+
+11. BxSpacesGridConnections.php:
+    - BxSpacesGridConnections extends BxDolGrid: Grade para conexões ou membros de espaços.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de conexões.
+
+12. BxSpacesGridInvites.php:
+    - BxSpacesGridInvites extends BxDolGrid: Grade para convites de espaços.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de convites.
+
+13. BxSpacesGridPricesManage.php:
+    - BxSpacesGridPricesManage extends BxDolGrid: Grade para gerenciamento de preços de espaços.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de gerenciamento de preços.
+
+14. BxSpacesGridPricesView.php:
+    - BxSpacesGridPricesView extends BxDolGrid: Grade para visualização de preços de espaços.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de visualização de preços.
+
+15. BxSpacesSearchResult.php:
+    - BxSpacesSearchResult extends BxDolSearchResult: Resultados de busca para espaços.
+    - __construct($oModule = null): Construtor que inicializa os resultados de busca.
+
+16. BxSpacesCmts.php:
+    - BxSpacesCmts extends BxDolCmts: Gerenciamento de comentários em espaços.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa os comentários.
+
+17. BxSpacesConnectionFans.php:
+    - BxSpacesConnectionFans extends BxDolConnection: Gerenciamento de conexões de fãs ou membros em espaços.
+    - __construct($aObject): Construtor que inicializa as conexões.
+
+18. BxSpacesCronPruning.php:
+    - BxSpacesCronPruning extends BxDolCron: Tarefa cron para poda ou limpeza de dados de espaços.
+    - __construct(): Construtor que inicializa a tarefa cron.
+    - process(): Método para executar a poda de dados.
+
+19. BxSpacesMenu.php:
+    - BxSpacesMenu extends BxDolMenu: Menu base para espaços.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu base.
+
+20. BxSpacesMenuManageTools.php:
+    - BxSpacesMenuManageTools extends BxDolMenu: Menu para ferramentas de gerenciamento de espaços.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ferramentas.
+
+21. BxSpacesMenuSnippetMeta.php:
+    - BxSpacesMenuSnippetMeta extends BxDolMenu: Menu para metadados de snippet de espaços.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de metadados.
+
+22. BxSpacesMenuView.php:
+    - BxSpacesMenuView extends BxDolMenu: Menu para visualização de espaços.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+23. BxSpacesMenuViewActions.php:
+    - BxSpacesMenuViewActions extends BxDolMenu: Menu para ações de visualização de espaços.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ações.
+
+24. BxSpacesMenuViewActionsAll.php:
+    - BxSpacesMenuViewActionsAll extends BxDolMenu: Menu para todas as ações de visualização de espaços.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de todas as ações.
+
+25. BxSpacesMenuViewMeta.php:
+    - BxSpacesMenuViewMeta extends BxDolMenu: Menu para metadados de visualização de espaços.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de metadados de visualização.
+
+26. BxSpacesPageBrowse.php:
+    - BxSpacesPageBrowse extends BxDolPage: Página para navegação de espaços.
+    - __construct($oTemplate = false): Construtor que inicializa a página de navegação.
+
+27. BxSpacesPageEntry.php:
+    - BxSpacesPageEntry extends BxDolPage: Página de entrada para um espaço.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+28. BxSpacesPageJoinedEntries.php:
+    - BxSpacesPageJoinedEntries extends BxDolPage: Página para entradas de espaços ingressados.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entradas ingressadas.
+
+29. BxSpacesPageListEntry.php:
+    - BxSpacesPageListEntry extends BxDolPage: Página para listagem de entradas de espaços.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de listagem.
+
+30. BxSpacesPrivacy.php:
+    - BxSpacesPrivacy extends BxDolPrivacy: Gerenciamento de privacidade para espaços.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade.
+
+31. BxSpacesPrivacyNotifications.php:
+    - BxSpacesPrivacyNotifications extends BxDolPrivacy: Gerenciamento de privacidade para notificações de espaços.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade de notificações.
+
+32. BxSpacesPrivacyPost.php:
+    - BxSpacesPrivacyPost extends BxDolPrivacy: Gerenciamento de privacidade para postagens em espaços.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade de postagens.
+
+33. BxSpacesUploaderCoverCrop.php:
+    - BxSpacesUploaderCoverCrop extends BxDolUploader: Uploader para recorte de capa de espaços.
+    - __construct(): Construtor que inicializa o uploader de capa.
+
+34. BxSpacesUploaderPictureCrop.php:
+    - BxSpacesUploaderPictureCrop extends BxDolUploader: Uploader para recorte de imagem de espaços.
+    - __construct(): Construtor que inicializa o uploader de imagem.
+
+35. BxSpacesVoteStars.php:
+    - BxSpacesVoteStars extends BxDolVote: Sistema de votação por estrelas para espaços.
+    - __construct($sSystem, $iId, $iInit = true): Construtor que inicializa o sistema de votação.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/spaces: Cria um novo espaço.
+- PUT /api/spaces/{spaceId}: Atualiza um espaço existente.
+- DELETE /api/spaces/{spaceId}: Deleta um espaço.
+- GET /api/spaces/{spaceId}: Obtém detalhes de um espaço específico.
+- GET /api/spaces: Obtém a lista de espaços.
+- POST /api/spaces/{spaceId}/join: Ingressa em um espaço.
+- POST /api/spaces/{spaceId}/leave: Sai de um espaço.
+- POST /api/spaces/{spaceId}/invite: Convida um usuário para um espaço.
+- GET /api/spaces/{spaceId}/members: Obtém a lista de membros de um espaço.
+- POST /api/spaces/{spaceId}/prices: Adiciona um preço ou plano ao espaço.
+- GET /api/spaces/{spaceId}/prices: Obtém a lista de preços ou planos de um espaço.
+- GET /api/spaces/search: Busca espaços por palavra-chave ou critérios.

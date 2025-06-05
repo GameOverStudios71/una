@@ -1,0 +1,109 @@
+Mapeamento do Módulo Glossary para API RESTful
+
+Descrição Geral:
+O módulo 'glossary' gerencia um sistema de glossário no sistema UNA. Permite a criação, edição e visualização de termos e definições, útil para explicar conceitos específicos da plataforma ou comunidade. É composto por classes como BxGlsrModule.php (lógica específica do módulo) e várias outras classes de suporte para formulários, grids, menus e páginas.
+
+Análise de Classes do Módulo Glossary:
+
+1. BxGlsrModule.php (Classe Principal do Módulo Glossary):
+   - BxGlsrModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo glossary.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetTerms($aParams = array()): Método para obter a lista de termos do glossário.
+   - serviceAddTerm($aData): Método para adicionar um novo termo ao glossário.
+   - serviceUpdateTerm($iTermId, $aData): Método para atualizar um termo existente.
+   - serviceDeleteTerm($iTermId): Método para deletar um termo.
+   - serviceGetTerm($iTermId): Método para obter detalhes de um termo específico.
+
+2. BxGlsrConfig.php:
+   - BxGlsrConfig extends BxDolConfig: Configurações específicas do módulo glossary.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxGlsrDb.php:
+   - BxGlsrDb extends BxDolDb: Banco de dados específico para glossary.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - getTerms($aParams = array()): Método para obter termos do banco de dados.
+   - addTerm($aData): Método para adicionar um termo ao banco de dados.
+   - updateTerm($iTermId, $aData): Método para atualizar um termo no banco de dados.
+   - deleteTerm($iTermId): Método para deletar um termo do banco de dados.
+
+4. BxGlsrTemplate.php:
+   - BxGlsrTemplate extends BxDolTemplate: Template para renderização de elementos do glossário.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getTermBlock($iTermId, $aParams = array()): Método para obter bloco HTML de um termo.
+
+5. BxGlsrAlertsResponse.php:
+   - BxGlsrAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para glossary.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de glossário.
+
+6. BxGlsrFormEntry.php:
+   - BxGlsrFormEntry extends BxTemplFormView: Formulário para criação/edição de termos do glossário.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de entrada.
+
+7. BxGlsrFormsEntryHelper.php:
+   - BxGlsrFormsEntryHelper extends BxDolFormHelper: Auxiliar para formulários de entrada no glossário.
+   - __construct($oForm): Construtor que inicializa o auxiliar de formulário.
+
+8. BxGlsrGridAdministration.php:
+   - BxGlsrGridAdministration extends BxDolGrid: Grade para administração de termos do glossário.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de administração.
+
+9. BxGlsrGridCommon.php:
+   - BxGlsrGridCommon extends BxDolGrid: Grade para listagem comum de termos do glossário.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade comum.
+
+10. BxGlsrSearchResult.php:
+    - BxGlsrSearchResult extends BxDolSearchResult: Resultados de busca para termos do glossário.
+    - __construct($oModule = null): Construtor que inicializa os resultados de busca.
+
+11. BxGlsrCmtsSearchResult.php:
+    - BxGlsrCmtsSearchResult extends BxDolSearchResult: Resultados de busca para comentários em termos do glossário.
+    - __construct($oModule = null): Construtor que inicializa os resultados de busca de comentários.
+
+12. BxGlsrMenu.php:
+    - BxGlsrMenu extends BxDolMenu: Menu base para glossário.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu base.
+
+13. BxGlsrMenuManageTools.php:
+    - BxGlsrMenuManageTools extends BxDolMenu: Menu para ferramentas de gerenciamento de glossário.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ferramentas.
+
+14. BxGlsrMenuSnippetMeta.php:
+    - BxGlsrMenuSnippetMeta extends BxDolMenu: Menu para metadados de snippet de glossário.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de metadados.
+
+15. BxGlsrMenuView.php:
+    - BxGlsrMenuView extends BxDolMenu: Menu para visualização de termos do glossário.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+16. BxGlsrMenuViewActions.php:
+    - BxGlsrMenuViewActions extends BxDolMenu: Menu para ações de visualização de termos do glossário.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ações.
+
+17. BxGlsrPageBrowse.php:
+    - BxGlsrPageBrowse extends BxDolPage: Página para navegação de termos do glossário.
+    - __construct($oTemplate = false): Construtor que inicializa a página de navegação.
+
+18. BxGlsrPageEntry.php:
+    - BxGlsrPageEntry extends BxDolPage: Página de entrada para um termo do glossário.
+    - __construct($oTemplate = false): Construtor que inicializa a página de entrada.
+
+19. BxGlsrPageListEntry.php:
+    - BxGlsrPageListEntry extends BxDolPage: Página para listagem de entradas do glossário.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de listagem.
+
+20. BxGlsrPageAuthor.php:
+    - BxGlsrPageAuthor extends BxDolPage: Página para termos do glossário por autor.
+    - __construct($oTemplate = false): Construtor que inicializa a página de autor.
+
+21. BxGlsrUploaderHTML5.php:
+    - BxGlsrUploaderHTML5 extends BxDolUploaderHTML5: Uploader HTML5 para glossário.
+    - __construct(): Construtor que inicializa o uploader.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/glossary/terms: Obtém a lista de termos do glossário.
+- GET /api/glossary/terms/{termId}: Obtém detalhes de um termo específico.
+- POST /api/glossary/terms: Adiciona um novo termo ao glossário.
+- PUT /api/glossary/terms/{termId}: Atualiza um termo existente.
+- DELETE /api/glossary/terms/{termId}: Deleta um termo.
+- GET /api/glossary/search: Busca termos no glossário por palavra-chave.

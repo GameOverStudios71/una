@@ -1,0 +1,48 @@
+Mapeamento do Módulo Charts para API RESTful
+
+Descrição Geral:
+O módulo 'charts' gerencia a criação e visualização de gráficos no sistema UNA. É um componente essencial para apresentar dados estatísticos e analíticos de forma visual, como gráficos de crescimento, desempenho e engajamento. É composto por classes como BxChartsModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados e templates.
+
+Análise de Classes do Módulo Charts:
+
+1. BxChartsModule.php (Classe Principal do Módulo Charts):
+   - BxChartsModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo charts.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetChartData($sChartType, $sPeriod = 'day', $iStartDate = 0, $iEndDate = 0): Método para obter dados de um gráfico específico.
+   - serviceGetAvailableCharts(): Método para obter a lista de gráficos disponíveis.
+   - serviceGetChartTypes(): Método para obter os tipos de gráficos suportados.
+   - serviceExportChartData($sChartType, $sPeriod = 'day', $iStartDate = 0, $iEndDate = 0): Método para exportar dados de um gráfico.
+
+2. BxChartsConfig.php:
+   - BxChartsConfig extends BxDolConfig: Configurações específicas do módulo charts.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxChartsDb.php:
+   - BxChartsDb extends BxDolDb: Banco de dados específico para charts.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - getChartData($sChartType, $sPeriod, $iStartDate, $iEndDate): Método para obter dados de gráficos do banco.
+   - saveChartData($sChartType, $aData): Método para salvar dados de um gráfico.
+
+4. BxChartsTemplate.php:
+   - BxChartsTemplate extends BxDolTemplate: Template para renderização de gráficos.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getChart($sChartType, $aData, $aOptions = array()): Método para obter HTML/JS de um gráfico.
+
+5. BxChartsAlertsResponse.php:
+   - BxChartsAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para charts.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de gráficos.
+
+6. BxChartsCron.php:
+   - BxChartsCron extends BxDolCron: Tarefa cron para atualização de dados de gráficos.
+   - __construct(): Construtor que inicializa a tarefa cron.
+   - process(): Método para processar atualizações de dados de gráficos.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/charts/data/{chartType}: Obtém dados de um gráfico específico.
+- GET /api/charts/data/{chartType}/{period}: Obtém dados de um gráfico específico por período (day, week, month, year).
+- GET /api/charts/data/{chartType}/{period}/{startDate}/{endDate}: Obtém dados de um gráfico por período e intervalo de datas.
+- GET /api/charts/available: Lista gráficos disponíveis no sistema.
+- GET /api/charts/types: Lista tipos de gráficos suportados.
+- GET /api/charts/export/{chartType}: Exporta dados de um gráfico.
+- GET /api/charts/export/{chartType}/{period}/{startDate}/{endDate}: Exporta dados de um gráfico por período e intervalo de datas.

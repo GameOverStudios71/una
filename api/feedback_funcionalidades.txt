@@ -1,0 +1,58 @@
+Mapeamento do Módulo Feedback para API RESTful
+
+Descrição Geral:
+O módulo 'feedback' gerencia funcionalidades de feedback e pesquisas no sistema UNA. Permite a criação de perguntas, coleta de respostas e análise de dados de feedback dos usuários. É composto por classes como BxFdbModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados, formulários e grids.
+
+Análise de Classes do Módulo Feedback:
+
+1. BxFdbModule.php (Classe Principal do Módulo Feedback):
+   - BxFdbModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo feedback.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceAddQuestion($aData): Método para adicionar uma nova pergunta de feedback.
+   - serviceUpdateQuestion($iQuestionId, $aData): Método para atualizar uma pergunta existente.
+   - serviceDeleteQuestion($iQuestionId): Método para deletar uma pergunta.
+   - serviceGetQuestions($aParams = array()): Método para obter a lista de perguntas de feedback.
+   - serviceSubmitAnswer($iQuestionId, $sAnswer, $iProfileId = 0): Método para enviar uma resposta a uma pergunta.
+   - serviceGetAnswers($iQuestionId, $aParams = array()): Método para obter as respostas de uma pergunta.
+   - serviceGetResults($iQuestionId, $aParams = array()): Método para obter os resultados agregados de uma pergunta.
+
+2. BxFdbConfig.php:
+   - BxFdbConfig extends BxDolConfig: Configurações específicas do módulo feedback.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxFdbDb.php:
+   - BxFdbDb extends BxDolDb: Banco de dados específico para feedback.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - addQuestion($aData): Método para adicionar uma pergunta ao banco de dados.
+   - updateQuestion($iQuestionId, $aData): Método para atualizar uma pergunta no banco de dados.
+   - deleteQuestion($iQuestionId): Método para deletar uma pergunta do banco de dados.
+   - getQuestions($aParams = array()): Método para obter perguntas do banco de dados.
+   - submitAnswer($iQuestionId, $iProfileId, $sAnswer): Método para registrar uma resposta.
+   - getAnswers($iQuestionId, $aParams = array()): Método para obter respostas de uma pergunta.
+
+4. BxFdbTemplate.php:
+   - BxFdbTemplate extends BxDolTemplate: Template para renderização de elementos de feedback.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getQuestionBlock($iQuestionId, $aParams = array()): Método para obter bloco HTML de uma pergunta.
+   - getResultsBlock($iQuestionId, $aParams = array()): Método para obter bloco HTML de resultados.
+
+5. BxFdbFormQuestion.php:
+   - BxFdbFormQuestion extends BxTemplFormView: Formulário para criação/edição de perguntas de feedback.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de pergunta.
+
+6. BxFdbGridQuestions.php:
+   - BxFdbGridQuestions extends BxDolGrid: Grade para listagem de perguntas de feedback.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de perguntas.
+
+7. BxFdbStudioPage.php:
+   - BxFdbStudioPage extends BxDolStudioPage: Página de estúdio para feedback.
+   - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/feedback/questions: Adiciona uma nova pergunta de feedback.
+- PUT /api/feedback/questions/{questionId}: Atualiza uma pergunta existente.
+- DELETE /api/feedback/questions/{questionId}: Deleta uma pergunta.
+- GET /api/feedback/questions: Obtém a lista de perguntas de feedback.
+- POST /api/feedback/answers/{questionId}: Envia uma resposta para uma pergunta.
+- GET /api/feedback/answers/{questionId}: Obtém as respostas de uma pergunta.
+- GET /api/feedback/results/{questionId}: Obtém os resultados agregados de uma pergunta.

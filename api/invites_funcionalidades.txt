@@ -1,0 +1,72 @@
+Mapeamento do Módulo Invites para API RESTful
+
+Descrição Geral:
+O módulo 'invites' gerencia funcionalidades de convites no sistema UNA. Permite que usuários enviem convites para outros se juntarem à plataforma, além de gerenciar solicitações de convite e códigos promocionais. É composto por classes como BxInvModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados, grids e templates.
+
+Análise de Classes do Módulo Invites:
+
+1. BxInvModule.php (Classe Principal do Módulo Invites):
+   - BxInvModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo invites.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceSendInvite($sEmail, $sMessage = '', $iProfileId = 0): Método para enviar um convite por e-mail.
+   - serviceGenerateInviteCode($iProfileId = 0): Método para gerar um código de convite.
+   - serviceGetInviteCodes($iProfileId = 0, $iStart = 0, $iPerPage = 10): Método para obter a lista de códigos de convite.
+   - serviceDeleteInviteCode($sCode): Método para deletar um código de convite.
+   - serviceRequestInvite(): Método para solicitar um convite para ingressar na plataforma.
+   - serviceGetRequests($iStart = 0, $iPerPage = 10): Método para obter a lista de solicitações de convite.
+   - serviceApproveRequest($iRequestId): Método para aprovar uma solicitação de convite.
+   - serviceRejectRequest($iRequestId): Método para rejeitar uma solicitação de convite.
+   - serviceDeleteRequest($iRequestId): Método para deletar uma solicitação de convite.
+
+2. BxInvConfig.php:
+   - BxInvConfig extends BxDolConfig: Configurações específicas do módulo invites.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxInvDb.php:
+   - BxInvDb extends BxDolDb: Banco de dados específico para invites.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - sendInvite($sEmail, $sMessage, $iProfileId, $sCode): Método para registrar o envio de um convite.
+   - generateInviteCode($iProfileId): Método para gerar e salvar um código de convite.
+   - getInviteCodes($iProfileId, $iStart, $iPerPage): Método para obter códigos de convite.
+   - deleteInviteCode($sCode): Método para deletar um código de convite.
+   - requestInvite($sEmail, $sName, $sMessage): Método para registrar uma solicitação de convite.
+   - getRequests($iStart, $iPerPage): Método para obter solicitações de convite.
+   - updateRequestStatus($iRequestId, $sStatus): Método para atualizar o status de uma solicitação.
+
+4. BxInvTemplate.php:
+   - BxInvTemplate extends BxDolTemplate: Template para renderização de elementos de convites.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getInviteForm($aParams = array()): Método para obter formulário HTML de convite.
+   - getRequestForm($aParams = array()): Método para obter formulário HTML de solicitação de convite.
+
+5. BxInvResponse.php:
+   - BxInvResponse extends BxDolAlertsResponse: Respostas a alertas específicos para invites.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de convites.
+
+6. BxInvFormCheckerHelper.php:
+   - BxInvFormCheckerHelper extends BxDolFormCheckerHelper: Auxiliar para verificação de formulários de convites.
+   - __construct(): Construtor que inicializa o auxiliar de verificação.
+
+7. BxInvGridInvites.php:
+   - BxInvGridInvites extends BxDolGrid: Grade para listagem de convites enviados.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de convites.
+
+8. BxInvGridRequests.php:
+   - BxInvGridRequests extends BxDolGrid: Grade para listagem de solicitações de convite.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de solicitações.
+
+9. BxInvStudioPage.php:
+   - BxInvStudioPage extends BxDolStudioPage: Página de estúdio para invites.
+   - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/invites/send: Envia um convite por e-mail.
+- POST /api/invites/codes/generate: Gera um novo código de convite para o usuário logado.
+- GET /api/invites/codes: Obtém a lista de códigos de convite do usuário logado.
+- DELETE /api/invites/codes/{code}: Deleta um código de convite.
+- POST /api/invites/request: Solicita um convite para ingressar na plataforma.
+- GET /api/invites/requests: Obtém a lista de solicitações de convite (somente admin).
+- POST /api/invites/requests/{requestId}/approve: Aprova uma solicitação de convite (somente admin).
+- POST /api/invites/requests/{requestId}/reject: Rejeita uma solicitação de convite (somente admin).
+- DELETE /api/invites/requests/{requestId}: Deleta uma solicitação de convite (somente admin).

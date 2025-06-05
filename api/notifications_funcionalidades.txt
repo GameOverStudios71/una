@@ -1,0 +1,98 @@
+Mapeamento do Módulo Notifications para API RESTful
+
+Descrição Geral:
+O módulo 'notifications' gerencia funcionalidades de notificações no sistema UNA. Permite que os usuários recebam alertas sobre atividades relevantes, como novos comentários, mensagens, atualizações de conteúdo, entre outros. É composto por classes como BxNtfsModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados, grids, páginas e templates.
+
+Análise de Classes do Módulo Notifications:
+
+1. BxNtfsModule.php (Classe Principal do Módulo Notifications):
+   - BxNtfsModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo notifications.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetNotifications($aParams = array()): Método para obter a lista de notificações do usuário.
+   - serviceGetUnreadCount($iProfileId = 0): Método para obter a contagem de notificações não lidas.
+   - serviceMarkAsRead($iNotificationId): Método para marcar uma notificação como lida.
+   - serviceMarkAllAsRead($iProfileId = 0): Método para marcar todas as notificações como lidas.
+   - serviceDeleteNotification($iNotificationId): Método para deletar uma notificação.
+   - serviceGetSettings($iProfileId = 0): Método para obter as configurações de notificações do usuário.
+   - serviceUpdateSettings($iProfileId, $aSettings): Método para atualizar as configurações de notificações.
+   - serviceSendNotification($iProfileId, $sType, $sContent, $aParams = array()): Método para enviar uma notificação a um usuário.
+
+2. BxNtfsConfig.php:
+   - BxNtfsConfig extends BxDolConfig: Configurações específicas do módulo notifications.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxNtfsDb.php:
+   - BxNtfsDb extends BxDolDb: Banco de dados específico para notifications.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - getNotifications($aParams): Método para obter notificações do banco de dados.
+   - getUnreadCount($iProfileId): Método para contar notificações não lidas.
+   - markAsRead($iNotificationId, $iProfileId): Método para marcar notificação como lida.
+   - markAllAsRead($iProfileId): Método para marcar todas as notificações como lidas.
+   - deleteNotification($iNotificationId, $iProfileId): Método para deletar uma notificação.
+   - addNotification($iProfileId, $sType, $sContent, $aParams): Método para adicionar uma notificação.
+   - getSettings($iProfileId): Método para obter configurações de notificações.
+   - updateSettings($iProfileId, $aSettings): Método para atualizar configurações de notificações.
+
+4. BxNtfsTemplate.php:
+   - BxNtfsTemplate extends BxDolTemplate: Template para renderização de elementos de notificações.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getNotificationItem($aNotification): Método para obter item HTML de uma notificação.
+   - getSettingsForm($iProfileId, $aSettings): Método para obter formulário HTML de configurações de notificações.
+
+5. BxNtfsResponse.php:
+   - BxNtfsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para notifications.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de notificações e enviá-los aos usuários.
+
+6. BxNtfsCronClean.php:
+   - BxNtfsCronClean extends BxDolCron: Tarefa cron para limpar notificações antigas.
+   - __construct(): Construtor que inicializa a tarefa cron.
+   - process(): Método para executar a limpeza de notificações antigas.
+
+7. BxNtfsCronNotify.php:
+   - BxNtfsCronNotify extends BxDolCron: Tarefa cron para enviar notificações pendentes.
+   - __construct(): Construtor que inicializa a tarefa cron.
+   - process(): Método para processar e enviar notificações pendentes via e-mail ou outros canais.
+
+8. BxNtfsCronQueue.php:
+   - BxNtfsCronQueue extends BxDolCron: Tarefa cron para gerenciar fila de notificações.
+   - __construct(): Construtor que inicializa a tarefa cron.
+   - process(): Método para processar a fila de notificações.
+
+9. BxNtfsGridSettingsAdministration.php:
+   - BxNtfsGridSettingsAdministration extends BxDolGrid: Grade para administração de configurações de notificações.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de administração.
+
+10. BxNtfsGridSettingsCommon.php:
+    - BxNtfsGridSettingsCommon extends BxDolGrid: Grade para configurações comuns de notificações.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade comum.
+
+11. BxNtfsMenuPreview.php:
+    - BxNtfsMenuPreview extends BxDolMenu: Menu para visualização prévia de notificações.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização prévia.
+
+12. BxNtfsPageSettings.php:
+    - BxNtfsPageSettings extends BxDolPage: Página para configurações de notificações.
+    - __construct($oTemplate = false): Construtor que inicializa a página de configurações.
+
+13. BxNtfsPageView.php:
+    - BxNtfsPageView extends BxDolPage: Página para visualização de notificações.
+    - __construct($oTemplate = false): Construtor que inicializa a página de visualização.
+
+14. BxNtfsStudioPage.php:
+    - BxNtfsStudioPage extends BxDolStudioPage: Página de estúdio para notifications.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+15. BxNtfsPrivacy.php:
+    - BxNtfsPrivacy extends BxDolPrivacy: Gerenciamento de privacidade para notificações.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa as configurações de privacidade.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/notifications: Obtém a lista de notificações do usuário logado.
+- GET /api/notifications/unread-count: Obtém a contagem de notificações não lidas do usuário logado.
+- POST /api/notifications/{notificationId}/mark-read: Marca uma notificação como lida.
+- POST /api/notifications/mark-all-read: Marca todas as notificações como lidas para o usuário logado.
+- DELETE /api/notifications/{notificationId}: Deleta uma notificação do usuário logado.
+- GET /api/notifications/settings: Obtém as configurações de notificações do usuário logado.
+- PUT /api/notifications/settings: Atualiza as configurações de notificações do usuário logado.
+- POST /api/notifications/send: Envia uma notificação a um usuário específico (somente admin ou sistema).

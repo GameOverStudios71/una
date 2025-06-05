@@ -1,0 +1,47 @@
+Mapeamento do Módulo Attendant para API RESTful
+
+Descrição Geral:
+O módulo 'attendant' gerencia funcionalidades de atendimento ou assistência no sistema UNA. Ele parece ser projetado para fornecer suporte automatizado ou guiado para usuários, possivelmente com mensagens ou prompts personalizados. É composto por classes como BxAttendantModule.php (lógica específica do módulo) e outras classes de suporte para configurações, banco de dados e templates.
+
+Análise de Classes do Módulo Attendant:
+
+1. BxAttendantModule.php (Classe Principal do Módulo Attendant):
+   - BxAttendantModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo attendant.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetMessages($sContext = ''): Método para obter mensagens de atendimento baseadas no contexto.
+   - serviceSendMessage($sMessage, $iProfileId = 0): Método para enviar uma mensagem de atendimento a um perfil.
+   - serviceAddHelpTour($sTourId, $sTitle, $sContent): Método para adicionar um tour de ajuda.
+   - serviceRemoveHelpTour($sTourId): Método para remover um tour de ajuda.
+   - serviceGetHelpTours($iProfileId = 0): Método para obter tours de ajuda disponíveis.
+
+2. BxAttendantConfig.php:
+   - BxAttendantConfig extends BxDolConfig: Configurações específicas do módulo attendant.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxAttendantDb.php:
+   - BxAttendantDb extends BxDolDb: Banco de dados específico para attendant.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - getMessages($sContext): Método para obter mensagens baseadas no contexto.
+   - getHelpTours($iProfileId): Método para obter tours de ajuda para um perfil.
+   - addHelpTour($sTourId, $sTitle, $sContent): Método para adicionar um tour de ajuda.
+   - removeHelpTour($sTourId): Método para remover um tour de ajuda.
+
+4. BxAttendantTemplate.php:
+   - BxAttendantTemplate extends BxDolTemplate: Template para renderização de elementos de atendimento.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getMessageBlock($sMessage, $aParams = array()): Método para obter HTML de bloco de mensagem.
+   - getHelpTourBlock($sTourId, $aParams = array()): Método para obter HTML de bloco de tour de ajuda.
+
+5. BxAttendantAlertsResponse.php:
+   - BxAttendantAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para attendant.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de atendimento.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/attendant/messages: Obtém mensagens de atendimento.
+- GET /api/attendant/messages/{context}: Obtém mensagens de atendimento baseadas em um contexto específico.
+- POST /api/attendant/messages/send/{profileId}: Envia uma mensagem de atendimento a um perfil.
+- GET /api/attendant/helptours: Obtém tours de ajuda disponíveis.
+- GET /api/attendant/helptours/{profileId}: Obtém tours de ajuda para um perfil específico.
+- POST /api/attendant/helptours/add: Adiciona um novo tour de ajuda.
+- DELETE /api/attendant/helptours/{tourId}: Remove um tour de ajuda.

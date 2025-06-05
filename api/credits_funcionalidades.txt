@@ -1,0 +1,147 @@
+Mapeamento do Módulo Credits para API RESTful
+
+Descrição Geral:
+O módulo 'credits' gerencia um sistema de créditos ou moeda virtual no sistema UNA. Permite aos usuários comprar, usar, transferir e sacar créditos, além de gerenciar pacotes de créditos e histórico de transações. É composto por classes como BxCreditsModule.php (lógica específica do módulo) e várias outras classes de suporte para formulários, grids, páginas e templates.
+
+Análise de Classes do Módulo Credits:
+
+1. BxCreditsModule.php (Classe Principal do Módulo Credits):
+   - BxCreditsModule extends BxDolModule: Classe principal para gerenciar a lógica central do módulo credits.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetBalance($iProfileId = 0): Método para obter o saldo de créditos de um perfil.
+   - serviceAddCredits($iProfileId, $fAmount, $sReason = ''): Método para adicionar créditos a um perfil.
+   - serviceRemoveCredits($iProfileId, $fAmount, $sReason = ''): Método para remover créditos de um perfil.
+   - serviceTransferCredits($iFromProfileId, $iToProfileId, $fAmount, $sReason = ''): Método para transferir créditos entre perfis.
+   - serviceRequestWithdrawal($iProfileId, $fAmount, $sCurrency): Método para solicitar um saque de créditos.
+   - serviceGetBundles($iProfileId = 0): Método para obter pacotes de créditos disponíveis.
+   - servicePurchaseBundle($iProfileId, $iBundleId): Método para comprar um pacote de créditos.
+   - serviceGetHistory($iProfileId = 0, $iStart = 0, $iPerPage = 10): Método para obter o histórico de transações.
+   - serviceGetOrders($iProfileId = 0, $iStart = 0, $iPerPage = 10): Método para obter a lista de pedidos.
+   - serviceGetWithdrawals($iProfileId = 0, $iStart = 0, $iPerPage = 10): Método para obter a lista de solicitações de saque.
+
+2. BxCreditsConfig.php:
+   - BxCreditsConfig extends BxDolConfig: Configurações específicas do módulo credits.
+   - __construct($aModule): Construtor que inicializa as configurações.
+   - getCurrencyCode(): Método para obter o código da moeda.
+   - getCurrencySign(): Método para obter o símbolo da moeda.
+   - getConversionRate(): Método para obter a taxa de conversão de créditos para moeda.
+
+3. BxCreditsDb.php:
+   - BxCreditsDb extends BxDolDb: Banco de dados específico para credits.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+   - getBalance($iProfileId): Método para obter o saldo de créditos.
+   - updateBalance($iProfileId, $fAmount, $sType, $sReason): Método para atualizar o saldo de créditos.
+   - getBundles($aParams = array()): Método para obter pacotes de créditos.
+   - getHistory($aParams = array()): Método para obter o histórico de transações.
+   - getOrders($aParams = array()): Método para obter pedidos.
+   - getWithdrawals($aParams = array()): Método para obter solicitações de saque.
+   - requestWithdrawal($iProfileId, $fAmount, $sCurrency): Método para registrar uma solicitação de saque.
+
+4. BxCreditsTemplate.php:
+   - BxCreditsTemplate extends BxDolTemplate: Template para renderização de elementos de créditos.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+   - getBalanceBlock($iProfileId, $aParams = array()): Método para obter bloco HTML de saldo.
+   - getBundleBlock($iBundleId, $aParams = array()): Método para obter bloco HTML de pacote.
+
+5. BxCreditsAlertsResponse.php:
+   - BxCreditsAlertsResponse extends BxDolAlertsResponse: Respostas a alertas específicos para credits.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas específicos de créditos.
+
+6. BxCreditsFormBundle.php:
+   - BxCreditsFormBundle extends BxTemplFormView: Formulário para gerenciamento de pacotes de créditos.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de pacote.
+
+7. BxCreditsFormCredit.php:
+   - BxCreditsFormCredit extends BxTemplFormView: Formulário para gerenciamento de créditos.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de crédito.
+
+8. BxCreditsFormProfile.php:
+   - BxCreditsFormProfile extends BxTemplFormView: Formulário para perfil relacionado a créditos.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário de perfil.
+
+9. BxCreditsGrid.php:
+   - BxCreditsGrid extends BxDolGrid: Grade base para listagem de elementos de créditos.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade base.
+
+10. BxCreditsGridBundles.php:
+    - BxCreditsGridBundles extends BxCreditsGrid: Grade para listagem de pacotes de créditos.
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de pacotes.
+
+11. BxCreditsGridHistoryAdministration.php:
+    - BxCreditsGridHistoryAdministration extends BxCreditsGrid: Grade para histórico de transações (administração).
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de histórico para admin.
+
+12. BxCreditsGridHistoryCommon.php:
+    - BxCreditsGridHistoryCommon extends BxCreditsGrid: Grade para histórico de transações (usuário comum).
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de histórico para usuário.
+
+13. BxCreditsGridOrdersAdministration.php:
+    - BxCreditsGridOrdersAdministration extends BxCreditsGrid: Grade para pedidos (administração).
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de pedidos para admin.
+
+14. BxCreditsGridOrdersCommon.php:
+    - BxCreditsGridOrdersCommon extends BxCreditsGrid: Grade para pedidos (usuário comum).
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de pedidos para usuário.
+
+15. BxCreditsGridProfilesAdministration.php:
+    - BxCreditsGridProfilesAdministration extends BxCreditsGrid: Grade para perfis (administração).
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de perfis para admin.
+
+16. BxCreditsGridWithdrawalsAdministration.php:
+    - BxCreditsGridWithdrawalsAdministration extends BxCreditsGrid: Grade para saques (administração).
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de saques para admin.
+
+17. BxCreditsGridWithdrawalsCommon.php:
+    - BxCreditsGridWithdrawalsCommon extends BxCreditsGrid: Grade para saques (usuário comum).
+    - __construct($aOptions, $oTemplate = false): Construtor que inicializa a grade de saques para usuário.
+
+18. BxCreditsMenuManage.php:
+    - BxCreditsMenuManage extends BxDolMenu: Menu para gerenciamento de créditos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu.
+
+19. BxCreditsPageBrowse.php:
+    - BxCreditsPageBrowse extends BxDolPage: Página para navegação de créditos.
+    - __construct($oTemplate = false): Construtor que inicializa a página de navegação.
+
+20. BxCreditsPageHistory.php:
+    - BxCreditsPageHistory extends BxDolPage: Página para histórico de créditos.
+    - __construct($oTemplate = false): Construtor que inicializa a página de histórico.
+
+21. BxCreditsPageOrders.php:
+    - BxCreditsPageOrders extends BxDolPage: Página para pedidos de créditos.
+    - __construct($oTemplate = false): Construtor que inicializa a página de pedidos.
+
+22. BxCreditsPageProfiles.php:
+    - BxCreditsPageProfiles extends BxDolPage: Página para perfis relacionados a créditos.
+    - __construct($oTemplate = false): Construtor que inicializa a página de perfis.
+
+23. BxCreditsPageWithdrawals.php:
+    - BxCreditsPageWithdrawals extends BxDolPage: Página para saques de créditos.
+    - __construct($oTemplate = false): Construtor que inicializa a página de saques.
+
+24. BxCreditsStudioPage.php:
+    - BxCreditsStudioPage extends BxDolStudioPage: Página de estúdio para credits.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+25. BxCreditsCronClearing.php:
+    - BxCreditsCronClearing extends BxDolCron: Tarefa cron para limpeza de dados de créditos.
+    - __construct(): Construtor que inicializa a tarefa cron.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/credits/balance: Obtém o saldo de créditos do usuário logado.
+- GET /api/credits/balance/{profileId}: Obtém o saldo de créditos de um perfil específico (somente admin).
+- POST /api/credits/add/{profileId}: Adiciona créditos a um perfil (somente admin).
+- POST /api/credits/remove/{profileId}: Remove créditos de um perfil (somente admin).
+- POST /api/credits/transfer: Transfere créditos entre perfis.
+- POST /api/credits/withdrawal/request: Solicita um saque de créditos.
+- GET /api/credits/bundles: Lista pacotes de créditos disponíveis.
+- POST /api/credits/bundles/purchase/{bundleId}: Compra um pacote de créditos.
+- GET /api/credits/history: Obtém o histórico de transações do usuário logado.
+- GET /api/credits/history/{profileId}: Obtém o histórico de transações de um perfil específico (somente admin).
+- GET /api/credits/orders: Obtém a lista de pedidos do usuário logado.
+- GET /api/credits/orders/{profileId}: Obtém a lista de pedidos de um perfil específico (somente admin).
+- GET /api/credits/withdrawals: Obtém a lista de solicitações de saque do usuário logado.
+- GET /api/credits/withdrawals/{profileId}: Obtém a lista de solicitações de saque de um perfil específico (somente admin).
+- GET /api/credits/profiles: Lista perfis relacionados a créditos (somente admin).
+- GET /api/credits/config: Obtém configurações do sistema de créditos (moeda, taxas, etc.) (somente admin).
