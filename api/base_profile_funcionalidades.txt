@@ -1,0 +1,78 @@
+Mapeamento do Módulo Base Profile para API RESTful
+
+Descrição Geral:
+O módulo base 'profile' parece ser uma biblioteca de classes fundamentais no sistema UNA relacionada ao gerenciamento de perfis de usuário. Provavelmente fornece funcionalidades para criação, edição, visualização e gerenciamento de informações de perfis. Este é um módulo base localizado em modules/base/profile, contendo classes reutilizáveis por outros módulos.
+
+Nota: Como se trata de um módulo base, as classes aqui podem não ter funcionalidades específicas para endpoints de API diretamente, mas sim fornecer suporte para outros módulos. O mapeamento para rotas RESTful será feito apenas se houver funcionalidades específicas que possam ser expostas.
+
+Análise de Classes do Módulo Base Profile:
+
+1. BxBaseModProfileAlerts.php:
+   - BxBaseModProfileAlerts extends BxDolAlertsResponse: Classe base para respostas a alertas relacionados a perfis.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas de perfis.
+
+2. BxBaseModProfileConfig.php:
+   - BxBaseModProfileConfig extends BxDolConfig: Configurações base para o módulo de perfis.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxBaseModProfileDb.php:
+   - BxBaseModProfileDb extends BxDolDb: Banco de dados base para o módulo de perfis.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxBaseModProfileModule.php:
+   - BxBaseModProfileModule extends BxDolModule: Classe principal base para gerenciar a lógica de perfis.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceCreateProfile($aData): Método base para criar um perfil.
+   - serviceUpdateProfile($iProfileId, $aData): Método base para atualizar um perfil.
+   - serviceDeleteProfile($iProfileId): Método base para excluir um perfil.
+   - serviceGetProfile($iProfileId): Método base para obter informações de um perfil.
+   - serviceGetProfiles($aParams): Método base para obter uma lista de perfis.
+
+5. BxBaseModProfileCron.php:
+   - BxBaseModProfileCron extends BxDolCron: Classe base para tarefas cron relacionadas a perfis.
+   - process(): Método para executar tarefas cron de perfis.
+
+6. BxBaseModProfileFormEntry.php:
+   - BxBaseModProfileFormEntry extends BxDolForm: Classe base para formulário de entrada de dados de perfis.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+7. BxBaseModProfileGridAdministration.php:
+   - BxBaseModProfileGridAdministration extends BxDolGrid: Classe base para grid de administração de perfis.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid de administração.
+
+8. BxBaseModProfileGridCommon.php:
+   - BxBaseModProfileGridCommon extends BxDolGrid: Classe base para grid comum de perfis.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid comum.
+
+9. BxBaseModProfileMenuActions.php:
+   - BxBaseModProfileMenuActions extends BxBaseMenu: Classe base para menu de ações de perfis.
+   - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ações.
+
+10. BxBaseModProfileMenuView.php:
+    - BxBaseModProfileMenuView extends BxBaseMenu: Classe base para menu de visualização de perfis.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+11. BxBaseModProfilePageEntry.php:
+    - BxBaseModProfilePageEntry extends BxDolPage: Classe base para página de entrada de perfil.
+    - __construct($sPage, $oModule): Construtor que inicializa a página de entrada.
+
+12. BxBaseModProfileSearchResult.php:
+    - BxBaseModProfileSearchResult extends BxDolSearchResult: Classe base para resultados de busca de perfis.
+    - __construct(): Construtor que inicializa os resultados de busca.
+
+13. BxBaseModProfileTemplate.php:
+    - BxBaseModProfileTemplate extends BxDolTemplate: Template base para renderização de elementos de perfis.
+    - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+14-28. Outras Classes Relacionadas:
+    - Há várias outras classes relacionadas a funcionalidades específicas de perfis, como conexões (BxBaseModProfileConnections*), privacidade (BxBaseModProfilePrivacy*), estatísticas (BxBaseModProfileStats*), entre outras. Essas classes fornecem suporte detalhado para aspectos específicos do gerenciamento de perfis.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/base/profile/create: Cria um novo perfil (base).
+- PUT /api/base/profile/{id}: Atualiza um perfil existente (base).
+- DELETE /api/base/profile/{id}: Exclui um perfil (base).
+- GET /api/base/profile/{id}: Obtém informações de um perfil específico (base).
+- GET /api/base/profile/list: Obtém uma lista de perfis (base).
+
+Nota: As rotas acima são definidas como base e podem ser estendidas ou substituídas por módulos específicos que utilizem essas classes.

@@ -1,0 +1,37 @@
+Mapeamento do Módulo Base Connect para API RESTful
+
+Descrição Geral:
+O módulo base 'connect' parece ser uma biblioteca de classes fundamentais no sistema UNA relacionada a conexões ou integrações externas. Provavelmente fornece funcionalidades para autenticação ou conexão com serviços de terceiros. Este é um módulo base localizado em modules/base/connect, contendo classes reutilizáveis por outros módulos.
+
+Nota: Como se trata de um módulo base, as classes aqui podem não ter funcionalidades específicas para endpoints de API diretamente, mas sim fornecer suporte para outros módulos. O mapeamento para rotas RESTful será feito apenas se houver funcionalidades específicas que possam ser expostas.
+
+Análise de Classes do Módulo Base Connect:
+
+1. BxBaseConnectAlerts.php:
+   - BxBaseConnectAlerts extends BxDolAlertsResponse: Classe base para respostas a alertas relacionados a conexões.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas de conexões.
+
+2. BxBaseConnectConfig.php:
+   - BxBaseConnectConfig extends BxDolConfig: Configurações base para o módulo de conexão.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxBaseConnectDb.php:
+   - BxBaseConnectDb extends BxDolDb: Banco de dados base para o módulo de conexão.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxBaseConnectModule.php:
+   - BxBaseConnectModule extends BxDolModule: Classe principal base para gerenciar a lógica de conexões.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceLogin($sEmail, $sPassword): Método base para login via serviço conectado.
+   - serviceConnect($aParams): Método base para conectar um perfil a um serviço externo.
+
+5. BxBaseConnectTemplate.php:
+   - BxBaseConnectTemplate extends BxDolTemplate: Template base para renderização de elementos de conexão.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/base/connect/login: Realiza login via serviço conectado (base).
+- POST /api/base/connect/connect: Conecta um perfil a um serviço externo (base).
+
+Nota: As rotas acima são definidas como base e podem ser estendidas ou substituídas por módulos específicos que utilizem essas classes.

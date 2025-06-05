@@ -1,0 +1,50 @@
+Mapeamento do Módulo Base Files para API RESTful
+
+Descrição Geral:
+O módulo base 'files' parece ser uma biblioteca de classes fundamentais no sistema UNA relacionada ao gerenciamento de arquivos. Provavelmente fornece funcionalidades para upload, download, armazenamento e manipulação de arquivos. Este é um módulo base localizado em modules/base/files, contendo classes reutilizáveis por outros módulos.
+
+Nota: Como se trata de um módulo base, as classes aqui podem não ter funcionalidades específicas para endpoints de API diretamente, mas sim fornecer suporte para outros módulos. O mapeamento para rotas RESTful será feito apenas se houver funcionalidades específicas que possam ser expostas.
+
+Análise de Classes do Módulo Base Files:
+
+1. BxBaseFilesAlerts.php:
+   - BxBaseFilesAlerts extends BxDolAlertsResponse: Classe base para respostas a alertas relacionados a arquivos.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas de arquivos.
+
+2. BxBaseFilesConfig.php:
+   - BxBaseFilesConfig extends BxDolConfig: Configurações base para o módulo de arquivos.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxBaseFilesDb.php:
+   - BxBaseFilesDb extends BxDolDb: Banco de dados base para o módulo de arquivos.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxBaseFilesModule.php:
+   - BxBaseFilesModule extends BxDolModule: Classe principal base para gerenciar a lógica de arquivos.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceUpload($aParams): Método base para upload de arquivos.
+   - serviceDownload($iFileId): Método base para download de arquivos.
+   - serviceGetFileInfo($iFileId): Método base para obter informações de um arquivo.
+
+5. BxBaseFilesUploader.php:
+   - BxBaseFilesUploader extends BxDolUploader: Classe base para upload de arquivos.
+   - __construct(): Construtor que inicializa o uploader.
+   - handleUploads($aParams): Método para gerenciar uploads de arquivos.
+
+6. BxBaseFilesTemplate.php:
+   - BxBaseFilesTemplate extends BxDolTemplate: Template base para renderização de elementos de arquivos.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+7. BxBaseFilesViewer.php:
+   - BxBaseFilesViewer extends BxDolViewer: Classe base para visualização de arquivos.
+   - __construct(): Construtor que inicializa o visualizador.
+   - displayFile($iFileId): Método para exibir um arquivo.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/base/files/upload: Realiza upload de arquivos (base).
+- GET /api/base/files/download/{id}: Faz download de um arquivo específico (base).
+- GET /api/base/files/info/{id}: Obtém informações de um arquivo específico (base).
+- GET /api/base/files/view/{id}: Exibe um arquivo específico (base).
+
+Nota: As rotas acima são definidas como base e podem ser estendidas ou substituídas por módulos específicos que utilizem essas classes.

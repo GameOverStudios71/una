@@ -1,0 +1,82 @@
+Mapeamento do Módulo Base Groups para API RESTful
+
+Descrição Geral:
+O módulo base 'groups' parece ser uma biblioteca de classes fundamentais no sistema UNA relacionada ao gerenciamento de grupos. Provavelmente fornece funcionalidades para criação, gerenciamento, associação e interação com grupos de usuários. Este é um módulo base localizado em modules/base/groups, contendo classes reutilizáveis por outros módulos.
+
+Nota: Como se trata de um módulo base, as classes aqui podem não ter funcionalidades específicas para endpoints de API diretamente, mas sim fornecer suporte para outros módulos. O mapeamento para rotas RESTful será feito apenas se houver funcionalidades específicas que possam ser expostas.
+
+Análise de Classes do Módulo Base Groups:
+
+1. BxBaseModGroupsAlerts.php:
+   - BxBaseModGroupsAlerts extends BxDolAlertsResponse: Classe base para respostas a alertas relacionados a grupos.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas de grupos.
+
+2. BxBaseModGroupsConfig.php:
+   - BxBaseModGroupsConfig extends BxDolConfig: Configurações base para o módulo de grupos.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxBaseModGroupsDb.php:
+   - BxBaseModGroupsDb extends BxDolDb: Banco de dados base para o módulo de grupos.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxBaseModGroupsModule.php:
+   - BxBaseModGroupsModule extends BxDolModule: Classe principal base para gerenciar a lógica de grupos.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceCreateGroup($aData): Método base para criar um grupo.
+   - serviceUpdateGroup($iGroupId, $aData): Método base para atualizar um grupo.
+   - serviceDeleteGroup($iGroupId): Método base para excluir um grupo.
+   - serviceGetGroup($iGroupId): Método base para obter informações de um grupo.
+   - serviceGetGroups($aParams): Método base para obter uma lista de grupos.
+   - serviceJoinGroup($iGroupId, $iProfileId): Método base para associar um perfil a um grupo.
+   - serviceLeaveGroup($iGroupId, $iProfileId): Método base para remover um perfil de um grupo.
+
+5. BxBaseModGroupsCron.php:
+   - BxBaseModGroupsCron extends BxDolCron: Classe base para tarefas cron relacionadas a grupos.
+   - process(): Método para executar tarefas cron de grupos.
+
+6. BxBaseModGroupsFormEntry.php:
+   - BxBaseModGroupsFormEntry extends BxDolForm: Classe base para formulário de entrada de dados de grupos.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+7. BxBaseModGroupsGridAdministration.php:
+   - BxBaseModGroupsGridAdministration extends BxDolGrid: Classe base para grid de administração de grupos.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid de administração.
+
+8. BxBaseModGroupsGridCommon.php:
+   - BxBaseModGroupsGridCommon extends BxDolGrid: Classe base para grid comum de grupos.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid comum.
+
+9. BxBaseModGroupsMenuActions.php:
+   - BxBaseModGroupsMenuActions extends BxBaseMenu: Classe base para menu de ações de grupos.
+   - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ações.
+
+10. BxBaseModGroupsMenuView.php:
+    - BxBaseModGroupsMenuView extends BxBaseMenu: Classe base para menu de visualização de grupos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+11. BxBaseModGroupsPageEntry.php:
+    - BxBaseModGroupsPageEntry extends BxDolPage: Classe base para página de entrada de grupo.
+    - __construct($sPage, $oModule): Construtor que inicializa a página de entrada.
+
+12. BxBaseModGroupsSearchResult.php:
+    - BxBaseModGroupsSearchResult extends BxDolSearchResult: Classe base para resultados de busca de grupos.
+    - __construct(): Construtor que inicializa os resultados de busca.
+
+13. BxBaseModGroupsTemplate.php:
+    - BxBaseModGroupsTemplate extends BxDolTemplate: Template base para renderização de elementos de grupos.
+    - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+14-40. Outras Classes Relacionadas:
+    - Há várias outras classes relacionadas a funcionalidades específicas de grupos, como gerenciamento de convites (BxBaseModGroupsInvite*), preços (BxBaseModGroupsPrice*), notificações (BxBaseModGroupsNotification*), privacidade (BxBaseModGroupsPrivacy*), uploads (BxBaseModGroupsUploader*), entre outras. Essas classes fornecem suporte detalhado para aspectos específicos do gerenciamento de grupos.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/base/groups/create: Cria um novo grupo (base).
+- PUT /api/base/groups/{id}: Atualiza um grupo existente (base).
+- DELETE /api/base/groups/{id}: Exclui um grupo (base).
+- GET /api/base/groups/{id}: Obtém informações de um grupo específico (base).
+- GET /api/base/groups/list: Obtém uma lista de grupos (base).
+- POST /api/base/groups/{id}/join: Associa um perfil a um grupo (base).
+- POST /api/base/groups/{id}/leave: Remove um perfil de um grupo (base).
+
+Nota: As rotas acima são definidas como base e podem ser estendidas ou substituídas por módulos específicos que utilizem essas classes.

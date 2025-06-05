@@ -1,0 +1,107 @@
+Mapeamento do Módulo Base General para API RESTful
+
+Descrição Geral:
+O módulo base 'general' parece ser uma biblioteca de classes fundamentais no sistema UNA que fornece funcionalidades gerais e utilitárias. Provavelmente contém classes para gerenciamento de configurações, utilitários de sistema, formulários, grids e outras funcionalidades comuns usadas por diversos módulos. Este é um módulo base localizado em modules/base/general, contendo classes reutilizáveis por outros módulos.
+
+Nota: Como se trata de um módulo base, as classes aqui podem não ter funcionalidades específicas para endpoints de API diretamente, mas sim fornecer suporte para outros módulos. O mapeamento para rotas RESTful será feito apenas se houver funcionalidades específicas que possam ser expostas.
+
+Análise de Classes do Módulo Base General:
+
+1. BxBaseAlerts.php:
+   - BxBaseAlerts extends BxDolAlertsResponse: Classe base para respostas a alertas gerais.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas gerais.
+
+2. BxBaseConfig.php:
+   - BxBaseConfig extends BxDolConfig: Configurações base para o módulo geral.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxBaseCron.php:
+   - BxBaseCron extends BxDolCron: Classe base para tarefas cron gerais.
+   - process(): Método para executar tarefas cron.
+
+4. BxBaseDb.php:
+   - BxBaseDb extends BxDolDb: Banco de dados base para o módulo geral.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+5. BxBaseFormView.php:
+   - BxBaseFormView extends BxDolForm: Classe base para formulários de visualização.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+6. BxBaseGrid.php:
+   - BxBaseGrid extends BxDolGrid: Classe base para grids de dados.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid.
+
+7. BxBaseMenu.php:
+   - BxBaseMenu extends BxDolMenu: Classe base para menus.
+   - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu.
+
+8. BxBaseMenuAccount.php:
+   - BxBaseMenuAccount extends BxBaseMenu: Classe base para menu de conta de usuário.
+   - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de conta.
+
+9. BxBaseMenuMore.php:
+   - BxBaseMenuMore extends BxBaseMenu: Classe base para menu 'mais' (opções adicionais).
+   - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu 'mais'.
+
+10. BxBaseMenuNavigation.php:
+    - BxBaseMenuNavigation extends BxBaseMenu: Classe base para menu de navegação.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de navegação.
+
+11. BxBaseMenuSite.php:
+    - BxBaseMenuSite extends BxBaseMenu: Classe base para menu do site.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu do site.
+
+12. BxBaseMenuSocial.php:
+    - BxBaseMenuSocial extends BxBaseMenu: Classe base para menu social.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu social.
+
+13. BxBaseMenuView.php:
+    - BxBaseMenuView extends BxBaseMenu: Classe base para menu de visualização.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+14. BxBaseModGeneralModule.php:
+    - BxBaseModGeneralModule extends BxDolModule: Classe principal base para módulos gerais.
+    - __construct(&$aModule): Construtor que inicializa o módulo.
+    - serviceGetInfo($aParams): Método base para obter informações gerais.
+
+15. BxBasePageView.php:
+    - BxBasePageView extends BxDolPage: Classe base para visualização de páginas.
+    - __construct($sPage, $oModule): Construtor que inicializa a página de visualização.
+
+16. BxBaseSearchResult.php:
+    - BxBaseSearchResult extends BxDolSearchResult: Classe base para resultados de busca.
+    - __construct(): Construtor que inicializa os resultados de busca.
+
+17. BxBaseServiceAccount.php:
+    - BxBaseServiceAccount extends BxDolService: Classe base para serviços de conta.
+    - serviceGetAccountInfo($iAccountId): Método base para obter informações de uma conta.
+
+18. BxBaseServiceCategory.php:
+    - BxBaseServiceCategory extends BxDolService: Classe base para serviços de categoria.
+    - serviceGetCategories($aParams): Método base para obter categorias.
+
+19. BxBaseServiceLogin.php:
+    - BxBaseServiceLogin extends BxDolService: Classe base para serviços de login.
+    - serviceLogin($sEmail, $sPassword): Método base para realizar login.
+
+20. BxBaseServiceProfiles.php:
+    - BxBaseServiceProfiles extends BxDolService: Classe base para serviços de perfis.
+    - serviceGetProfiles($aParams): Método base para obter perfis.
+
+21. BxBaseStudioPage.php:
+    - BxBaseStudioPage extends BxDolStudioPage: Classe base para páginas de estúdio.
+    - __construct($sPage, $oTemplate = false): Construtor que inicializa a página de estúdio.
+
+22. BxBaseTemplate.php:
+    - BxBaseTemplate extends BxDolTemplate: Template base para renderização de elementos gerais.
+    - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/base/general/info: Obtém informações gerais (base).
+- GET /api/base/general/account/{id}: Obtém informações de uma conta específica (base).
+- GET /api/base/general/categories: Obtém categorias gerais (base).
+- POST /api/base/general/login: Realiza login (base).
+- GET /api/base/general/profiles: Obtém perfis (base).
+
+Nota: As rotas acima são definidas como base e podem ser estendidas ou substituídas por módulos específicos que utilizem essas classes.

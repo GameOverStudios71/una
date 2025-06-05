@@ -1,0 +1,78 @@
+Mapeamento do Módulo Base Text para API RESTful
+
+Descrição Geral:
+O módulo base 'text' parece ser uma biblioteca de classes fundamentais no sistema UNA relacionada ao gerenciamento de conteúdo textual. Provavelmente fornece funcionalidades para criação, edição, formatação e exibição de textos, posts ou outros conteúdos baseados em texto. Este é um módulo base localizado em modules/base/text, contendo classes reutilizáveis por outros módulos.
+
+Nota: Como se trata de um módulo base, as classes aqui podem não ter funcionalidades específicas para endpoints de API diretamente, mas sim fornecer suporte para outros módulos. O mapeamento para rotas RESTful será feito apenas se houver funcionalidades específicas que possam ser expostas.
+
+Análise de Classes do Módulo Base Text:
+
+1. BxBaseModTextAlerts.php:
+   - BxBaseModTextAlerts extends BxDolAlertsResponse: Classe base para respostas a alertas relacionados a textos.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas de textos.
+
+2. BxBaseModTextConfig.php:
+   - BxBaseModTextConfig extends BxDolConfig: Configurações base para o módulo de textos.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxBaseModTextDb.php:
+   - BxBaseModTextDb extends BxDolDb: Banco de dados base para o módulo de textos.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxBaseModTextModule.php:
+   - BxBaseModTextModule extends BxDolModule: Classe principal base para gerenciar a lógica de textos.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceCreateText($aData): Método base para criar um conteúdo textual.
+   - serviceUpdateText($iTextId, $aData): Método base para atualizar um conteúdo textual.
+   - serviceDeleteText($iTextId): Método base para excluir um conteúdo textual.
+   - serviceGetText($iTextId): Método base para obter informações de um conteúdo textual.
+   - serviceGetTexts($aParams): Método base para obter uma lista de conteúdos textuais.
+
+5. BxBaseModTextCron.php:
+   - BxBaseModTextCron extends BxDolCron: Classe base para tarefas cron relacionadas a textos.
+   - process(): Método para executar tarefas cron de textos.
+
+6. BxBaseModTextFormEntry.php:
+   - BxBaseModTextFormEntry extends BxDolForm: Classe base para formulário de entrada de dados textuais.
+   - __construct($aInfo, $oTemplate = false): Construtor que inicializa o formulário.
+
+7. BxBaseModTextGridAdministration.php:
+   - BxBaseModTextGridAdministration extends BxDolGrid: Classe base para grid de administração de textos.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid de administração.
+
+8. BxBaseModTextGridCommon.php:
+   - BxBaseModTextGridCommon extends BxDolGrid: Classe base para grid comum de textos.
+   - __construct($aOptions, $oTemplate = false): Construtor que inicializa o grid comum.
+
+9. BxBaseModTextMenuActions.php:
+   - BxBaseModTextMenuActions extends BxBaseMenu: Classe base para menu de ações de textos.
+   - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de ações.
+
+10. BxBaseModTextMenuView.php:
+    - BxBaseModTextMenuView extends BxBaseMenu: Classe base para menu de visualização de textos.
+    - __construct($aObject, $oTemplate = false): Construtor que inicializa o menu de visualização.
+
+11. BxBaseModTextPageEntry.php:
+    - BxBaseModTextPageEntry extends BxDolPage: Classe base para página de entrada de texto.
+    - __construct($sPage, $oModule): Construtor que inicializa a página de entrada.
+
+12. BxBaseModTextSearchResult.php:
+    - BxBaseModTextSearchResult extends BxDolSearchResult: Classe base para resultados de busca de textos.
+    - __construct(): Construtor que inicializa os resultados de busca.
+
+13. BxBaseModTextTemplate.php:
+    - BxBaseModTextTemplate extends BxDolTemplate: Template base para renderização de elementos textuais.
+    - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+14-28. Outras Classes Relacionadas:
+    - Há várias outras classes relacionadas a funcionalidades específicas de textos, como comentários (BxBaseModTextComments*), conexões (BxBaseModTextConnections*), privacidade (BxBaseModTextPrivacy*), uploads (BxBaseModTextUploader*), entre outras. Essas classes fornecem suporte detalhado para aspectos específicos do gerenciamento de conteúdos textuais.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- POST /api/base/text/create: Cria um novo conteúdo textual (base).
+- PUT /api/base/text/{id}: Atualiza um conteúdo textual existente (base).
+- DELETE /api/base/text/{id}: Exclui um conteúdo textual (base).
+- GET /api/base/text/{id}: Obtém informações de um conteúdo textual específico (base).
+- GET /api/base/text/list: Obtém uma lista de conteúdos textuais (base).
+
+Nota: As rotas acima são definidas como base e podem ser estendidas ou substituídas por módulos específicos que utilizem essas classes.

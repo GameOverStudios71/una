@@ -1,0 +1,37 @@
+Mapeamento do Módulo Base Template para API RESTful
+
+Descrição Geral:
+O módulo base 'template' parece ser uma biblioteca de classes fundamentais no sistema UNA relacionada à renderização de templates e elementos de interface. Provavelmente fornece funcionalidades para gerenciamento de temas, layouts e renderização de páginas. Este é um módulo base localizado em modules/base/template, contendo classes reutilizáveis por outros módulos.
+
+Nota: Como se trata de um módulo base, as classes aqui podem não ter funcionalidades específicas para endpoints de API diretamente, mas sim fornecer suporte para outros módulos. O mapeamento para rotas RESTful será feito apenas se houver funcionalidades específicas que possam ser expostas.
+
+Análise de Classes do Módulo Base Template:
+
+1. BxBaseTemplateAlerts.php:
+   - BxBaseTemplateAlerts extends BxDolAlertsResponse: Classe base para respostas a alertas relacionados a templates.
+   - __construct(): Construtor que inicializa as respostas a alertas.
+   - response($oAlert): Método para processar alertas de templates.
+
+2. BxBaseTemplateConfig.php:
+   - BxBaseTemplateConfig extends BxDolConfig: Configurações base para o módulo de templates.
+   - __construct($aModule): Construtor que inicializa as configurações.
+
+3. BxBaseTemplateDb.php:
+   - BxBaseTemplateDb extends BxDolDb: Banco de dados base para o módulo de templates.
+   - __construct(&$oConfig): Construtor que inicializa o banco de dados.
+
+4. BxBaseTemplateModule.php:
+   - BxBaseTemplateModule extends BxDolModule: Classe principal base para gerenciar a lógica de templates.
+   - __construct(&$aModule): Construtor que inicializa o módulo.
+   - serviceGetTemplate($sTemplateName): Método base para obter um template específico.
+   - serviceGetThemes($aParams): Método base para obter uma lista de temas disponíveis.
+
+5. BxBaseTemplateTemplate.php:
+   - BxBaseTemplateTemplate extends BxDolTemplate: Template base para renderização de elementos de interface.
+   - __construct(&$oConfig, &$oDb): Construtor que inicializa o template.
+
+Mapeamento para Rotas RESTful (Baseado em Todas as Funcionalidades):
+- GET /api/base/template/{name}: Obtém um template específico (base).
+- GET /api/base/template/themes: Obtém uma lista de temas disponíveis (base).
+
+Nota: As rotas acima são definidas como base e podem ser estendidas ou substituídas por módulos específicos que utilizem essas classes.
